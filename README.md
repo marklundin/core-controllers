@@ -1,24 +1,27 @@
-#DUI COMPONENTS
+#Core Controllers
 
-A set of components used in DUI
+Contains a set of UI controllers useful in creative coding
 
 ##components
 
-    Slider
-    TextInput
-    Checkbox
-    ~~Graph~~
-    ~~Dial~~
-    ~~Combobox~~
-    ~~Button~~
-    ~~ColorPicker~~
-    ~~Toggle~~
-    ~~NumericStepper~~
-    ~~Folder/Container~~
-    ~~MinMaxRangeSlider~~    
-    ~~XYPad~~
-    ~~Timeline~~
-    ~~Spline~~
+Slider
+TextInput
+Checkbox
+Graph
+ColorPicker
+NumericStepper
+XYPad
+
+Still to do
+~~2DArray~~
+~~Dial~~
+~~Combobox~~
+~~Button~~
+~~Toggle~~
+~~Folder/Container~~
+~~MinMaxRangeSlider~~    
+~~Timeline~~
+~~Spline~~
 
 ##Contributing
 

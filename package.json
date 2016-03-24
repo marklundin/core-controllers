@@ -29,6 +29,7 @@
     "colr": "^1.2.2",
     "lodash.throttle": "^4.0.1",
     "math": "github:marklundin/math",
+    "radium": "^0.16.6",
     "react": "^0.14.7",
     "react-localstorage": "^0.2.9"
   },

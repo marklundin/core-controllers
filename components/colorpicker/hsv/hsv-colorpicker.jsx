@@ -64,15 +64,19 @@ class HSVColorPicker extends React.Component {
                 <circle fill='none' stroke='black' strokeWidth="2" r="4" cx={s*width/100} cy={height - (v*height/100)}/>
             </svg>
             <Slider label={'hue'} max={359} value={h} onChange={h => onChange({ h, s, v })}/>
-            <NumericStepper key="h" min={1} max={360} value={Math.round(h)} onChange={h => onChange({ h, s, v })} />
-            <NumericStepper key="s" min={1} max={100} value={Math.round(s)} onChange={s => onChange({ h, s, v })}/>
-            <NumericStepper key="v" min={1} max={100} value={Math.round(v)} onChange={v => onChange({ h, s, v })}/>
+            <NumericStepper key="h" min={1} max={360} value={Math.round(h)} onChange={h => onChange({ h, s, v })} label={'H'}/>
+            <NumericStepper key="s" min={1} max={100} value={Math.round(s)} onChange={s => onChange({ h, s, v })} label={'S'}/>
+            <NumericStepper key="v" min={1} max={100} value={Math.round(v)} onChange={v => onChange({ h, s, v })} label={'V'}/>
         </div>
 
     }
 }
 
 HSVColorPicker.propTypes = {
+
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
+
     value: React.PropTypes.shape({
         h: React.PropTypes.number.isRequired,
         s: React.PropTypes.number.isRequired,

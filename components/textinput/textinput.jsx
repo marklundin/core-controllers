@@ -1,14 +1,34 @@
 import React from 'react'
+import radium from 'radium'
+import { base, highlight } from '../styles'
+
+let style = {
+    fontFamily: 'inherit',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    borderBottom : '1px solid ' + base.color,
+    backgroundColor : 'transparent',
+    ":focus":{
+        outline: 'none',
+        borderBottom : '1px solid ' + highlight.color
+    },
+    ":hover":{
+        borderBottom : '1px solid ' + highlight.color,
+    }
+}
 
 let TextInput = ({ value, label, onChange }) => {
-	return <div>
+	return <div style={[base]}>
 		<label>{ label }</label>
-        <input
+        <input type="text"
 			value={value}
-			type="text"
+			style={[base, style]}
 			onChange={evt => onChange( evt.target.value )}/>
 	</div>
 }
+
+TextInput = radium( TextInput )
 
 TextInput.propTypes = {
 
@@ -32,7 +52,7 @@ TextInput.propTypes = {
 TextInput.defaultProps = {
     value: '',
 	label: '',
-    onChange: a => a,
+    onChange: a=>a,
 }
 
 export default TextInput

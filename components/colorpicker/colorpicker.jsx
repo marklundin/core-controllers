@@ -3,6 +3,7 @@ import HSVColorPicker from './hsv/hsv-colorpicker'
 import Colr from 'colr'
 import Palette from './palette/palette'
 import localStorageMixin from 'react-localstorage'
+import styles from '../styles'
 
 
 var rgb = React.PropTypes.shape({
@@ -60,16 +61,17 @@ let ColorPicker = React.createClass({
         /**
          * An array of colors used as a palette
          */
-        oneOf: React.PropTypes.oneOf([
+        oneOf: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf( rgb ),
-            React.PropTypes.arrayOf( hsv )
+            React.PropTypes.arrayOf( hsv ),
+            React.PropTypes.arrayOf( hsl ),
         ]),
 
 
         /**
-         *  If true, the color picker will display a system palette saved across refreshes
+         *  If true, the color picker will show a system palette that's saved across page refreshes
          */
-        useSystemPalette: React.PropTypes.number
+        useSystemPalette: React.PropTypes.bool
 
     },
 
@@ -97,9 +99,7 @@ let ColorPicker = React.createClass({
 
     onRemoveColorClick: function( color, index ){
         this.state.colors.splice( index, 1 )
-        this.setState({
-            colors: this.state.colors
-        })
+        this.setState({ colors: this.state.colors })
     },
 
 
@@ -115,7 +115,7 @@ let ColorPicker = React.createClass({
         let onColorChange = outHsv => onChange( fromHsv( outHsv ))
 
 
-        return <div>
+        return <div style={styles}>
             <HSVColorPicker {...this.props} value={ hsvColor } onChange={onColorChange} />
             <Palette key={'user-palette'} values={ oneOf.map( toHsv ) } onSelect={ onColorChange } />
             { useSystemPalette ? <Palette key={'system-palette'} values={ this.state.colors } onSelect={onColorChange} onDeselect={ this.onRemoveColorClick } /> : null }

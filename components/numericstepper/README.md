@@ -1,1 +1,1 @@
-    <NumericStepper value={10}/>
+    <NumericStepper value={10} max={99} label={'Ooh, a number!'}/>

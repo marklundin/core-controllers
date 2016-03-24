@@ -1,11 +1,10 @@
 import React from 'react'
-import Slider from '../../Slider'
+import Slider from '../../slider'
+import NumericStepper from '../../numericstepper'
 import { map } from 'math'
 import throttle from 'lodash.throttle'
 import Colr from 'colr'
 
-// let hsv2Hsl = hsv => Colr.fromHsvObject( hsv ).toRawHslObject(),
-//     hsl2Hsv = hsv => Colr.fromHslObject( hsv ).toRawHsvObject()
 
 class HSVColorPicker extends React.Component {
 
@@ -65,11 +64,12 @@ class HSVColorPicker extends React.Component {
                 <circle fill='none' stroke='black' strokeWidth="2" r="4" cx={s*width/100} cy={height - (v*height/100)}/>
             </svg>
             <Slider label={'hue'} max={359} value={h} onChange={h => onChange({ h, s, v })}/>
-            <label>{ [h, s, v].map( Math.round ).join(', ') }</label>
+            <NumericStepper key="h" min={1} max={360} value={Math.round(h)} onChange={h => onChange({ h, s, v })} />
+            <NumericStepper key="s" min={1} max={100} value={Math.round(s)} onChange={s => onChange({ h, s, v })}/>
+            <NumericStepper key="v" min={1} max={100} value={Math.round(v)} onChange={v => onChange({ h, s, v })}/>
         </div>
 
     }
-
 }
 
 HSVColorPicker.propTypes = {

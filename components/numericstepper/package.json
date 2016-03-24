@@ -1,4 +1,4 @@
 {
     "name": "numericstepper",
-    "main": "./numericstepper.js"
+    "main": "./numericstepper.jsx"
 }

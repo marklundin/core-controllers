@@ -63,17 +63,24 @@ let ColorPicker = React.createClass({
         oneOf: React.PropTypes.oneOf([
             React.PropTypes.arrayOf( rgb ),
             React.PropTypes.arrayOf( hsv )
-        ])
+        ]),
+
+
+        /**
+         *  If true, the color picker will display a system palette saved across refreshes
+         */
+        useSystemPalette: React.PropTypes.number
 
     },
 
 
-    // getDefaultProps: function(){
-    //     return {
-    //         value:{ r: 1, g: 0, b: 0 },
-    //         onChange: a => a
-    //     }
-    // },
+    getDefaultProps: function(){
+        return {
+            value:{ h:0, s:80, l:50 },
+            useSystemPalette: true,
+            onChange: a => a
+        }
+    },
 
 
     getInitialState: function() {
@@ -98,7 +105,7 @@ let ColorPicker = React.createClass({
 
     render: function(){
 
-        let { value, onChange, oneOf } = this.props,
+        let { value, onChange, oneOf, useSystemPalette } = this.props,
             { systemColors } = this.state,
             toHsv = getConverterForColorType( this.props ),
             fromHsv = toHsv.invert,
@@ -110,9 +117,9 @@ let ColorPicker = React.createClass({
 
         return <div>
             <HSVColorPicker {...this.props} value={ hsvColor } onChange={onColorChange} />
-            <Palette key={'user-palette'} values={ oneOf } onSelect={onColorChange} />
-            <Palette key={'system-palette'} values={ this.state.colors } onSelect={onColorChange} onDeselect={ this.onRemoveColorClick } />
-            <button onClick={ e => this.onAddColorClick( toHsv( value )) }>+</button>
+            <Palette key={'user-palette'} values={ oneOf.map( toHsv ) } onSelect={ onColorChange } />
+            { useSystemPalette ? <Palette key={'system-palette'} values={ this.state.colors } onSelect={onColorChange} onDeselect={ this.onRemoveColorClick } /> : null }
+            { useSystemPalette ? <button onClick={ e => this.onAddColorClick( toHsv( value )) }>+</button> : null }
         </div>
     }
 })

@@ -1,4 +1,4 @@
 {
   "name": "linechart",
-  "main": "./linechart.js"
+  "main": "./linechart.jsx"
 }

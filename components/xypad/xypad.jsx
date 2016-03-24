@@ -1,5 +1,5 @@
 import React from 'react'
-import NumericStepper from '../NumericStepper'
+import NumericStepper from '../numericstepper'
 import { map } from 'math'
 import throttle from 'lodash.throttle'
 

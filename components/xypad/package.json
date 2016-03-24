@@ -1,4 +1,4 @@
 {
     "name": "xypad",
-    "main": "./xypad.js"
+    "main": "./xypad.jsx"
 }

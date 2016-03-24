@@ -5,9 +5,10 @@
 var path = require('path');
 
 module.exports = {
-    title: 'Dui Component Set',
+    title: 'Core Controllers',
     components: './components/**/*.jsx',
     skipComponentsWithoutExample: true,
+    styleguideDir: 'docs',
     updateWebpackConfig: function( webpackConfig, env) {
         webpackConfig.resolve.alias['rsg-components/Wrapper'] = path.join(__dirname, 'docs/js/wrapper')
         var dir = path.join(__dirname, 'components');

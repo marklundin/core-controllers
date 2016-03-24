@@ -1,4 +1,4 @@
 {
   "name": "textinput",
-  "main": "./textinput.js"
+  "main": "./textinput.jsx"
 }

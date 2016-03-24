@@ -5,7 +5,7 @@ import { PropTypes } from 'react'
 
 let ColorButton = props => {
 
-    const { value, onClick, children, onMouseOver } = props
+    let { value, onClick, children, onMouseOver } = props
 
     let styles = {
         backgroundColor:Colr.fromHsvObject( value ).toHex(),
@@ -29,22 +29,21 @@ class Palette extends React.Component {
 
         let { values, onSelect, onDeselect } = this.props
 
+
         // If we have no colors then don't bother showing anything
         if( !values || values.length === 0 ) return null
 
-
         return <div>
-            { values.map(( color, i ) => {
-                return <ColorButton key={i} value={color}
+            { values.map(( color, i ) => <ColorButton key={i} value={color}
                     onClick={( value, modifier ) => {
                         modifier ? onDeselect( value, i ) : onSelect( value )
                         // onDeselect( color, i )
                     }}
-                    onMouseOver={ e => e.shiftKey ? this.setState({hover:i}) : null }
+                    onMouseOver={ e => onDeselect && e.shiftKey ? this.setState({hover:i}) : null }
                     onMouseOut={ e => this.setState({hover:null})}>
                         { this.state.hover === i ? '-' : '' }
                 </ColorButton>
-            })}
+            )}
         </div>
 
     }
@@ -58,9 +57,7 @@ Palette.defaultProps = {
 
     value: [],
 
-    onSelect: a=>a,
-
-    onDeselect: a=>a
+    onSelect: a=>a
 }
 
 Palette.propTypes = {

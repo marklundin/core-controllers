@@ -1,7 +1,7 @@
 import React from 'react'
 import throttle from 'lodash.throttle'
 
-export default class NumericStepper extends React.Component{
+class NumericStepper extends React.Component{
 
     constructor(){
         super()
@@ -14,13 +14,17 @@ export default class NumericStepper extends React.Component{
             })
         }
 
-        this.onMouseMove = throttle( e => {
-            let boundingBox = this.domRef.getBoundingClientRect()
-            let height = boundingBox.top - boundingBox.bottom
-            let center = boundingBox.top - height * 0.5
-            let value = e.clientY - center
-            this.props.onChange( this.state.initialValue - value )
-        }, 1000 / 60 )
+        this.onMouseMove = e => {
+            // let boundingBox = this.domRef.getBoundingClientRect(),
+            //     height = boundingBox.top - boundingBox.bottom,
+            //     center = boundingBox.top - height * 0.5,
+            //     value = e.clientY - center,
+            //     ({ min, max }) = this.props,
+            //     validate = value = Math.max( Math.min( value, max ), min )
+            //
+            // this.props.onChange( validate( this.state.initialValue - value ))
+
+        }
     }
 
 
@@ -35,6 +39,22 @@ export default class NumericStepper extends React.Component{
     }
 
     render(){
-        return <input type='text' value={ this.props.value } onChange={this.props.onChange} ref={ref => (this.domRef = ref )} onMouseDown={ e => this.setState({drag:true, initialValue: this.props.value})}></input>
+        let { min, max } = this.props,
+            validate = value => Math.max( Math.min( value, max ), min ),
+            onChange = e => this.props.onChange( validate( parseFloat( this.domRef.value )))
+        return <input type='number' {...this.props} inInput={ onChange } onChange={ onChange } ref={ref => (this.domRef = ref )} /*onMouseDown={ e => this.setState({drag:true, initialValue: this.props.value})}*/></input>
     }
 }
+
+NumericStepper.propTypes = {
+    onChange: React.PropTypes.func,
+    value: React.PropTypes.number
+}
+
+NumericStepper.defaultProps = {
+    onChange: a=>a,
+    value:0
+}
+
+
+export default NumericStepper

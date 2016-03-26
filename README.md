@@ -1,6 +1,15 @@
 #Core Controllers
 
-Contains a set of UI controllers useful in creative coding
+Contains a set of UI controllers made using React. Useful in creative coding
+
+```
+npm install core-controllers
+```
+
+```
+import ColorPicker from 'core-controllers/components/colorpicker'
+React.render( <ColorPicker value={{r:1, g:1, b:1 }}, document.body )
+```
 
 ##components
 

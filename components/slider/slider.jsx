@@ -28,12 +28,19 @@ class Slider extends React.Component{
         }
 
         this.onMouseDown = e => {
+
+            let { value, min, max, step, onChange } = this.props,
+                validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
+
             this.setState({drag:true})
-            this.props.onChange( this.computeValuefromMouseEvent( e ))
+            onChange( validate( this.computeValuefromMouseEvent( e )))
         }
 
         this.onMouseMove = e => {
-            this.props.onChange( this.computeValuefromMouseEvent( e ))
+            let { value, min, max, step, onChange } = this.props,
+                validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
+
+            onChange( validate( this.computeValuefromMouseEvent( e )))
         }
 
         this.onMouseUp = e => {
@@ -55,12 +62,16 @@ class Slider extends React.Component{
 
         let { value, label, min, max, step, onChange, width, height } = this.props,
             dimension = { width, height },
-            stepperProps = { value, label, min, max, step, onChange }
+            stepperProps = { value, label, min, max, step, onChange },
+            validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
 
-        value = clamp( value, min, max )
+        console.log( validate( value ), value )
+        value = validate( value )
+
+
 
         return <div style={ base }>
-            <NumericStepper {...stepperProps} />
+            <NumericStepper {...stepperProps} onChange={ v => onChange(validate( v ))}/>
             <svg {...dimension}
                 onMouseDown={this.onMouseDown}
                 ref={ref => this.domRef = ref}>

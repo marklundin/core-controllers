@@ -1,6 +1,7 @@
 import React from 'react'
 import throttle from 'lodash.throttle'
 import radium from 'radium'
+import { clamp } from 'math'
 import { base, highlight } from '../styles'
 
 
@@ -58,13 +59,11 @@ class NumericStepper extends React.Component{
     }
 
     render(){
-        let { label, min, max, children } = this.props,
-            validate = v => Math.max( Math.min( v, max ), min ),
-            value = validate( this.props.value ),
-            onChange = e => {
-                if( !isNaN( this.domRef.value )) this.props.onChange( validate( parseFloat( this.domRef.value )))
-            }
 
+        let { label, min, step, max, children, onChange } = this.props,
+            validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
+            value = validate( this.props.value ),
+            onChange = e => if( !isNaN( this.domRef.value )) onChange( validate( parseFloat( this.domRef.value )))
 
         return <div style={base}>
             <label >{ label }</label>

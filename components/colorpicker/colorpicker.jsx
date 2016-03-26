@@ -4,6 +4,7 @@ import Colr from 'colr'
 import Palette from './palette/palette'
 import localStorageMixin from 'react-localstorage'
 import styles from '../styles'
+import shallowCompare from '../shallowCompare'
 
 
 var rgb = React.PropTypes.shape({
@@ -42,6 +43,8 @@ let getConverterForColorType = props => {
 let ColorPicker = React.createClass({
 
     mixins: [localStorageMixin],
+
+    shouldComponentUpdate: shallowCompare,
 
     propTypes: {
 

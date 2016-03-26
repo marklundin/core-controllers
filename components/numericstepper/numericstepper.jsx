@@ -3,6 +3,7 @@ import throttle from 'lodash.throttle'
 import radium from 'radium'
 import { clamp } from 'math'
 import { base, highlight } from '../styles'
+import shallowCompare from '../shallowCompare'
 
 
 let style = {
@@ -23,7 +24,10 @@ let style = {
 
 class NumericStepper extends React.Component{
 
+    // shouldComponentUpdate: shallowCompare,
+
     constructor(){
+
         super()
         this.state = { drag:false }
 
@@ -60,10 +64,12 @@ class NumericStepper extends React.Component{
 
     render(){
 
-        let { label, min, step, max, children, onChange } = this.props,
-            validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
+        let { label, min, max, step } = this.props,
+            validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step ),
             value = validate( this.props.value ),
-            onChange = e => if( !isNaN( this.domRef.value )) onChange( validate( parseFloat( this.domRef.value )))
+            onChange = e => {
+                if( !isNaN( this.domRef.value )) this.props.onChange( validate( parseFloat( this.domRef.value )))
+            }
 
         return <div style={base}>
             <label >{ label }</label>
@@ -78,13 +84,15 @@ NumericStepper.propTypes = {
     onChange: React.PropTypes.func,
     value: React.PropTypes.number,
     min: React.PropTypes.number,
-    max: React.PropTypes.number
+    max: React.PropTypes.number,
+    step: React.PropTypes.number
 }
 
 NumericStepper.defaultProps = {
     onChange: a=>a,
     min: 0,
     max: 100,
+    step: 0.1,
     value:0
 }
 

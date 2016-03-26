@@ -3,10 +3,15 @@ import Slider from '../../slider'
 import NumericStepper from '../../numericstepper'
 import { map } from 'math'
 import throttle from 'lodash.throttle'
-import Colr from 'colr'
+import shallowCompare from '../../shallowCompare'
 
+let style = {
+    cursor: 'default'
+}
 
 class HSVColorPicker extends React.Component {
+
+    // shouldComponentUpdate: shallowCompare,
 
     constructor(){
         super()
@@ -45,9 +50,12 @@ class HSVColorPicker extends React.Component {
         let { width, height, label, onChange, value } = this.props,
             { h, s, v } = value
 
+        console.log( 'boo' )
+
         return <div>
             <label>{ label }</label>
-            <svg width={width} height={height} viewBox={"0 0 "+width+" "+height} xmlns="http://www.w3.org/2000/svg" ref={ref => this.domRef = ref }
+            <svg width={width} height={height} viewBox={"0 0 "+width+" "+height} xmlns="http://www.w3.org/2000/svg"
+                ref={ref => this.domRef = ref } style={style}
                 onMouseDown={this.onMouseDown} onMouseMove={this.state.drag ? this.onMouseMove : null } onMouseUp={this.onMouseUp} >
                 <defs>
                     <linearGradient id="horizontal-gradient">
@@ -63,7 +71,7 @@ class HSVColorPicker extends React.Component {
                 <rect width={width} height={height} fill='url(#vertical-gradient)'/>
                 <circle fill='none' stroke='black' strokeWidth="2" r="4" cx={s*width/100} cy={height - (v*height/100)}/>
             </svg>
-            <Slider label={'hue'} max={359} value={h} onChange={h => onChange({ h, s, v })}/>
+            <Slider label={'hue'} max={359} value={h} width={width} onChange={h => onChange({ h, s, v })}/>
             <NumericStepper key="h" min={1} max={360} value={Math.round(h)} onChange={h => onChange({ h, s, v })} label={'H'}/>
             <NumericStepper key="s" min={1} max={100} value={Math.round(s)} onChange={s => onChange({ h, s, v })} label={'S'}/>
             <NumericStepper key="v" min={1} max={100} value={Math.round(v)} onChange={v => onChange({ h, s, v })} label={'V'}/>

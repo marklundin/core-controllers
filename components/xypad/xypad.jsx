@@ -4,15 +4,18 @@ import { map } from 'math'
 import throttle from 'lodash.throttle'
 import radium from 'radium'
 import { base } from '../styles'
+import shallowCompare from '../shallowCompare'
 
 
 let style = {
-    pointer:"default",
+    cursor: 'default',
     stroke: base.color,
     strokeWidth: 1
 }
 
-class XYPad extends React.Component{
+class XYPad extends React.Component {
+
+    // shouldComponentUpdate: shallowCompare
 
     constructor(){
         super()

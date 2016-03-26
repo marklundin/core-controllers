@@ -1,5 +1,6 @@
 import React from 'react'
 import NumericStepper from '../numericstepper'
+import shallowCompare from '../shallowCompare'
 import { map, clamp } from 'math'
 import radium from 'radium'
 import throttle from 'lodash.throttle'
@@ -21,6 +22,8 @@ class Slider extends React.Component{
     constructor(){
 
         super()
+
+        shouldComponentUpdate: shallowCompare,
 
         this.computeValuefromMouseEvent = e => {
             let bounds = this.domRef.getBoundingClientRect()
@@ -65,9 +68,8 @@ class Slider extends React.Component{
             stepperProps = { value, label, min, max, step, onChange },
             validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
 
-        console.log( validate( value ), value )
-        value = validate( value )
 
+        value = validate( value )
 
 
         return <div style={ base }>

@@ -33,18 +33,17 @@ TextInput = radium( TextInput )
 TextInput.propTypes = {
 
 	/**
-	 * Determines the content of the text area
+	 * The default value for the text inout field
 	 */
 	value: React.PropTypes.string,
 
-
 	/**
-	 * A callback triggered when the checkbox is toggled
+	 * A function called when the text field changes
 	 */
 	onChange: React.PropTypes.func,
 
 	/**
-	 * Label for the form element
+	 * A text label for the input field
 	 */
 	label: React.PropTypes.string
 }

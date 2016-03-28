@@ -1,6 +1,6 @@
 Visualising an array of numeric data. This can be a native array or a TypedArray
 
-    <LineChart value={new Uint16Array([ 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20 ])} height={60}/>
+    <LineChart value={[ 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20 ]} height={60}/>
 
 Function plotter
 

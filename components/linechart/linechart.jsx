@@ -1,5 +1,7 @@
 import React from 'react'
-import { map as domain } from 'math'
+import radium from 'radium'
+import { base, secondary } from '../styles'
+import { map } from 'math'
 
 /**
  *  This component plots a line chart based on an input `value` of data. This
@@ -7,7 +9,18 @@ import { map as domain } from 'math'
  *  fps meters
  */
 
-const LineChart = ({ value, label, width, height, min, max }) => {
+ let style = {
+     nonScalingStroke: {
+        vectorEffect:'non-scaling-stroke'
+     },
+     rect:{
+        fill: 'none',
+        strokeWidth: 1,
+        stroke: secondary.color
+     }
+ }
+
+let LineChart = ({ value, label, width, height, min, max }) => {
 
 
     /**
@@ -26,22 +39,32 @@ const LineChart = ({ value, label, width, height, min, max }) => {
 
     let value2D = [],
         length = value.length, n,
-        interval = width / ( length - 1 )
+        interval = 100 / ( length - 1 )
+
+    /*
+        TODO: Update this to work with percentages for adaptale width
+    */
 
     for( let i = 0 ; i < length ;i++ ){
         n = value[i]
         value2D.push( i * interval )
-        value2D.push( domain( n, min, max, height, 0 ))
+        value2D.push( map( n, min, max, 98, 0 ) + 1)
     }
 
+    console.log( value2D )
 
-    return <div>
-        <label>{ label }</label>
-        <svg width={width} height={height} viewPort={ "0 0 "+ width + ' ' + height }  version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <polyline fill="none" stroke="red" points={value2D}/>
+
+    return <div style={[base]}>
+        <div>{ label }</div>
+        <svg width={width} height={height} viewBox={"0 0 100 100"} preserveAspectRatio='none' >
+            <rect style={[style.rect, style.nonScalingStroke]} width='100%' height='100%' />
+            <polyline style={[style.nonScalingStroke]} fill="none" stroke="red" points={value2D} />
         </svg>
     </div>
 }
+
+
+LineChart = radium( LineChart )
 
 
 LineChart.propTypes = {

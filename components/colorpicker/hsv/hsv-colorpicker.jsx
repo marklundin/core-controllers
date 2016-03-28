@@ -1,8 +1,10 @@
 import React from 'react'
+import radium from 'radium'
 import Slider from '../../slider'
 import NumericStepper from '../../numericstepper'
 import { map } from 'math'
 import throttle from 'lodash.throttle'
+import { base } from '../../styles'
 import shallowCompare from '../../shallowCompare'
 
 let style = {
@@ -22,13 +24,11 @@ class HSVColorPicker extends React.Component {
 
             let bounds = this.domRef.getBoundingClientRect()
 
-            let hsv = {
+            return {
                 h: this.props.value.h,
                 s: ( e.pageX - bounds.left ) / bounds.width * 100,
                 v: ( bounds.height - ( e.clientY - bounds.top )) / bounds.height * 100
             }
-
-            return hsv
         }
 
         this.onMouseDown = e => {
@@ -50,10 +50,10 @@ class HSVColorPicker extends React.Component {
         let { width, height, label, onChange, value } = this.props,
             { h, s, v } = value
 
-        console.log( 'boo' )
+        console.log( 'hue', h )
 
-        return <div>
-            <label>{ label }</label>
+        return <div style={[base]}>
+            <div>{ label }</div>
             <svg width={width} height={height} viewBox={"0 0 "+width+" "+height} xmlns="http://www.w3.org/2000/svg"
                 ref={ref => this.domRef = ref } style={style}
                 onMouseDown={this.onMouseDown} onMouseMove={this.state.drag ? this.onMouseMove : null } onMouseUp={this.onMouseUp} >
@@ -69,22 +69,37 @@ class HSVColorPicker extends React.Component {
                 </defs>
                 <rect width={width} height={height} fill='url(#horizontal-gradient)'/>
                 <rect width={width} height={height} fill='url(#vertical-gradient)'/>
-                <circle fill='none' stroke='black' strokeWidth="2" r="4" cx={s*width/100} cy={height - (v*height/100)}/>
+                <circle fill='none' stroke='black' strokeWidth="2" r="4" cx={s+'%'} cy={(100 - v)+'%'}/>
             </svg>
-            <Slider label={'hue'} max={359} value={h} width={width} onChange={h => onChange({ h, s, v })}/>
-            <NumericStepper key="h" min={1} max={360} value={Math.round(h)} onChange={h => onChange({ h, s, v })} label={'H'}/>
-            <NumericStepper key="s" min={1} max={100} value={Math.round(s)} onChange={s => onChange({ h, s, v })} label={'S'}/>
-            <NumericStepper key="v" min={1} max={100} value={Math.round(v)} onChange={v => onChange({ h, s, v })} label={'V'}/>
+            <Slider label={'hue'} step={1} max={359} value={h} width={width} onChange={h => onChange({ h, s, v })}/>
+            <NumericStepper key="h" step={1} min={1} max={360} value={Math.round(h)} onChange={h => onChange({ h, s, v })} label={'H'}/>
+            <NumericStepper key="s" step={1} min={1} max={100} value={Math.round(s)} onChange={s => onChange({ h, s, v })} label={'S'}/>
+            <NumericStepper key="v" step={1} min={1} max={100} value={Math.round(v)} onChange={v => onChange({ h, s, v })} label={'V'}/>
         </div>
 
     }
 }
 
+HSVColorPicker = radium( HSVColorPicker )
+
+HSVColorPicker.defaultProps = {
+    width: 256,
+    height: 256,
+    label: 'ColorPicker',
+    value:{ h:0, s:1, l:1 }
+}
+
 HSVColorPicker.propTypes = {
 
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-
+    width: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+    ]),
+    height: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+    ]),
+    label: React.PropTypes.string,
     value: React.PropTypes.shape({
         h: React.PropTypes.number.isRequired,
         s: React.PropTypes.number.isRequired,

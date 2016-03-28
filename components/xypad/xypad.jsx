@@ -90,16 +90,12 @@ XYPad.propTypes = {
 
 XYPad.defaultProps = {
 
+    label: 'XYPad',
     width: 400,
-
     height: 300,
-
     value: {x:1,y:1},
-
     ymin: 0, ymax: 600,
-
     xmin: 0, xmax: 800,
-
     onChange: a=>a
 
 }

@@ -44,19 +44,19 @@ let ColorPicker = React.createClass({
 
     mixins: [localStorageMixin],
 
-    shouldComponentUpdate: shallowCompare,
+    //shouldComponentUpdate: shallowCompare,
 
     propTypes: {
 
 
         /**
-         *  An object representing a color.
+         *  An color object
          */
         value: React.PropTypes.oneOf([rgb, hsv]).isRequired,
 
 
         /**
-         *  A callback triggered when the color is updated
+         *  A function triggered when the color changes
          */
         onChange: React.PropTypes.func,
 
@@ -74,7 +74,31 @@ let ColorPicker = React.createClass({
         /**
          *  If true, the color picker will show a system palette that's saved across page refreshes
          */
-        useSystemPalette: React.PropTypes.bool
+        useSystemPalette: React.PropTypes.bool,
+
+
+        /**
+         * The width of the color picker
+         */
+        width: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.number,
+        ]),
+
+
+        /**
+         * The height of the color picker
+         */
+        height: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.number,
+        ]),
+
+
+        /**
+         * The text label to display
+         */
+        label: React.PropTypes.string,
 
     },
 
@@ -115,7 +139,10 @@ let ColorPicker = React.createClass({
             hsvColor = toHsv( value )
 
 
-        let onColorChange = outHsv => onChange( fromHsv( outHsv ))
+        let onColorChange = outHsv => {
+            console.log( outHsv )
+            onChange( fromHsv( outHsv ))
+        }
 
 
         return <div style={styles}>

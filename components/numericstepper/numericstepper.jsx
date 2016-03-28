@@ -32,10 +32,10 @@ class NumericStepper extends React.Component{
         this.state = { drag:false }
 
         this.onMouseUp = _ => {
-            this.setState({
-                value: this.props.value,
-                drag: false
-            })
+            // this.setState({
+            //     value: this.props.value,
+            //     drag: false
+            // })
         }
 
         this.onMouseMove = e => {
@@ -65,12 +65,13 @@ class NumericStepper extends React.Component{
     render(){
 
         let { label, min, max, step } = this.props,
-            validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step ),
+            validate = v => v,//Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step ),
             value = validate( this.props.value ),
             onChange = e => {
                 if( !isNaN( this.domRef.value )) this.props.onChange( validate( parseFloat( this.domRef.value )))
             }
 
+        console.log( label, value )
         return <div style={base}>
             <label >{ label }</label>
             <input type='number' style={[ base, style ]} {...this.props} value={value} inInput={ onChange } onChange={ onChange } ref={ref => (this.domRef = ref )} /*onMouseDown={ e => this.setState({drag:true, initialValue: this.props.value})}*//>

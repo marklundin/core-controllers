@@ -1,14 +1,18 @@
 import React from 'react'
+import radium from 'radium'
+import { base } from '../styles'
 
 /**
  * A Simple Checkbox component.
  */
-const Checkbox = ({ value, label, onChange }) => {
-	return <div>
-		<label>{ label }</label>
+let Checkbox = ({ value, label, onChange }) => {
+	return <div style={[base]}>
+		<label style={[base]} onClick={evt => onChange( !value )}>{ label }</label>
 		<input checked={ value } type="checkbox" onChange={evt => onChange( evt.target.checked )} />
 	</div>
 }
+
+Checkbox = radium( Checkbox )
 
 Checkbox.propTypes = {
 
@@ -32,7 +36,7 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
 	value: false,
-	label: '',
+	label: 'Checkbox',
 	onChange: a => a
 }
 

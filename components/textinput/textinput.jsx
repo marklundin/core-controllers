@@ -19,6 +19,7 @@ let style = {
 }
 
 let TextInput = ({ value, label, onChange }) => {
+
 	return <div style={[base]}>
 		<label>{ label }</label>
         <input type="text"
@@ -37,21 +38,32 @@ TextInput.propTypes = {
 	 */
 	value: React.PropTypes.string,
 
+
 	/**
 	 * A function called when the text field changes
 	 */
 	onChange: React.PropTypes.func,
 
+
 	/**
 	 * A text label for the input field
 	 */
-	label: React.PropTypes.string
+	label: React.PropTypes.string,
+
+
+    /**
+     * Optional component styling
+     */
+    style: React.PropTypes.object
+
 }
 
 TextInput.defaultProps = {
+
     value: '',
-	label: '',
-    onChange: a=>a,
+	label: 'Text Input',
+    onChange: a=>a
+
 }
 
 export default TextInput

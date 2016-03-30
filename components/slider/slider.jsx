@@ -6,12 +6,23 @@ import radium from 'radium'
 import throttle from 'lodash.throttle'
 import { base, secondary, highlight } from '../styles'
 
-let style = {
+let defaultStyle = {
+    overflow:'visible',
     cursor: 'default',
     stroke: 'none',
-    fill: secondary.color,
+
     rx:'2',
-    ry:'2'
+    ry:'2',
+    thumb: {
+        fill: 'none'
+    },
+    backgroundBar:{
+        fill: secondary.color
+    },
+    bar:{
+        fill: highlight.color
+    }
+
 }
 
 /**
@@ -63,22 +74,25 @@ class Slider extends React.Component{
 
     render(){
 
-        let { value, label, min, max, step, onChange, width, height } = this.props,
+        let { value, label, min, max, step, onChange, width, height, includeStepper, style } = this.props,
             dimension = { width, height },
             stepperProps = { value, label, min, max, step, onChange },
             validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
 
 
+        let offsetPercentage = map( value, min, max, 0, 100 ) + '%'
         value = validate( value )
 
-
         return <div style={ base }>
-            <NumericStepper {...stepperProps} onChange={ v => onChange(validate( v ))}/>
+            { includeStepper ? <NumericStepper {...stepperProps} onChange={ v => onChange(validate( v ))}/> : null }
             <svg {...dimension}
+                style={ defaultStyle }
                 onMouseDown={this.onMouseDown}
                 ref={ref => this.domRef = ref}>
-                <rect {...dimension} style={style}/>
-                <rect {...dimension} style={{ ...style, fill: highlight.color }} width={ map( value, min, max, 0, 100 ) + '%' }/>
+
+                <rect {...dimension} style={[ defaultStyle, defaultStyle.backgroundBar, style.backgroundBar ]}/>
+                <rect {...dimension} style={[ defaultStyle, defaultStyle.bar, style.bar ]} width={ offsetPercentage }/>
+                <circle cy={height/2} cx={offsetPercentage} r={height*0.5} style={[defaultStyle, defaultStyle.thumb, style.thumb ]}/>
             </svg>
         </div>
     }
@@ -89,29 +103,46 @@ Slider = radium( Slider )
 Slider.propTypes = {
 
     /**
-     *  The value of the slider to display
+     *  A text label
      */
-    value: React.PropTypes.number,
+    label: React.PropTypes.string,
 
     /**
-     *  Specifies the minimum value for the slider
+     *  The value of the slider
+     */
+    value: React.PropTypes.number.isRequired,
+
+    /**
+     *  Specifies the minimum value for the component
      */
     min: React.PropTypes.number,
 
     /**
-     *  Specifies the maximum value for the slider
+     *  Specifies the maximum value for the component
      */
     max: React.PropTypes.number,
 
     /**
-     * Specifies the legal number intervals for that can be used
+     * Specifies the intervals step
      */
     step: React.PropTypes.number,
 
     /**
-	 * A callback triggered when the slider is updated
+	 * A callback triggered when the component updates
 	 */
     onChange: React.PropTypes.func,
+
+
+    /**
+     *  If false, the numeric stepper is not displayed
+     */
+    includeStepper: React.PropTypes.bool,
+
+
+    /**
+     * Optional component styling
+     */
+    style: React.PropTypes.object,
 
     /**
      *  The width of the component
@@ -132,13 +163,17 @@ Slider.propTypes = {
 }
 
 Slider.defaultProps = {
-    value: 2,
+
+    label: 'Slider',
+    includeStepper: true,
     min: 0,
     max: 10,
     step: 0.1,
     width: 400,
     height: 10,
     onChange: a=>a,
+    style:{}
+
 }
 
 export default Slider

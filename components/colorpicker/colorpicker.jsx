@@ -7,19 +7,20 @@ import styles from '../styles'
 import shallowCompare from '../shallowCompare'
 
 
-var rgb = React.PropTypes.shape({
+const rgb = React.PropTypes.shape({
     r: React.PropTypes.number.isRequired,
     g: React.PropTypes.number.isRequired,
     b: React.PropTypes.number.isRequired
 }).isRequired
 
-var hsl = React.PropTypes.shape({
+
+const hsl = React.PropTypes.shape({
     h: React.PropTypes.number.isRequired,
     s: React.PropTypes.number.isRequired,
     l: React.PropTypes.number.isRequired
 }).isRequired
 
-let hsv = HSVColorPicker.propTypes.value
+const hsv = HSVColorPicker.propTypes.value
 
 
 let rgb2Hsv = c => Colr.fromRgbObject(c).toRawHsvObject(),
@@ -34,7 +35,7 @@ let getConverterForColorType = props => {
 
     let converter = hsv2Hsv
 
-    if      ( rgb( props, 'value' ) === null ) converter = rgb2Hsv
+    if ( rgb( props, 'value' ) === null ) converter = rgb2Hsv
     else if ( hsl( props, 'value' ) === null ) converter = hsl2Hsv
 
     return converter
@@ -44,6 +45,8 @@ let ColorPicker = React.createClass({
 
     mixins: [localStorageMixin],
 
+    localStorageKey: 'core-color-picker',
+
     //shouldComponentUpdate: shallowCompare,
 
     propTypes: {
@@ -52,7 +55,7 @@ let ColorPicker = React.createClass({
         /**
          *  An color object
          */
-        value: React.PropTypes.oneOf([rgb, hsv]).isRequired,
+        value: React.PropTypes.oneOf([rgb, hsv]),
 
 
         /**
@@ -100,14 +103,22 @@ let ColorPicker = React.createClass({
          */
         label: React.PropTypes.string,
 
+
+        /**
+         * Optional component styling
+         */
+        style: React.PropTypes.object
+
     },
 
 
     getDefaultProps: function(){
         return {
-            value:{ h:0, s:80, l:50 },
             useSystemPalette: true,
-            onChange: a => a
+            value:{ h:0, s:80, l:50 },
+            width: 400,
+            height: 300,
+            onChange: a=>a
         }
     },
 
@@ -139,10 +150,7 @@ let ColorPicker = React.createClass({
             hsvColor = toHsv( value )
 
 
-        let onColorChange = outHsv => {
-            console.log( outHsv )
-            onChange( fromHsv( outHsv ))
-        }
+        let onColorChange = outHsv => onChange( fromHsv( outHsv ))
 
 
         return <div style={styles}>

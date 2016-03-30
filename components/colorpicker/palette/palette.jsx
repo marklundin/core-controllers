@@ -29,7 +29,6 @@ class Palette extends React.Component {
 
         let { values, onSelect, onDeselect } = this.props
 
-
         // If we have no colors then don't bother showing anything
         if( !values || values.length === 0 ) return null
 
@@ -61,11 +60,23 @@ Palette.defaultProps = {
 }
 
 Palette.propTypes = {
+
+    
     value: PropTypes.arrayOf(
         PropTypes.shape({ h: PropTypes.number.isRequired, s: PropTypes.number.isRequired, v: PropTypes.number.isRequired })
     ).isRequired,
+
+
     onSelect: PropTypes.func,
-    onDeselect: PropTypes.func
+
+
+    onDeselect: PropTypes.func,
+
+
+    /**
+     * Optional component styling
+     */
+    style: React.PropTypes.object
 }
 
 export default Palette

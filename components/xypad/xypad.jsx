@@ -10,7 +10,14 @@ import shallowCompare from '../shallowCompare'
 let style = {
     cursor: 'default',
     stroke: base.color,
-    strokeWidth: 1
+    strokeWidth: 1,
+    crisp:{
+        shapeRendering:'crispEdges',
+    },
+    circle:{
+        fill: base.color,
+        stroke:'none'
+    }
 }
 
 class XYPad extends React.Component {
@@ -63,9 +70,9 @@ class XYPad extends React.Component {
                 onMouseUp={ this.onMouseUp }>
 
                 <rect fill='none' stroke={base.color} strokeWidth='1' width={width} height={height} />
-                <line x1={xVis} x2={xVis} y1={0} y2={height} style={style}/>
-                <line x1={0} x2={width} y1={yVis} y2={yVis}  style={style}/>
-                <circle r={2} cx={xVis} cy={yVis} stroke='none' fill={base.color}/>
+                <line x1={xVis} x2={xVis} y1={0} y2={height} style={[style, style.crisp]}/>
+                <line x1={0} x2={width} y1={yVis} y2={yVis}  style={[style, style.crisp]}/>
+                <circle r={4} cx={xVis} cy={yVis} style={style.circle} />
             </svg>
             <NumericStepper min={xmin} max={xmax} value={Math.round(x)} onChange={ value => onChange({ x:value, y })} label={'X'}/>
             <NumericStepper min={ymin} max={ymax} value={Math.round(y)} onChange={ value => onChange({ y:value, x })} label={'Y'}/>
@@ -77,13 +84,57 @@ XYPad = radium( XYPad )
 
 XYPad.propTypes = {
 
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    value: React.PropTypes.shape({ x: React.PropTypes.number.isRequired, y: React.PropTypes.number.isRequired }),
-    xmin: React.PropTypes.number,
-    xmax: React.PropTypes.number,
-    ymin: React.PropTypes.number,
-    ymax: React.PropTypes.number,
+    /**
+     *  The width of the component
+     */
+    width: React.PropTypes.oneOfType([
+        React.PropTypes.number,
+        React.PropTypes.string,
+    ]),
+
+
+    /**
+     *  The height of the component
+     */
+    height: React.PropTypes.oneOfType([
+        React.PropTypes.number,
+        React.PropTypes.string,
+    ]),
+
+
+    /**
+     *  The initial value of the component
+     */
+    value: React.PropTypes.shape({ x: React.PropTypes.number.isRequired, y: React.PropTypes.number.isRequired }).isRequired,
+
+
+    /**
+     *  The minimum x constraint
+     */
+    xmin: React.PropTypes.number.isRequired,
+
+
+    /**
+     *  The maximum x constraint
+     */
+    xmax: React.PropTypes.number.isRequired,
+
+
+    /**
+     *  The minimum y constraint
+     */
+    ymin: React.PropTypes.number.isRequired,
+
+
+    /**
+     *  The maximum y constraint
+     */
+    ymax: React.PropTypes.number.isRequired,
+
+
+    /**
+     *  Called when the component updates
+     */
     onChange: React.PropTypes.func
 
 }
@@ -93,9 +144,6 @@ XYPad.defaultProps = {
     label: 'XYPad',
     width: 400,
     height: 300,
-    value: {x:1,y:1},
-    ymin: 0, ymax: 600,
-    xmin: 0, xmax: 800,
     onChange: a=>a
 
 }

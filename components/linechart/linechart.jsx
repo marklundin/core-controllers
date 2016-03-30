@@ -22,7 +22,6 @@ import { map } from 'math'
 
 let LineChart = ({ value, label, width, height, min, max }) => {
 
-
     /**
      *  If no domain is supplied, calculate based on the extremities
      *  of the `value` data
@@ -41,17 +40,12 @@ let LineChart = ({ value, label, width, height, min, max }) => {
         length = value.length, n,
         interval = 100 / ( length - 1 )
 
-    /*
-        TODO: Update this to work with percentages for adaptale width
-    */
 
     for( let i = 0 ; i < length ;i++ ){
         n = value[i]
         value2D.push( i * interval )
         value2D.push( map( n, min, max, 98, 0 ) + 1)
     }
-
-    console.log( value2D )
 
 
     return <div style={[base]}>
@@ -69,11 +63,24 @@ LineChart = radium( LineChart )
 
 LineChart.propTypes = {
 
+
+	/**
+	 * Label for form element
+	 */
+	label: React.PropTypes.string,
+
+
     /**
      * An array of numbers to display on the graph
+     *
+     * Note: there is a bug when generating the documentation
+     * with the below `oneOfType` structure. This will raise a warning
+     * in the docs when it's run.
+     *
+     * See https://github.com/sapegin/react-styleguidist/issues/111
      */
     value: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.number),
+        React.PropTypes.arrayOf( React.PropTypes.number ),
         React.PropTypes.instanceOf( Int8Array ),
         React.PropTypes.instanceOf( Uint8Array ),
         React.PropTypes.instanceOf( Uint8ClampedArray ),
@@ -83,25 +90,25 @@ LineChart.propTypes = {
         React.PropTypes.instanceOf( Uint32Array ),
         React.PropTypes.instanceOf( Float32Array ),
         React.PropTypes.instanceOf( Float64Array )
+    ]).isrequired,
+
+
+    /**
+     * The width of the line chart
+     */
+    width : React.PropTypes.oneOfType([
+        React.PropTypes.number,
+        React.PropTypes.string,
     ]),
 
 
-	/**
-	 * Label for form element
-	 */
-	label: React.PropTypes.string,
-
-
     /**
-     * The width of the line chart in pixels
+     * The height of the line chart
      */
-    width : React.PropTypes.number,
-
-
-    /**
-     * The height of the line chart in pixels
-     */
-    height : React.PropTypes.number,
+    height : React.PropTypes.oneOfType([
+        React.PropTypes.number,
+        React.PropTypes.string,
+    ]),
 
 
     /**
@@ -113,14 +120,19 @@ LineChart.propTypes = {
     /**
      * Defines the maximum value of the domain. If none is supplied it will be calculated
      */
-    max : React.PropTypes.number
+    max : React.PropTypes.number,
+
+
+    /**
+     * Optional component styling
+     */
+    style: React.PropTypes.object
 
 }
 
 
 LineChart.defaultProps = {
 
-    value: [],
     label: 'LineChart',
     width: 400,
     height: 200

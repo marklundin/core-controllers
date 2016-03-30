@@ -6,6 +6,7 @@ import { base } from '../styles'
  * A Simple Checkbox component.
  */
 let Checkbox = ({ value, label, onChange }) => {
+
 	return <div style={[base]}>
 		<label style={[base]} onClick={evt => onChange( !value )}>{ label }</label>
 		<input checked={ value } type="checkbox" onChange={evt => onChange( evt.target.checked )} />
@@ -17,25 +18,26 @@ Checkbox = radium( Checkbox )
 Checkbox.propTypes = {
 
 	/**
+	 * A text label
+	 */
+	label: React.PropTypes.string,
+
+	/**
 	 * Determines whether the element is checked or not.
 	 */
-	value: React.PropTypes.bool,
+	value: React.PropTypes.bool.isRequired,
 
 
 	/**
 	 * A callback triggered when the checkbox is toggled
 	 */
-	onChange: React.PropTypes.func,
+	onChange: React.PropTypes.func
 
-	/**
-	 * Label for form element
-	 */
-	label: React.PropTypes.string
+
 
 }
 
 Checkbox.defaultProps = {
-	value: false,
 	label: 'Checkbox',
 	onChange: a => a
 }

@@ -13,20 +13,22 @@ Button = radium( Button )
 
 Button.defaultProps = {
 
-    /**
-     * A function called when the button is clicked
-     */
-    value: a=>a,
-
-    /**
-     * A text label for the button
-     */
     label: 'Button'
+
 }
 
 Button.propTypes = {
+
+    /**
+     * A function called when the button is clicked
+     */
     value: React.PropTypes.func.isRequired,
+
+    /**
+     * A text label
+     */
     label: React.PropTypes.string
+
 }
 
 export default Button

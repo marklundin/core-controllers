@@ -2,24 +2,34 @@ import React from 'react'
 import throttle from 'lodash.throttle'
 import radium from 'radium'
 import { clamp } from 'math'
-import { base, highlight } from '../styles'
+import { base, secondary, highlight } from '../styles'
 import shallowCompare from '../shallowCompare'
 
 
-let style = {
+let defaultStyle = {
     fontFamily: 'inherit',
-    borderTop: 'none',
-    borderLeft: 'none',
-    borderRight: 'none',
-    borderBottom : '1px solid ' + base.color,
+    // borderTop: 'none',
+    // borderLeft: 'none',
+    // borderRight: 'none',
+    borderWidth : 1,
+    borderStyle: 'solid',
+    borderColor: secondary.color,
+    borderRadius: 2,
     backgroundColor : 'transparent',
+    outline: 'none',
+    textAlign: 'center',
     ":focus":{
-        outline: 'none',
-        borderBottom : '1px solid ' + highlight.color
+        borderColor : highlight.color
     },
     ":hover":{
-        borderBottom : '1px solid ' + highlight.color,
+        borderColor : highlight.color,
     }
+}
+
+
+
+let hideSpinners = {
+    '::-webkit-inner-spin-button':'{ margin: 0; -webkit-appearance: none; }'
 }
 
 class NumericStepper extends React.Component{
@@ -51,7 +61,12 @@ class NumericStepper extends React.Component{
         }
     }
 
-
+    // input::-webkit-outer-spin-button,
+    // input::-webkit-inner-spin-button {
+    //     /* display: none; <- Crashes Chrome on hover */
+    //     -webkit-appearance: none;
+    //     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    // }
     componentDidUpdate (props, state) {
         if (this.state.drag && !state.drag) {
           document.addEventListener('mousemove', this.onMouseMove)
@@ -64,17 +79,23 @@ class NumericStepper extends React.Component{
 
     render(){
 
-        let { label, min, max, step } = this.props,
-            validate = v => v,//Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step ),
+        let { label, min, max, step, style } = this.props,
+            validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step ),
             value = validate( this.props.value ),
             onChange = e => {
                 if( !isNaN( this.domRef.value )) this.props.onChange( validate( parseFloat( this.domRef.value )))
             }
 
-        console.log( label, value )
-        return <div style={base}>
+        return <div style={[ base, style ]}>
             <label >{ label }</label>
-            <input type='number' style={[ base, style ]} {...this.props} value={value} inInput={ onChange } onChange={ onChange } ref={ref => (this.domRef = ref )} /*onMouseDown={ e => this.setState({drag:true, initialValue: this.props.value})}*//>
+            <style>{`
+                input::-webkit-inner-spin-button,
+                input::-webkit-outer-spin-button{
+                    margin: 0;
+                    -webkit-appearance: none;
+                }
+            `}</style>
+            <input type='number' {...this.props} style={[ defaultStyle, style ]} value={value} inInput={ onChange } onChange={ onChange } ref={ref => (this.domRef = ref )} /*onMouseDown={ e => this.setState({drag:true, initialValue: this.props.value})}*//>
         </div>
     }
 }
@@ -82,19 +103,57 @@ class NumericStepper extends React.Component{
 NumericStepper = radium( NumericStepper )
 
 NumericStepper.propTypes = {
-    onChange: React.PropTypes.func,
-    value: React.PropTypes.number,
+
+    /**
+     *  A text label
+     */
+    label: React.PropTypes.string,
+
+
+    /**
+     *  The value of the slider
+     */
+    value: React.PropTypes.number.isRequired,
+
+
+    /**
+     *  Specifies the minimum value for the component
+     */
     min: React.PropTypes.number,
+
+
+    /**
+     *  Specifies the maximum value for the component
+     */
     max: React.PropTypes.number,
-    step: React.PropTypes.number
+
+
+    /**
+     * Specifies the intervals step
+     */
+    step: React.PropTypes.number,
+
+
+    /**
+	 * A callback triggered when the component updates
+	 */
+    onChange: React.PropTypes.func,
+
+
+    /**
+     * Optional component styling
+     */
+    style: React.PropTypes.object
+
 }
 
 NumericStepper.defaultProps = {
-    onChange: a=>a,
+
     min: 0,
     max: 100,
     step: 0.1,
-    value:0
+    onChange: a=>a
+
 }
 
 

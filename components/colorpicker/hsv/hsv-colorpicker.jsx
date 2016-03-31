@@ -1,10 +1,11 @@
 import React from 'react'
 import radium from 'radium'
+import Colr from 'colr'
 import Slider from '../../slider'
 import NumericStepper from '../../numericstepper'
 import { map } from 'math'
 import throttle from 'lodash.throttle'
-import { base } from '../../styles'
+import { base, secondary } from '../../styles'
 import shallowCompare from '../../shallowCompare'
 
 let style = {
@@ -14,7 +15,23 @@ let style = {
         bar: { fill : 'none' },
         thumb: { fill : 'white' }
     },
-    componentLabels: {display:'inline'}
+    componentLabels: {display:'inline'},
+    colorDrop: {
+        borderRadius:"50%",
+        width: '1rem',
+        height: '1rem',
+        float:'right'
+    },
+    rect:{
+        rx: base.borderRadius,
+        ry: base.borderRadius,
+    }
+}
+
+// Calucalte HSV color stops
+let l = 0, i = 100/360, stops = []
+while( l++ < 360 ){
+    stops.push(<stop offset={String(i*l)+"%"} stopColor={"hsl( "+l+", 100%, 50% )"} />)
 }
 
 class HSVColorPicker extends React.Component {
@@ -41,9 +58,9 @@ class HSVColorPicker extends React.Component {
             this.props.onChange( computeHsvFromMouseEvent( e ))
         }
 
-        this.onMouseMove = e => {
+        this.onMouseMove = throttle( e => {
             this.props.onChange( computeHsvFromMouseEvent( e ))
-        }
+        })
 
         this.onMouseUp = e => {
             this.setState({drag:false})
@@ -52,19 +69,15 @@ class HSVColorPicker extends React.Component {
 
     render(){
 
-        let { width, height, label, onChange, value } = this.props,
+        let { label, onChange, value, style } = this.props,
             { h, s, v } = value
 
-
-        // Calucalte HSV color stops
-        let l = 0, i = 100/360, stops = []
-        while( l++ < 360 ){
-            stops.push(<stop offset={String(i*l)+"%"} stopColor={"hsl( "+l+", 100%, 50% )"} />)
-        }
-
-        return <div style={[base]}>
-            <div>{ label }</div>
-            <svg width={width} height={height} viewBox={"0 0 "+width+" "+height} xmlns="http://www.w3.org/2000/svg"
+        return <div style={[base, style]}>
+            <div>
+                { label }
+                <span style={[ style.colorDrop, {backgroundColor:Colr.fromHsvObject( value ).toHex() } ]}></span>
+            </div>
+            <svg width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
                 ref={ref => this.domRef = ref } style={style}
                 onMouseDown={this.onMouseDown} onMouseMove={this.state.drag ? this.onMouseMove : null } onMouseUp={this.onMouseUp} >
                 <defs>
@@ -78,11 +91,11 @@ class HSVColorPicker extends React.Component {
                     </linearGradient>
                     <linearGradient id='hsv-gradient'>{ stops }</linearGradient>
                 </defs>
-                <rect width={width} height={height} fill='url(#horizontal-gradient)'/>
-                <rect width={width} height={height} fill='url(#vertical-gradient)'/>
-                <circle fill='none' stroke='black' strokeWidth="2" r="4" cx={s+'%'} cy={(100 - v)+'%'}/>
+                <rect width='100%' height='100%' style={[style.rect]} fill='url(#horizontal-gradient)'/>
+                <rect width='100%' height='100%' style={[style.rect]} fill='url(#vertical-gradient)'/>
+                <circle fill='none' stroke='white' strokeWidth="1.5" r="5" cx={s+'%'} cy={(100 - v)+'%'}/>
             </svg>
-            <Slider includeStepper={false} label={''} step={1} min={1} max={360} value={h} width={width} style={style.slider} onChange={h => onChange({ h, s, v })}/>
+            <Slider includeStepper={false} label={''} step={1} min={1} max={360} value={h} style={style.slider} onChange={h => onChange({ h, s, v })}/>
             <NumericStepper key="h" style={style.componentLabels} step={1} min={1} max={360} value={Math.round(h)} onChange={h => onChange({ h, s, v })} label={'H'}/>
             <NumericStepper key="s" style={style.componentLabels} step={1} min={1} max={100} value={Math.round(s)} onChange={s => onChange({ h, s, v })} label={'S'}/>
             <NumericStepper key="v" style={style.componentLabels} step={1} min={1} max={100} value={Math.round(v)} onChange={v => onChange({ h, s, v })} label={'V'}/>
@@ -97,8 +110,11 @@ HSVColorPicker = radium( HSVColorPicker )
 
 HSVColorPicker.defaultProps = {
     label: 'ColorPicker',
-    width: 256,
-    height: 256,
+    // width: 256,
+    // height: 256,
+    style:{
+        width:'100%'
+    },
     value:{ h:0, s:80, l:50 }
 }
 
@@ -120,22 +136,22 @@ HSVColorPicker.propTypes = {
     }).isRequired,
 
 
-    /**
-     * The width of the component
-     */
-    width: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.number
-    ]),
-
-
-    /**
-     * The height of the component
-     */
-    height: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.number
-    ]),
+    // /**
+    //  * The width of the component
+    //  */
+    // width: React.PropTypes.oneOfType([
+    //     React.PropTypes.string,
+    //     React.PropTypes.number
+    // ]),
+    //
+    //
+    // /**
+    //  * The height of the component
+    //  */
+    // height: React.PropTypes.oneOfType([
+    //     React.PropTypes.string,
+    //     React.PropTypes.number
+    // ]),
 
 
     /**

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import radium from 'radium'
 import { base, secondary } from '../styles'
 import { map } from 'math'
@@ -9,18 +9,19 @@ import { map } from 'math'
  *  fps meters
  */
 
- let style = {
-     nonScalingStroke: {
-        vectorEffect:'non-scaling-stroke'
-     },
-     rect:{
+ let defaultStyle = {
+    nonScalingStroke: {
+        vectorEffect:'non-scaling-stroke',
+        shapeRendering:'geometricPrecision'
+    },
+    rect:{
         fill: 'none',
         strokeWidth: 1,
         stroke: secondary.color
-     }
+    }
  }
 
-let LineChart = ({ value, label, width, height, min, max }) => {
+let LineChart = ({ value, label, style, min, max }) => {
 
     /**
      *  If no domain is supplied, calculate based on the extremities
@@ -43,16 +44,15 @@ let LineChart = ({ value, label, width, height, min, max }) => {
 
     for( let i = 0 ; i < length ;i++ ){
         n = value[i]
-        value2D.push( i * interval )
-        value2D.push( map( n, min, max, 98, 0 ) + 1)
+        value2D.push( String( i * interval ))
+        value2D.push( String( map( n, min, max, 100, 0 ))  )
     }
 
-
-    return <div style={[base]}>
+    return <div style={[base, style]}>
         <div>{ label }</div>
-        <svg width={width} height={height} viewBox={"0 0 100 100"} preserveAspectRatio='none' >
-            <rect style={[style.rect, style.nonScalingStroke]} width='100%' height='100%' />
-            <polyline style={[style.nonScalingStroke]} fill="none" stroke="red" points={value2D} />
+        <svg style={[base, style]} width='100%' height='100%' xmlns="http://www.w3.org/2000/svg" viewBox='0 0 100 100' preserveAspectRatio='none'>
+            <rect style={[defaultStyle.rect, defaultStyle.nonScalingStroke]} width='100%' height='100%' />
+            <polyline style={[defaultStyle.nonScalingStroke]} fill="none" stroke="red" points={value2D} />
         </svg>
     </div>
 }
@@ -71,44 +71,47 @@ LineChart.propTypes = {
 
 
     /**
-     * An array of numbers to display on the graph
      *
      * Note: there is a bug when generating the documentation
      * with the below `oneOfType` structure. This will raise a warning
      * in the docs when it's run.
      *
      * See https://github.com/sapegin/react-styleguidist/issues/111
+    */
+
+    /**
+     * An array of numbers to display on the graph
      */
-    value: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf( React.PropTypes.number ),
-        React.PropTypes.instanceOf( Int8Array ),
-        React.PropTypes.instanceOf( Uint8Array ),
-        React.PropTypes.instanceOf( Uint8ClampedArray ),
-        React.PropTypes.instanceOf( Int16Array ),
-        React.PropTypes.instanceOf( Uint16Array ),
-        React.PropTypes.instanceOf( Int32Array ),
-        React.PropTypes.instanceOf( Uint32Array ),
-        React.PropTypes.instanceOf( Float32Array ),
-        React.PropTypes.instanceOf( Float64Array )
+    value: PropTypes.oneOfType([
+        PropTypes.arrayOf( PropTypes.number ),
+        PropTypes.instanceOf( Int8Array ),
+        PropTypes.instanceOf( Uint8Array ),
+        PropTypes.instanceOf( Uint8ClampedArray ),
+        PropTypes.instanceOf( Int16Array ),
+        PropTypes.instanceOf( Uint16Array ),
+        PropTypes.instanceOf( Int32Array ),
+        PropTypes.instanceOf( Uint32Array ),
+        PropTypes.instanceOf( Float32Array ),
+        PropTypes.instanceOf( Float64Array )
     ]).isrequired,
 
 
-    /**
-     * The width of the line chart
-     */
-    width : React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.string,
-    ]),
-
-
-    /**
-     * The height of the line chart
-     */
-    height : React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.string,
-    ]),
+    // /**
+    //  * The width of the line chart
+    //  */
+    // width : PropTypes.oneOfType([
+    //     PropTypes.number,
+    //     PropTypes.string,
+    // ]),
+    //
+    //
+    // /**
+    //  * The height of the line chart
+    //  */
+    // height : PropTypes.oneOfType([
+    //     PropTypes.number,
+    //     PropTypes.string,
+    // ]),
 
 
     /**
@@ -134,8 +137,12 @@ LineChart.propTypes = {
 LineChart.defaultProps = {
 
     label: 'LineChart',
-    width: 400,
-    height: 200
+    // width: 400,
+    // height: 200
+    style:{
+        width:'100%',
+        height:150
+    }
 
 }
 

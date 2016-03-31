@@ -76,22 +76,22 @@ class Slider extends React.Component{
 
         let { value, label, min, max, step, onChange, width, height, includeStepper, style } = this.props,
             dimension = { width, height },
-            stepperProps = { value, label, min, max, step, onChange },
+            stepperProps = { value, label, min, max, step, onChange, width },
             validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
 
 
         let offsetPercentage = map( value, min, max, 0, 100 ) + '%'
         value = validate( value )
 
-        return <div style={ base }>
-            { includeStepper ? <NumericStepper {...stepperProps} onChange={ v => onChange(validate( v ))}/> : null }
-            <svg {...dimension}
+        return <div style={ base, style }>
+            { includeStepper ? <NumericStepper {...stepperProps} style={{width}}onChange={ v => onChange(validate( v ))}/> : null }
+            <svg width='100%' height="0.6rem"
                 style={ defaultStyle }
                 onMouseDown={this.onMouseDown}
                 ref={ref => this.domRef = ref}>
 
-                <rect {...dimension} style={[ defaultStyle, defaultStyle.backgroundBar, style.backgroundBar ]}/>
-                <rect {...dimension} style={[ defaultStyle, defaultStyle.bar, style.bar ]} width={ offsetPercentage }/>
+                <rect width='100%' height="100%" style={[ defaultStyle, defaultStyle.backgroundBar, style.backgroundBar ]}/>
+                <rect width='100%' height="100%" style={[ defaultStyle, defaultStyle.bar, style.bar ]} width={ offsetPercentage }/>
                 <circle cy={height/2} cx={offsetPercentage} r={height*0.5} style={[defaultStyle, defaultStyle.thumb, style.thumb ]}/>
             </svg>
         </div>
@@ -144,21 +144,21 @@ Slider.propTypes = {
      */
     style: React.PropTypes.object,
 
-    /**
-     *  The width of the component
-     */
-    width: React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.string
-    ]),
-
-    /**
-     *  The height of the component
-     */
-    height: React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.string
-    ])
+    // /**
+    //  *  The width of the component
+    //  */
+    // width: React.PropTypes.oneOfType([
+    //     React.PropTypes.number,
+    //     React.PropTypes.string
+    // ]),
+    //
+    // /**
+    //  *  The height of the component
+    //  */
+    // height: React.PropTypes.oneOfType([
+    //     React.PropTypes.number,
+    //     React.PropTypes.string
+    // ])
 
 }
 
@@ -169,10 +169,11 @@ Slider.defaultProps = {
     min: 0,
     max: 10,
     step: 0.1,
-    width: 400,
     height: 10,
     onChange: a=>a,
-    style:{}
+    style:{
+        width: '100%'
+    }
 
 }
 

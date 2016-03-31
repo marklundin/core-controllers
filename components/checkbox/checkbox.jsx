@@ -39,7 +39,8 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
 	label: 'Checkbox',
-	onChange: a => a
+	value: false,
+	onChange: a=>a
 }
 
 

@@ -2,6 +2,7 @@ import React from 'react'
 import HSVColorPicker from './hsv/hsv-colorpicker'
 import Colr from 'colr'
 import Palette from './palette/palette'
+import Button from '../Button'
 import localStorageMixin from 'react-localstorage'
 import styles from '../styles'
 import shallowCompare from '../shallowCompare'
@@ -80,22 +81,22 @@ let ColorPicker = React.createClass({
         useSystemPalette: React.PropTypes.bool,
 
 
-        /**
-         * The width of the color picker
-         */
-        width: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.number,
-        ]),
-
-
-        /**
-         * The height of the color picker
-         */
-        height: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.number,
-        ]),
+        // /**
+        //  * The width of the color picker
+        //  */
+        // width: React.PropTypes.oneOfType([
+        //     React.PropTypes.string,
+        //     React.PropTypes.number,
+        // ]),
+        //
+        //
+        // /**
+        //  * The height of the color picker
+        //  */
+        // height: React.PropTypes.oneOfType([
+        //     React.PropTypes.string,
+        //     React.PropTypes.number,
+        // ]),
 
 
         /**
@@ -116,7 +117,7 @@ let ColorPicker = React.createClass({
         return {
             useSystemPalette: true,
             value:{ h:0, s:80, l:50 },
-            width: 400,
+            oneOf: [],
             height: 300,
             onChange: a=>a
         }
@@ -157,7 +158,7 @@ let ColorPicker = React.createClass({
             <HSVColorPicker {...this.props} value={ hsvColor } onChange={onColorChange} />
             <Palette key={'user-palette'} values={ oneOf.map( toHsv ) } onSelect={ onColorChange } />
             { useSystemPalette ? <Palette key={'system-palette'} values={ this.state.colors } onSelect={onColorChange} onDeselect={ this.onRemoveColorClick } /> : null }
-            { useSystemPalette ? <button onClick={ e => this.onAddColorClick( toHsv( value )) }>+</button> : null }
+            { useSystemPalette ? <Button onClick={ e => this.onAddColorClick( toHsv( value )) } label={'+'}/> : null }
         </div>
     }
 })

@@ -5,10 +5,10 @@ export const base = {
     borderRadius:2
 }
 
-export const secondary ={
+export const secondary = {
     color: 'rgb(210,210,210)'
 }
 
-export const highlight ={
+export const highlight = {
     color: 'rgb(255,82,82)'
 }

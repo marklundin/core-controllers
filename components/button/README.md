@@ -1,3 +1,3 @@
 Button example
 
-    <Button value={ v => setState({count:this.state.count + 1})}/>
+    <Button onClick={ v => setState({count:this.state.count + 1})}/>

@@ -25,7 +25,7 @@ Checkbox.propTypes = {
 	/**
 	 * Determines whether the element is checked or not.
 	 */
-	value: React.PropTypes.bool.isRequired,
+	value: React.PropTypes.bool,
 
 
 	/**

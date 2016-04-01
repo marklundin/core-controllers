@@ -12,17 +12,18 @@ let defaultStyle = {
     stroke: 'none',
 
     rx:'2',
-    ry:'2',
-    thumb: {
-        fill: 'none'
-    },
-    backgroundBar:{
-        fill: secondary.color
-    },
-    bar:{
-        fill: highlight.color
-    }
+    ry:'2'
+}
 
+const thumb = {
+    fill: 'none'
+}
+const backgroundBar = {
+    fill: secondary.color
+}
+
+const bar = {
+    fill: highlight.color
 }
 
 /**
@@ -74,25 +75,23 @@ class Slider extends React.Component{
 
     render(){
 
-        let { value, label, min, max, step, onChange, width, height, includeStepper, style } = this.props,
-            dimension = { width, height },
-            stepperProps = { value, label, min, max, step, onChange, width },
+        let { value, label, min, max, step, onChange, includeStepper, style } = this.props,
+            stepperProps = { value, label, min, max, step, onChange },
             validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
 
 
-        let offsetPercentage = map( value, min, max, 0, 100 ) + '%'
+        let offsetPercentage = map( clamp( value, min, max ), min, max, 0, 100 ) + '%'
         value = validate( value )
 
-        return <div style={ base, style }>
-            { includeStepper ? <NumericStepper {...stepperProps} style={{width}}onChange={ v => onChange(validate( v ))}/> : null }
-            <svg width='100%' height="0.6rem"
+        return <div style={ base }>
+            { includeStepper ? <NumericStepper {...stepperProps} onChange={ v => onChange(validate( v ))}/> : null }
+            <svg width='100%' height="0.8em" xmlns="http://www.w3.org/2000/svg"
                 style={ defaultStyle }
                 onMouseDown={this.onMouseDown}
                 ref={ref => this.domRef = ref}>
-
-                <rect width='100%' height="100%" style={[ defaultStyle, defaultStyle.backgroundBar, style.backgroundBar ]}/>
-                <rect width='100%' height="100%" style={[ defaultStyle, defaultStyle.bar, style.bar ]} width={ offsetPercentage }/>
-                <circle cy={height/2} cx={offsetPercentage} r={height*0.5} style={[defaultStyle, defaultStyle.thumb, style.thumb ]}/>
+                <rect width='100%' height="100%" style={[ defaultStyle, backgroundBar, style.backgroundBar ]}/>
+                <rect width='100%' height="100%" style={[ defaultStyle, bar, style.bar ]} width={ offsetPercentage }/>
+                <circle cy={'50%'} cx={offsetPercentage} r='0.4em' style={[defaultStyle, thumb, style.thumb ]}/>
             </svg>
         </div>
     }
@@ -144,21 +143,6 @@ Slider.propTypes = {
      */
     style: React.PropTypes.object,
 
-    // /**
-    //  *  The width of the component
-    //  */
-    // width: React.PropTypes.oneOfType([
-    //     React.PropTypes.number,
-    //     React.PropTypes.string
-    // ]),
-    //
-    // /**
-    //  *  The height of the component
-    //  */
-    // height: React.PropTypes.oneOfType([
-    //     React.PropTypes.number,
-    //     React.PropTypes.string
-    // ])
 
 }
 
@@ -169,12 +153,9 @@ Slider.defaultProps = {
     min: 0,
     max: 10,
     step: 0.1,
-    height: 10,
     onChange: a=>a,
-    style:{
-        width: '100%'
-    }
-
+    style:{width:'100%'}
+    
 }
 
 export default Slider

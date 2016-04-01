@@ -1,3 +1,3 @@
 Simple Checkbox:
 
-	<Checkbox label={'This is a text label'} value={true}/>
+	<Checkbox label={'This is a Checkbox'} value={true}/>

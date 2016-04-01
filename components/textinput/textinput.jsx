@@ -62,9 +62,7 @@ TextInput.propTypes = {
 TextInput.defaultProps = {
 
     value: '',
-    style: {
-        width: '100%'
-    },
+    style: {width:'100%'},
 	label: 'Text Input',
     onChange: a=>a
 

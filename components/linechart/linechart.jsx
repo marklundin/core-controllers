@@ -3,13 +3,7 @@ import radium from 'radium'
 import { base, secondary } from '../styles'
 import { map } from 'math'
 
-/**
- *  This component plots a line chart based on an input `value` of data. This
- *  can be used for visualising arrays of data, plotting functions or things
- *  fps meters
- */
-
- let defaultStyle = {
+ const defaultStyle = {
     nonScalingStroke: {
         vectorEffect:'non-scaling-stroke',
         shapeRendering:'geometricPrecision'
@@ -19,7 +13,13 @@ import { map } from 'math'
         strokeWidth: 1,
         stroke: secondary.color
     }
- }
+}
+
+/**
+This component plots a line chart based on an input `value` of data. This
+can be used for visualising arrays of data, plotting functions or things
+fps meters
+*/
 
 let LineChart = ({ value, label, style, min, max }) => {
 
@@ -96,24 +96,6 @@ LineChart.propTypes = {
     ]).isrequired,
 
 
-    // /**
-    //  * The width of the line chart
-    //  */
-    // width : PropTypes.oneOfType([
-    //     PropTypes.number,
-    //     PropTypes.string,
-    // ]),
-    //
-    //
-    // /**
-    //  * The height of the line chart
-    //  */
-    // height : PropTypes.oneOfType([
-    //     PropTypes.number,
-    //     PropTypes.string,
-    // ]),
-
-
     /**
      * Defines the minimum value of the domain. If none is supplied it will be calculated
      */
@@ -137,8 +119,7 @@ LineChart.propTypes = {
 LineChart.defaultProps = {
 
     label: 'LineChart',
-    // width: 400,
-    // height: 200
+    value:[],
     style:{
         width:'100%',
         height:150

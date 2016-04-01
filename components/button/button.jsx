@@ -5,7 +5,7 @@ import { base, highlight } from '../styles'
 let defaultStyle = {
     outline: 'none',
     border: 'none',
-    padding: '0.5rem',
+    padding: '1em',
     verticalAlign: 'middle',
     textAlign: 'center',
     lineHeight: '50%',
@@ -62,6 +62,7 @@ Button.propTypes = {
      * Optional component styling
      */
     style: React.PropTypes.object
+
 
 }
 

@@ -16,14 +16,15 @@ let ColorButton = props => {
 
     let style = {
         backgroundColor: color,
-        width: '1rem', height: '1rem',
+        width: '1em', height: '1em',
+        padding: '0.7em',
         display: 'inline-block',
         ':hover':{
             backgroundColor: color
         }
     }
 
-    return <Button style={style} {...props} onClick={e => onClick( value, e.shiftKey )}/>
+    return <Button style={style} {...props} />
 
 }
 
@@ -50,9 +51,9 @@ class Palette extends React.Component {
         return <div>
             { values.map(( color, i ) => <ColorButton key={i} value={color}
                 label={ i === hover ? '-' : '' }
-                onMouseOver={ areColoursRemoveable ? e => this.setState({hover:i}) : null }
+                onMouseOver={ e => ( areColoursRemoveable && e.shiftKey ? this.setState({hover:i}) : null )}
                 onMouseOut={ areColoursRemoveable ? e => this.setState({hover:null}) : null }
-                onClick={( value, modifierPressed ) => ( modifierPressed ? onDeselect( value, i ) : onSelect( value ))}/>
+                onClick={ e => ( e.shiftKey ? onDeselect( color, i ) : onSelect( color ))}/>
             )}
         </div>
 

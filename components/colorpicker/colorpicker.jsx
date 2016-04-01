@@ -1,10 +1,12 @@
 import React from 'react'
+import radium from 'radium'
 import HSVColorPicker from './hsv/hsv-colorpicker'
 import Colr from 'colr'
 import Palette from './palette/palette'
-import Button from '../Button'
+import FaAdd from 'react-icons/lib/md/add';
+import Button from '../button'
 import localStorageMixin from 'react-localstorage'
-import styles from '../styles'
+import { base, secondary, highlight } from '../styles'
 import shallowCompare from '../shallowCompare'
 
 
@@ -42,7 +44,22 @@ let getConverterForColorType = props => {
     return converter
 }
 
-let ColorPicker = React.createClass({
+/**
+
+A general purpose color picker with an optional app colour palette and a user
+palette. The app palette is provided by the author, whilst the user palette
+is specific to the user. This means users can save colours which persist across
+page refreshes.
+
+To save the current color click the `+` icon which adds it to the users palette.
+Shift click the colour swatch to remove it.
+
+Each domain will have it's own user pallete, this means `localhost` can retain
+it's own colours seperate to `livesite.com`
+
+*/
+
+let ColorPicker = radium( React.createClass({
 
     mixins: [localStorageMixin],
 
@@ -76,30 +93,6 @@ let ColorPicker = React.createClass({
 
 
         /**
-         *  If true, the color picker will show a system palette that's saved across page refreshes
-         */
-        useSystemPalette: React.PropTypes.bool,
-
-
-        // /**
-        //  * The width of the color picker
-        //  */
-        // width: React.PropTypes.oneOfType([
-        //     React.PropTypes.string,
-        //     React.PropTypes.number,
-        // ]),
-        //
-        //
-        // /**
-        //  * The height of the color picker
-        //  */
-        // height: React.PropTypes.oneOfType([
-        //     React.PropTypes.string,
-        //     React.PropTypes.number,
-        // ]),
-
-
-        /**
          * The text label to display
          */
         label: React.PropTypes.string,
@@ -115,10 +108,9 @@ let ColorPicker = React.createClass({
 
     getDefaultProps: function(){
         return {
-            useSystemPalette: true,
+            label: 'ColorPicker',
             value:{ h:0, s:80, l:50 },
             oneOf: [],
-            height: 300,
             onChange: a=>a
         }
     },
@@ -144,7 +136,7 @@ let ColorPicker = React.createClass({
 
     render: function(){
 
-        let { value, onChange, oneOf, useSystemPalette } = this.props,
+        let { value, onChange, style, oneOf, useSystemPalette } = this.props,
             { systemColors } = this.state,
             toHsv = getConverterForColorType( this.props ),
             fromHsv = toHsv.invert,
@@ -154,13 +146,15 @@ let ColorPicker = React.createClass({
         let onColorChange = outHsv => onChange( fromHsv( outHsv ))
 
 
-        return <div style={styles}>
+        return <div style={[base, style, {height:'auto'}]}>
             <HSVColorPicker {...this.props} value={ hsvColor } onChange={onColorChange} />
             <Palette key={'user-palette'} values={ oneOf.map( toHsv ) } onSelect={ onColorChange } />
-            { useSystemPalette ? <Palette key={'system-palette'} values={ this.state.colors } onSelect={onColorChange} onDeselect={ this.onRemoveColorClick } /> : null }
-            { useSystemPalette ? <Button onClick={ e => this.onAddColorClick( toHsv( value )) } label={'+'}/> : null }
+            <Palette key={'system-palette'} values={ this.state.colors } onSelect={onColorChange} onDeselect={ this.onRemoveColorClick } />
+            <span style={[ base, { ':hover': secondary }]}><FaAdd onClick={ e => this.onAddColorClick( toHsv( value )) }/></span>
         </div>
     }
-})
+}))
+
+console.log( ColorPicker )
 
 export default ColorPicker

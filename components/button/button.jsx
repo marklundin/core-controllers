@@ -3,6 +3,7 @@ import radium from 'radium'
 import { base, highlight } from '../styles'
 
 let defaultStyle = {
+    cursor: 'pointer',
     outline: 'none',
     border: 'none',
     padding: '1em',
@@ -15,13 +16,12 @@ let defaultStyle = {
     }
 }
 
-let Button = props => {
+/**
+    Just a regular button, it click, it hovers, nothing else
+*/
 
-    let { label, style } = props
+let Button = props => <button {...props} style={[ base, defaultStyle, props.style ]} >{ props.label }</button>
 
-    return <button {...props} style={[ base, defaultStyle, style ]} >{ label }</button>
-
-}
 
 Button = radium( Button )
 
@@ -32,24 +32,6 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-
-
-    /**
-     * A function called when the button is clicked
-     */
-    onClick: React.PropTypes.func,
-
-
-    /**
-     * A function called when the button is clicked
-     */
-    onMouseOver: React.PropTypes.func,
-
-
-    /**
-     * A function called when the button is clicked
-     */
-    onMouseOut: React.PropTypes.func,
 
 
     /**

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import NumericStepper from '../numericstepper'
 import { map } from 'math'
 import throttle from 'lodash.throttle'
@@ -68,7 +68,7 @@ class XYPad extends React.Component {
 
         return <div style={base}>
             <div>{ label }</div>
-            <div style={[style, {height:'auto'}]}>
+            <div style={[style]}>
                 <svg width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
                     style={defaultStyle}
                     ref={ref => this.domRef = ref}
@@ -84,6 +84,7 @@ class XYPad extends React.Component {
                 <NumericStepper style={{ ...componentLabels, width:style.width }} min={xmin} max={xmax} value={x} onChange={ value => onChange({ x:value, y })} label={'X'}/>
                 <NumericStepper style={{ ...componentLabels, width:style.width }} min={ymin} max={ymax} value={y} onChange={ value => onChange({ y:value, x })} label={'Y'}/>
             </div>
+            <div style={{clear: 'both'}}></div>
         </div>
     }
 }
@@ -92,54 +93,65 @@ XYPad = radium( XYPad )
 
 XYPad.propTypes = {
 
+
+    /**
+     * A text label
+     */
+    label: PropTypes.string,
+
     /**
      *  The initial value of the component
      */
-    value: React.PropTypes.shape({ x: React.PropTypes.number.isRequired, y: React.PropTypes.number.isRequired }).isRequired,
+    value: PropTypes.shape({ x: PropTypes.number.isRequired, y: PropTypes.number.isRequired }).isRequired,
 
 
     /**
      *  The minimum x constraint
      */
-    xmin: React.PropTypes.number.isRequired,
+    xmin: PropTypes.number.isRequired,
 
 
     /**
      *  The maximum x constraint
      */
-    xmax: React.PropTypes.number.isRequired,
+    xmax: PropTypes.number.isRequired,
 
 
     /**
      *  The minimum y constraint
      */
-    ymin: React.PropTypes.number.isRequired,
+    ymin: PropTypes.number.isRequired,
 
 
     /**
      *  The maximum y constraint
      */
-    ymax: React.PropTypes.number.isRequired,
+    ymax: PropTypes.number.isRequired,
 
 
     /**
      *  Called when the component updates
      */
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
 
 
     /**
      * Optional component styling
      */
-    style: React.PropTypes.object
+    style: PropTypes.object
 
 
 }
 
 XYPad.defaultProps = {
 
+
     label: 'XYPad',
-    style:{width:'100%'},
+
+
+    style:{width:'100%', height:'auto'},
+
+
     onChange: a=>a
 
 }

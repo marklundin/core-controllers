@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import radium from 'radium'
-import { base, secondary } from '../styles'
+import { base, secondary, highlight } from '../styles'
 import { map } from 'math'
 
  const defaultStyle = {
@@ -16,15 +16,16 @@ import { map } from 'math'
 }
 
 /**
-This component plots a line chart based on an input `value` of data. This
-can be used for visualising arrays of data, plotting functions or things
-fps meters
+    Takes an array of numbers and renders a simple line graph. The range or
+    domain of the graph is based on the `min`, `max` properties. This effectively
+    changes the height of the graph. If no bounds are supplied then the graph
+    plots against the minimum and maximum values of the data.
 */
 
-let LineChart = ({ value, label, style, min, max }) => {
+let Graph = ({ value, label, style, min, max }) => {
 
     /**
-     *  If no domain is supplied, calculate based on the extremities
+     *  If no domain is supplied, calculate based on the bounds
      *  of the `value` data
      */
     min = min !== undefined ? min : Math.min( ...value )
@@ -52,20 +53,20 @@ let LineChart = ({ value, label, style, min, max }) => {
         <div>{ label }</div>
         <svg style={[base, style]} width='100%' height='100%' xmlns="http://www.w3.org/2000/svg" viewBox='0 0 100 100' preserveAspectRatio='none'>
             <rect style={[defaultStyle.rect, defaultStyle.nonScalingStroke]} width='100%' height='100%' />
-            <polyline style={[defaultStyle.nonScalingStroke]} fill="none" stroke="red" points={value2D} />
+            <polyline style={[defaultStyle.nonScalingStroke]} fill="none" stroke={highlight.color} points={value2D} />
         </svg>
     </div>
 }
 
 
-LineChart = radium( LineChart )
+Graph = radium( Graph )
 
 
-LineChart.propTypes = {
+Graph.propTypes = {
 
 
 	/**
-	 * Label for form element
+	 * A text label
 	 */
 	label: React.PropTypes.string,
 
@@ -93,38 +94,35 @@ LineChart.propTypes = {
         PropTypes.instanceOf( Uint32Array ),
         PropTypes.instanceOf( Float32Array ),
         PropTypes.instanceOf( Float64Array )
-    ]).isrequired,
+    ]).isRequired,
 
 
     /**
      * Defines the minimum value of the domain. If none is supplied it will be calculated
      */
-    min : React.PropTypes.number,
+    min : PropTypes.number,
 
 
     /**
      * Defines the maximum value of the domain. If none is supplied it will be calculated
      */
-    max : React.PropTypes.number,
+    max : PropTypes.number,
 
 
     /**
      * Optional component styling
      */
-    style: React.PropTypes.object
+    style: PropTypes.object
 
 }
 
 
-LineChart.defaultProps = {
+Graph.defaultProps = {
 
-    label: 'LineChart',
+    label: 'Graph',
     value:[],
-    style:{
-        width:'100%',
-        height:150
-    }
+    style:{width:'100%',height:150}
 
 }
 
-export default LineChart
+export default Graph

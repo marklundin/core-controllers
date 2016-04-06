@@ -3,7 +3,7 @@ import radium from 'radium'
 import { base } from '../styles'
 
 /**
- * A Simple Checkbox component.
+ 	Yes, it's a checkbox. You click it once, you click it twice. Pretty exciting stuff. 
  */
 let Checkbox = ({ value, label, onChange }) => {
 

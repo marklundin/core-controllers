@@ -1,6 +1,5 @@
 import React from 'react'
 import radium from 'radium'
-import Colr from 'colr'
 import Slider from '../../slider'
 import NumericStepper from '../../numericstepper'
 import { map } from 'math'
@@ -61,6 +60,7 @@ class HSVColorPicker extends React.Component {
         }
 
         this.onMouseMove = e => {
+            // console.log( 'sdfs' )
             this.props.onChange( computeHsvFromMouseEvent( e ))
         }
 
@@ -75,10 +75,6 @@ class HSVColorPicker extends React.Component {
             { h, s, v } = value
 
         return <div>
-            <div>
-                { label }
-                <span style={[ colorDrop, {backgroundColor:Colr.fromHsvObject( value ).toHex() } ]}></span>
-            </div>
             <div style={style}>
                 <svg width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
                     ref={ref => this.domRef = ref } style={defaultStyle}
@@ -114,9 +110,7 @@ HSVColorPicker = radium( HSVColorPicker )
 
 HSVColorPicker.defaultProps = {
     label: 'HSVColorPicker',
-    style:{
-        width:'100%'
-    },
+    style:{ width:'100%'},
     value:{ h:0, s:80, l:50 }
 }
 

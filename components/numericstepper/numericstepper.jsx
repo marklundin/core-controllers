@@ -15,7 +15,7 @@ let defaultStyle = {
     backgroundColor : 'transparent',
     outline: 'none',
     textAlign: 'center',
-    float:'right',
+    // float:'right',
     ":focus":{
         borderColor : highlight.color
     },
@@ -42,6 +42,10 @@ class NumericStepper extends React.Component{
         return <div style={[ base, style ]}>
             <label >{ label }</label>
             <style>{`
+                input[type=number] {
+                    -moz-appearance:textfield;
+                }
+
                 input::-webkit-inner-spin-button,
                 input::-webkit-outer-spin-button{
                     margin: 0;

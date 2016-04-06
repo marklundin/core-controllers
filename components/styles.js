@@ -1,5 +1,5 @@
 export const base = {
-    fontFamily: "Menlo",
+    fontFamily: "Menlo, Inconcolata, Consolas",
     fontSize: 11,
     color: 'rgb(66,66,66)',
     borderRadius:2

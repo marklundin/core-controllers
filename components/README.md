@@ -1,6 +1,6 @@
-All components conform to a simple input/output constraint. They accept a `value`
-property that, together with other properties, determine how the component renders,
-and they accept an `onChange` handle that bubbles up any user initiated changes.
+Herein lies the complete set of components. This is an ongoing list so if there
+are any components you'd like to see or contribute, please open a `feature-request`
+issue, check the contribution guidelines and submit a pull request. All suggestions
+are welcome!
 
-By normalizing the components api, it's easy to auto register components against
-values.
+Note, all the code demo's below are interactive so have a play.

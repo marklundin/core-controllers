@@ -6,7 +6,7 @@ import Palette from './palette/palette'
 import FaAdd from 'react-icons/lib/md/add';
 import Button from '../button'
 import { base, secondary, highlight } from '../styles'
-import shallowCompare from '../shallowCompare'
+import shallowCompare from '../utils/shallowCompare'
 import getConverterForColorType from './color-converter'
 import saveState from '../utils/local-storage-hoc'
 import { rgb, hsv, hsl } from './prop-types'
@@ -14,17 +14,17 @@ import { rgb, hsv, hsl } from './prop-types'
 
 /**
 
-A general purpose colour picker with optional colour palettes. One you, the developer
-can supply and one the user can create for themselves. This means that in addition
-to any pallete you provide, the user can add and save colours to their own system
-colour palette, much in the same way as photoshop. These user saved colors will
-persist across page refreshes.
+A collapsible color picker with colour palette. One is assigned by you, the
+developer, the other is defined by the end user which persists across page refreshes.
+This means that in addition to any pallete you provide, the user can also add and save
+their own colours, much in the same way as photoshop.
 
-To save the current color click the `+` to add it to system palette. Shift click
-to remove it.
+To save the current color click the `+` icon to save it to the users palette.
+Shift click to remove it.
 
-Each domain will have it's own user pallete, this means `localhost` can retain
-it's own colours seperate to `livesite.com`
+The users colour palette is saved to [localStorage](localStorage), this means
+each domain will have it's own unique user pallete, meaning `localhost` will differ
+from `staging.com`.
 
 */
 
@@ -61,10 +61,7 @@ class ColorPicker extends Component {
             fromHsv = toHsv.invert,
             hsvColor = toHsv( value )
 
-        console.log( toHsv, hsvColor, Colr.fromHsvObject( hsvColor ).toHex() )
-
         let onColorChange = outHsv => onChange( fromHsv( outHsv ))
-
 
         return <div style={[base, style, {height:'auto'}]}>
             <div onClick={ v => this.setState({open:!open})}>

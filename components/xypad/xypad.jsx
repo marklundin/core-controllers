@@ -4,7 +4,7 @@ import { map } from 'math'
 import throttle from 'lodash.throttle'
 import radium from 'radium'
 import { base, secondary } from '../styles'
-import shallowCompare from '../shallowCompare'
+import shallowCompare from '../utils/shallowCompare'
 
 
 const defaultStyle = {

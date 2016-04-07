@@ -11,19 +11,19 @@ let defaultStyle = {
 }
 
 /**
-    A simple wrapper around the native combo box that provides some additional
-    datatypes. Options can be provided as either an array of strings, an array
-    of key value tuples, or an object whose keys and are used as labels.
+    Another simple component. The Combobox provides a basic wrapper around the
+    native form element with support for an array of strings, an array
+    of key value tuples, or an object.
 */
 
 let ComboBox = ({ label, options, value, onChange }) => {
 
     let isArray = Array.isArray( options )
 
-    var optionsElems = [<option value={value}>{ isArray? value: 'default' }</option>]
+    var optionsElems = [<option key={ value.toString() } value={value}>{ isArray? value: value.toString() }</option>]
 
     for( var i in options ){
-        optionsElems.push( <option value={options[i]}>{ isArray? options[i] : i }</option> )
+        optionsElems.push( <option key={i} value={options[i]}>{ isArray? options[i] : i }</option> )
     }
 
     return <div style={base}>

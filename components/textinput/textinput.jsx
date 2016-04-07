@@ -35,7 +35,7 @@ TextInput = radium( TextInput )
 TextInput.propTypes = {
 
 	/**
-	 * The default value for the text inout field
+	 * The default value for the text input field
 	 */
 	value: React.PropTypes.string,
 

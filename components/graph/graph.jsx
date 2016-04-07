@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import radium from 'radium'
 import { base, secondary, highlight } from '../styles'
 import { map } from 'math'
+import warning from '../utils/warning'
 
  const defaultStyle = {
     nonScalingStroke: {
@@ -16,13 +17,23 @@ import { map } from 'math'
 }
 
 /**
-    Takes an array of numbers and renders a simple line graph. The range or
-    domain of the graph is based on the `min`, `max` properties. This effectively
-    changes the height of the graph. If no bounds are supplied then the graph
-    plots against the minimum and maximum values of the data.
+This is a read only component that visualises a numerical array as a line graph.
+entries are plotted along the X axis with their value the Y axis. The domain of
+the graph can beset using the `min` and `max` properties, however if none are
+supplied, they're calculated using the inherent minimum and maximum values from
+the suplied data.
+
+Handy for plotting functions, visualising sound information and graphing general data
 */
 
-let Graph = ({ value, label, style, min, max }) => {
+let Graph = ({ value, label, style, min, max, fill }) => {
+
+
+    warning(
+        value.length <= 1,
+        "warning: The `graph` component expects and array of more than 1 number. Any less will result in an emppty graph."
+    )
+
 
     /**
      *  If no domain is supplied, calculate based on the bounds
@@ -32,11 +43,24 @@ let Graph = ({ value, label, style, min, max }) => {
     max = max !== undefined ? max : Math.max( ...value )
 
 
+    /*
+        If the graph is to be filled in, we need to create additional values at
+        the start and end of the sequence.
+    */
 
-    /**
-     *  In order to render the data we need to populate the array with `x`
-     *  coordinates. Polyine expects an array or `x, y` tuples.
-     */
+    value = value.slice()
+    if( fill ){
+        value.unshift(min)
+        value.unshift(value[0])
+        value.push(value[value.length-1])
+        value.push( min )
+    }
+
+
+    /*
+        The data is rendered using a SVG Polyine which expects an array of `x`
+        `y` values. Here we fill in the missing `y` values
+    */
 
     let value2D = [],
         length = value.length, n,
@@ -49,11 +73,12 @@ let Graph = ({ value, label, style, min, max }) => {
         value2D.push( String( map( n, min, max, 100, 0 ))  )
     }
 
+
     return <div style={[base, style]}>
         <div>{ label }</div>
         <svg style={[base, style]} width='100%' height='100%' xmlns="http://www.w3.org/2000/svg" viewBox='0 0 100 100' preserveAspectRatio='none'>
             <rect style={[defaultStyle.rect, defaultStyle.nonScalingStroke]} width='100%' height='100%' />
-            <polyline style={[defaultStyle.nonScalingStroke]} fill="none" stroke={highlight.color} points={value2D} />
+            <polyline style={[defaultStyle.nonScalingStroke]} fill={ fill ? highlight.color : 'none' } stroke={highlight.color} points={value2D} />
         </svg>
     </div>
 }
@@ -61,6 +86,19 @@ let Graph = ({ value, label, style, min, max }) => {
 
 Graph = radium( Graph )
 
+
+let arrayLikeStructures = [
+    PropTypes.arrayOf( PropTypes.number ),
+    PropTypes.instanceOf( Int8Array ),
+    PropTypes.instanceOf( Uint8Array ),
+    PropTypes.instanceOf( Uint8ClampedArray ),
+    PropTypes.instanceOf( Int16Array ),
+    PropTypes.instanceOf( Uint16Array ),
+    PropTypes.instanceOf( Int32Array ),
+    PropTypes.instanceOf( Uint32Array ),
+    PropTypes.instanceOf( Float32Array ),
+    PropTypes.instanceOf( Float64Array )
+]
 
 Graph.propTypes = {
 
@@ -72,41 +110,27 @@ Graph.propTypes = {
 
 
     /**
-     *
-     * Note: there is a bug when generating the documentation
-     * with the below `oneOfType` structure. This will raise a warning
-     * in the docs when it's run.
-     *
-     * See https://github.com/sapegin/react-styleguidist/issues/111
-    */
-
-    /**
-     * An array of numbers to display on the graph
+     * An array of numerical data
      */
-    value: PropTypes.oneOfType([
-        PropTypes.arrayOf( PropTypes.number ),
-        PropTypes.instanceOf( Int8Array ),
-        PropTypes.instanceOf( Uint8Array ),
-        PropTypes.instanceOf( Uint8ClampedArray ),
-        PropTypes.instanceOf( Int16Array ),
-        PropTypes.instanceOf( Uint16Array ),
-        PropTypes.instanceOf( Int32Array ),
-        PropTypes.instanceOf( Uint32Array ),
-        PropTypes.instanceOf( Float32Array ),
-        PropTypes.instanceOf( Float64Array )
-    ]).isRequired,
+    value: PropTypes.oneOfType( arrayLikeStructures ).isRequired,
 
 
     /**
-     * Defines the minimum value of the domain. If none is supplied it will be calculated
+     * Defines the minimum range of the graph.
      */
     min : PropTypes.number,
 
 
     /**
-     * Defines the maximum value of the domain. If none is supplied it will be calculated
+     * Defines the maximum range of the graph.
      */
     max : PropTypes.number,
+
+
+    /**
+     * If true, the graph will be a solid color
+     */
+    fill: PropTypes.bool,
 
 
     /**
@@ -119,6 +143,7 @@ Graph.propTypes = {
 
 Graph.defaultProps = {
 
+    fill: false,
     label: 'Graph',
     value:[],
     style:{width:'100%',height:150}

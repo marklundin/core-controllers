@@ -1,14 +1,23 @@
-Here we're plotting a graph from a static array of data. No minimum or maximum
-boundaries are supplied, so the range of the data is used instead
+Here we're plotting a simple static array of numerical data. In this instance,
+it's a list of frame deltas, marking the time it took to render the last
+`requestAnimationFrame`. Rendering this continuously gives you an FPS meter,
+however any array of numerical data can be rendered in this way
 
-    <Graph value={[ 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20 ]}/>
+```
+let frameDeltas = [ ];
+<Graph label='FPS demo' min={0} max={80}value={frameDeltas}/>
+```
 
-Below we're plotting a simple sine wave by continuously drawing a function. Again,
-no boundaries are declared, so we use the range of data. You can plot any function
-that outputs an array of data.
+Here we're plotting a simple oscillating wave function. The wave function outputs an
+array of numbers. This time we're not suppling any domain, so the natural boundaries
+of the data are used instead.
 
-    let data = new Float32Array( 100 );
-    let phase = state.phase || 1;
-    let waveFn = ( v, i ) => Math.sin( i/100 * Math.PI * 8 * phase + phase );
-    setTimeout( _ => setState({ phase:phase + 0.01 }));
-    <Graph value={ _.map( data, waveFn )}/>
+```
+let data = new Float32Array( 100 );
+let phase = state.phase || 1;
+let waveFn = ( v, i ) => Math.sin( i/100 * Math.PI * 8 * phase + phase );
+setTimeout( _ => setState({ phase:phase + 0.01 }));
+<Graph label='Oscillating Wave function' fill={true} value={ _.map( data, waveFn )}/>
+```
+
+Any function can be plotted in this as long as it outputs an array of numbers.

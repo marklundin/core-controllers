@@ -17,7 +17,8 @@ let defaultStyle = {
 }
 
 /**
-    Just a regular button, it click, it hovers, nothing else
+    The Button, arguably most basic of all components. You hover, you click, you rollout.
+    Pretty self explanatory. Documentation included for completeness
 */
 
 let Button = props => <button {...props} style={[ base, defaultStyle, props.style ]} >{ props.label }</button>

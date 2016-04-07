@@ -5,8 +5,8 @@
   "main": "lib/",
   "scripts": {
     "build": "babel components --source-maps --out-dir components",
-    "docs-server": "styleguidist server",
-    "docs": "styleguidist build",
+    "docs-server": "styleguidist server --config utils/documentation/config.js",
+    "docs": "styleguidist build --config utils/documentation/config.js",
     "start": "budo index.js --live -- -t babelify ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,7 +24,7 @@
     "install": "^0.6.1",
     "npm": "^3.8.2",
     "react-dom": "^0.14.7",
-    "react-styleguidist": "^2.1.0"
+    "react-styleguidist": "marklundin/react-styleguidist"
   },
   "dependencies": {
     "colr": "^1.2.2",

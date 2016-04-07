@@ -3,13 +3,14 @@ import radium from 'radium'
 import { base } from '../styles'
 
 /**
- 	Yes, it's a checkbox. You click it once, you click it twice. Pretty exciting stuff. 
+ 	Another stupidly simple component, it effectively wraps the native checkbox.
+	Documentation included for completeness
  */
 let Checkbox = ({ value, label, onChange }) => {
 
 	return <div style={[base]}>
 		<label style={[base]} onClick={evt => onChange( !value )}>{ label }</label>
-		<input checked={ value } type="checkbox" onChange={evt => onChange( evt.target.checked )} />
+		<input checked={ value } style={defaultStyle} type="checkbox" onChange={evt => onChange( evt.target.checked )} />
 	</div>
 }
 
@@ -41,6 +42,11 @@ Checkbox.defaultProps = {
 	label: 'Checkbox',
 	value: false,
 	onChange: a=>a
+}
+
+
+var defaultStyle = {
+	float:'right'
 }
 
 

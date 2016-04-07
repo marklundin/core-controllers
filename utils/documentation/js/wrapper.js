@@ -12,7 +12,6 @@ module.exports = React.createClass({
         var child = React.cloneElement( this.props.children, {
             value: this.state.value,
             onChange: function( n ){
-                console.log( n )
                 setState({ value: n })
             }})
 

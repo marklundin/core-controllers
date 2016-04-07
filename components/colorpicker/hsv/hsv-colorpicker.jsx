@@ -5,7 +5,7 @@ import NumericStepper from '../../numericstepper'
 import { map } from 'math'
 import throttle from 'lodash.throttle'
 import { base, secondary } from '../../styles'
-import shallowCompare from '../../shallowCompare'
+import shallowCompare from '../../utils/shallowCompare'
 
 let defaultStyle = { cursor: 'default' }
 

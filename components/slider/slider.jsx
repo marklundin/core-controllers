@@ -1,6 +1,6 @@
 import React from 'react'
 import NumericStepper from '../numericstepper'
-import shallowCompare from '../shallowCompare'
+import shallowCompare from '../utils/shallowCompare'
 import { map, clamp } from 'math'
 import radium from 'radium'
 import throttle from 'lodash.throttle'
@@ -155,7 +155,7 @@ Slider.defaultProps = {
     step: 0.1,
     onChange: a=>a,
     style:{width:'100%'}
-    
+
 }
 
 export default Slider

@@ -3,7 +3,7 @@ import throttle from 'lodash.throttle'
 import radium from 'radium'
 import { clamp } from 'math'
 import { base, secondary, highlight } from '../styles'
-import shallowCompare from '../shallowCompare'
+import shallowCompare from '../utils/shallowCompare'
 
 
 let defaultStyle = {
@@ -15,7 +15,7 @@ let defaultStyle = {
     backgroundColor : 'transparent',
     outline: 'none',
     textAlign: 'center',
-    // float:'right',
+    float:'right',
     ":focus":{
         borderColor : highlight.color
     },

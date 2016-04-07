@@ -1,7 +1,7 @@
-Below is a simple counter example. You click the button to increment the counter
+Here's a simple counter example. You click the button and it increments a counter
 
+    let count = state.count || 0;
+    let increment = _ => setState({ count:count + 1 });
+    let label = 'This is a Button! ';
 
-    let count = state.count || 0,
-        increment = _ => setState({ count:count + 1 });
-
-    <Button label={"Button " + count} onClick={ increment }/>
+    <Button label={label + count} onClick={ increment }/>

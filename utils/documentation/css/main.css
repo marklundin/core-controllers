@@ -1,0 +1,129 @@
+p{
+    font-size: 14px;
+    line-height: 22px;
+}
+
+s, p, br {}
+
+a,
+.ReactStyleguidist-colors__link,
+.ReactStyleguidist-colors__link:visited,
+.ReactStyleguidist-colors__link:link {
+    text-decoration: none;
+    background:#04E2F1;
+    color: #FAF8F5;
+    padding: 0.2em;
+}
+
+.ReactStyleguidist-colors__link:hover {
+    color:#04E2F1;
+}
+
+.ReactStyleguidist-Markdown__root .ReactStyleguidist-colors__link {
+    background:transparent;
+    color:#04E2F1;
+}
+
+.ReactStyleguidist-Markdown__root .ReactStyleguidist-colors__link:hover {
+    text-decoration: underline;
+}
+
+body{
+    background-color: #faf8f5;
+}
+
+.ReactStyleguidist-colors__base-bg {
+    background: #faf8f5;
+    color: #545454;
+}
+
+@media (max-width: 900px) {
+  .ReactStyleguidist-Layout__sidebar {
+    display: none;
+  }
+  .ReactStyleguidist-Layout__wrapper{
+      padding: 0
+  }
+}
+
+.ReactStyleguidist-Section__header{
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.ReactStyleguidist-Section__root{
+    margin-bottom: 100px;
+    font-family: 'Roboto', sans-serif;
+    /*color: #212121;*/
+}
+
+.ReactStyleguidist-common__font {
+    font-family: 'Roboto', sans-serif;
+    color: #575757;
+}
+
+.ReactStyleguidist-ReactComponent__heading,
+.ReactStyleguidist-Section__heading,
+.ReactStyleguidist-Layout__heading {
+    font-family: 'Roboto Slab', serif;
+}
+
+
+.ReactStyleguidist-ReactComponent__root {
+    font-size: 13px
+}
+
+.ReactStyleguidist-Markdown__pre{
+    font-family: Menlo, monospace;
+    padding: 2em 1.5em;
+    background-color: #F5F1EC;
+    border: none;
+}
+
+.ReactStyleguidist-Markdown__code {
+    font-size: 11px;
+    padding: 6px;
+    border-radius: 3px;
+    background: #F5F1EC;
+}
+
+.ReactStyleguidist-Playground__preview{
+    padding: 30px
+}
+
+.ReactStyleguidist-Playground__editor{
+    background-color: #f5f5f5;
+    padding: 30px;
+}
+
+.ReactStyleguidist-Editor__root .CodeMirror {
+    height: auto;
+    padding: 0;
+    font-size: 12px;
+}
+
+.ReactStyleguidist-Playground__root {
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-radius: 3px;
+}
+
+
+.ReactStyleguidist-Props__heading{
+    /*display: none;*/
+}
+
+.ReactStyleguidist-TableOfContents__search{
+    display: none;
+}
+
+.ReactStyleguidist-Layout__sidebar{
+    overflow: hidden;
+    background: #FAF8F5;
+    border: none;
+}
+
+.ReactStyleguidist-Layout__content{
+    max-width: 920px;
+    padding: 20px;
+}

@@ -54,7 +54,7 @@ class ColorPicker extends Component {
 
 
     render(){
-        //
+
         let { value, label, onChange, style, palette, useSystemPalette } = this.props,
             { colors, open } = this.state,
             toHsv = getConverterForColorType( value ),

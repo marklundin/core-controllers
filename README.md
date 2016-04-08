@@ -1,20 +1,19 @@
-# A set of common components for audio visual programs
+# Components for creative coding
 
-This library contains of a small set of controllers specifically designed for audio/visual
-programming. It's goal is to create a common set of practical interfaces
-to some of the most routinely faced elements of 2D, 3D or audio based programs.
-Along with some simple elements such as [buttons](#Button), [sliders](#Slider)
-and [checkboxes](#Checkbox) are some of the more complex ones such as the
-[ColorPicker](#ColorPicker), [Graph](#Graph) and [XYPad](#XYPad). All of these
-are designed to help you visualize and control aspects of your programs in a more
-intelligible way.
+This library contains of a small set of javascript controllers specifically
+designed for creative coding. It's goal is to create a common set of practical
+interfaces useful for prototyping 2D, 3D or audio applications. Along with some
+fundamental elements such as [buttons](#Button), [sliders](#Slider)
+and [checkboxes](#Checkbox) are more complex ones such as the [ColorPicker](#ColorPicker),
+[Graph](#Graph) and [XYPad](#XYPad). All of these are designed to help you visualize
+and control aspects of your programs in a more intelligible way.
 
-All components are built in [react](REACT) and are part of the [DUI](TBC)
-project, a library that instruments A/V applications.
+All components are built in [react](REACT), built specifically for the [DUI](TBC)
+project, a library for quickly instrumenting A/V applications.
 
 ## Getting started
 
-run `npm install core-controllers`
+`npm install core-controllers`
 
 ### Using React
 

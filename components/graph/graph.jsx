@@ -31,8 +31,7 @@ let Graph = ({ value, label, style, min, max, fill }) => {
 
     warning(
         value.length <= 1,
-        "warning: The `graph` component expects and array of more than 1 number. Any less will result in an empty graph."
-    )
+        "warning: The `graph` component expects and array of more than 1 number. Any less will result in an empty graph." )
 
 
     /**

@@ -8,7 +8,7 @@ export default ( condition, message ) => {
         or not throwing more than needed. Keep the console nice and clean :)
     */
 
-    if( !condition ) {
+    if( condition ) {
         if (typeof console !== 'undefined') {
             console.warn( message );
         }

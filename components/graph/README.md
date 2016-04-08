@@ -4,7 +4,7 @@ it's a list of frame deltas, marking the time it took to render the last
 however any array of numerical data can be rendered in this way
 
 ```
-let frameDeltas = [ ];
+let frameDeltas = [ 60, 60, 60, 60, 60, 59, 40, 30, 10, 60, 60, 55, 50, 60, 60, 60, 60 ];
 <Graph label='FPS demo' min={0} max={80}value={frameDeltas}/>
 ```
 
@@ -15,9 +15,8 @@ of the data are used instead.
 ```
 let data = new Float32Array( 100 );
 let phase = state.phase || 1;
-//let waveFn = ( v, i ) => Math.sin(( i + phase ) / 50 * Math.PI * 4.0 );
-let waveFn = ( v, i ) => Math.sin( i/100 )* 7 + Math.cos( Math.sqrt( 3 ) * (i/100)*7 );
-setTimeout( _ => setState({ phase:phase + 0.05 }));
+let waveFn = ( v, i ) => Math.sin( i/100 * Math.PI * 5 + phase );
+//requestAnimationFrame( _ => setState({ phase:phase + 0.05 }));
 <Graph label='Oscillating Wave function' fill={true} value={ _.map( data, waveFn )}/>
 ```
 

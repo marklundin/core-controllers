@@ -2,24 +2,7 @@ import React from 'react'
 import radium from 'radium'
 import { base, highlight, secondary } from '../styles'
 
-let defaultStyle = {
-    fontFamily: 'inherit',
-    borderTop: 'none',
-    borderLeft: 'none',
-    borderRight: 'none',
-    borderRadius: 'none',
-    float:'right',
-    textAlign: 'right',
-    borderBottom : '1px solid ' + secondary.color,
-    backgroundColor : 'transparent',
-    ":focus":{
-        outline: 'none',
-        borderBottom : '1px solid ' + highlight.color
-    },
-    ":hover":{
-        borderBottom : '1px solid ' + highlight.color,
-    }
-}
+
 
 let TextInput = ({ value, label, onChange, style }) => {
 
@@ -66,6 +49,25 @@ TextInput.defaultProps = {
 	label: 'Text Input',
     onChange: a=>a
 
+}
+
+var defaultStyle = {
+    fontFamily: 'inherit',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    borderRadius: 'none',
+    float:'right',
+    textAlign: 'right',
+    borderBottom : '1px solid ' + secondary.color,
+    backgroundColor : 'transparent',
+    ":focus":{
+        outline: 'none',
+        borderBottom : '1px solid ' + highlight.color
+    },
+    ":hover":{
+        borderBottom : '1px solid ' + highlight.color,
+    }
 }
 
 export default TextInput

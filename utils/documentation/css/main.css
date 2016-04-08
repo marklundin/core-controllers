@@ -68,6 +68,12 @@ body{
     font-family: 'Roboto Slab', serif;
 }
 
+.ReactStyleguidist-Section__heading > a,
+.ReactStyleguidist-ReactComponent__heading > a {
+    background: none;
+    padding: 0;
+}
+
 
 .ReactStyleguidist-ReactComponent__root {
     font-size: 13px
@@ -92,7 +98,7 @@ body{
 }
 
 .ReactStyleguidist-Playground__editor{
-    background-color: #f5f5f5;
+    background-color: #F5F1EC;
     padding: 30px;
 }
 
@@ -100,6 +106,7 @@ body{
     height: auto;
     padding: 0;
     font-size: 12px;
+    background-color: #F5F1EC;
 }
 
 .ReactStyleguidist-Playground__root {

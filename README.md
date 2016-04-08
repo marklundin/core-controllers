@@ -1,4 +1,4 @@
-# A handy set of components for creative coding
+# A set of common components for audio visual programs
 
 This library contains of a small set of controllers specifically designed for audio/visual
 programming. It's goal is to create a common set of practical interfaces
@@ -16,6 +16,8 @@ project, a library that instruments A/V applications.
 
 run `npm install core-controllers`
 
+### Using React
+
 As all the components are just regular react components, once installed render
 them as you usually would.
 
@@ -25,6 +27,8 @@ import React from 'react-dom'
 
 React.render( <Slider label={'aNumber'} value={10} />, myElement )
 ```
+
+### Using DUI
 
 Alternatively, you can use [DUI](TBC), a rapid prototyping library which allows
 you to declaratively define user interfaces using plain old javascript objects.
@@ -39,4 +43,8 @@ draw({
 })
 ```
 
-Both of these output the following:
+Both of these draw a slider:
+
+```
+<Slider label={'aNumber'} value={10} />
+```

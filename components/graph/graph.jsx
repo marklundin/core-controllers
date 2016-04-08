@@ -17,7 +17,7 @@ import warning from '../utils/warning'
 }
 
 /**
-This is a read only component that visualises a numerical array as a line graph.
+This is a read only component that visualises an array of numbers as a line graph.
 entries are plotted along the X axis with their value the Y axis. The domain of
 the graph can beset using the `min` and `max` properties, however if none are
 supplied, they're calculated using the inherent minimum and maximum values from
@@ -31,7 +31,7 @@ let Graph = ({ value, label, style, min, max, fill }) => {
 
     warning(
         value.length <= 1,
-        "warning: The `graph` component expects and array of more than 1 number. Any less will result in an emppty graph."
+        "warning: The `graph` component expects and array of more than 1 number. Any less will result in an empty graph."
     )
 
 
@@ -39,22 +39,10 @@ let Graph = ({ value, label, style, min, max, fill }) => {
      *  If no domain is supplied, calculate based on the bounds
      *  of the `value` data
      */
+
     min = min !== undefined ? min : Math.min( ...value )
     max = max !== undefined ? max : Math.max( ...value )
 
-
-    /*
-        If the graph is to be filled in, we need to create additional values at
-        the start and end of the sequence.
-    */
-
-    value = value.slice()
-    if( fill ){
-        value.unshift(min)
-        value.unshift(value[0])
-        value.push(value[value.length-1])
-        value.push( min )
-    }
 
 
     /*
@@ -70,8 +58,19 @@ let Graph = ({ value, label, style, min, max, fill }) => {
     for( let i = 0 ; i < length ;i++ ){
         n = value[i]
         value2D.push( String( i * interval ))
-        value2D.push( String( map( n, min, max, 100, 0 ))  )
+        value2D.push( String( map( n, min, max, 100, 0 )))
     }
+
+
+    /*
+        If the graph is to be filled in, we need to create additional values at
+        the start and end of the sequence.
+    */
+
+    if( fill ){
+        value2D = [ '0', '100'].concat( value2D, [ '100', '100'])
+    }
+
 
 
     return <div style={[base, style]}>

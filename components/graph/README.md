@@ -15,8 +15,9 @@ of the data are used instead.
 ```
 let data = new Float32Array( 100 );
 let phase = state.phase || 1;
-let waveFn = ( v, i ) => Math.sin( i/100 * Math.PI * 8 * phase + phase );
-setTimeout( _ => setState({ phase:phase + 0.01 }));
+//let waveFn = ( v, i ) => Math.sin(( i + phase ) / 50 * Math.PI * 4.0 );
+let waveFn = ( v, i ) => Math.sin( i/100 )* 7 + Math.cos( Math.sqrt( 3 ) * (i/100)*7 );
+setTimeout( _ => setState({ phase:phase + 0.05 }));
 <Graph label='Oscillating Wave function' fill={true} value={ _.map( data, waveFn )}/>
 ```
 

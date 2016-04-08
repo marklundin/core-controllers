@@ -6,29 +6,13 @@ import radium from 'radium'
 import throttle from 'lodash.throttle'
 import { base, secondary, highlight } from '../styles'
 
-let defaultStyle = {
-    overflow:'visible',
-    cursor: 'default',
-    stroke: 'none',
 
-    rx:'2',
-    ry:'2'
-}
+/*
+    A classic numerical slider, useful for representing numbers within a bounded
+    range. It also contains a `NumericalStepper` for displaying the text value
+    and entering values directly.
+*/
 
-const thumb = {
-    fill: 'none'
-}
-const backgroundBar = {
-    fill: secondary.color
-}
-
-const bar = {
-    fill: highlight.color
-}
-
-/**
- * A horizontal progress slider with step size and minimum and maximum bounds.
- */
 class Slider extends React.Component{
 
     constructor(){
@@ -37,10 +21,20 @@ class Slider extends React.Component{
 
         shouldComponentUpdate: shallowCompare,
 
+
+        /*
+            Compute the numerical value from a touch/mouse event
+        */
+
         this.computeValuefromMouseEvent = e => {
             let bounds = this.domRef.getBoundingClientRect()
             return map( e.clientX, bounds.left, bounds.right, this.props.min, this.props.max )
         }
+
+
+        /*
+            Computes the value on mouse/touch down and triggers an `onChange`
+        */
 
         this.onMouseDown = e => {
 
@@ -51,12 +45,23 @@ class Slider extends React.Component{
             onChange( validate( this.computeValuefromMouseEvent( e )))
         }
 
+
+        /*
+            On mouse/touch move, trigger an onChange event
+            TODO This needs to be debounced
+        */
+
         this.onMouseMove = e => {
             let { value, min, max, step, onChange } = this.props,
                 validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
 
             onChange( validate( this.computeValuefromMouseEvent( e )))
         }
+
+
+        /*
+            changes the dragging state
+        */
 
         this.onMouseUp = e => {
             this.setState({drag:false})
@@ -157,5 +162,28 @@ Slider.defaultProps = {
     style:{width:'100%'}
 
 }
+
+
+var defaultStyle = {
+    overflow:'visible',
+    cursor: 'default',
+    stroke: 'none',
+
+    rx:'2',
+    ry:'2'
+}
+
+var thumb = {
+    fill: 'none'
+}
+
+var backgroundBar = {
+    fill: secondary.color
+}
+
+var bar = {
+    fill: highlight.color
+}
+
 
 export default Slider

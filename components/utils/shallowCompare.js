@@ -4,16 +4,12 @@
  * If both are the same value, or contain the same properties, then they are equivalent.
  */
 
-let shallowCompareWithout = ( a, b, without ) => {
+let shallowEqualsWithout = ( a, b, without ) => {
 
-    if( a === b ) return  true
-
-    if( Object.keys( a ).length !==  Object.keys( b ).length ) return false
+    if( Object.keys( a ).length !== Object.keys( b ).length ) return false
 
     for( var i in a ){
-        if( without.indexOf( i ) !== -1 ){
-            if( a[i] !== b[i] ) return false
-        }
+        if( a[i] !== b[i] || without[i] !== undefined ) return false
     }
 
     return true
@@ -24,7 +20,7 @@ let shallowCompareWithout = ( a, b, without ) => {
  * the current and incoming state/props whilst ignoring the `onChange` handle
  */
 
-export default ( props, state, nextProps, nextState ) => {
+export default ( props, nextProps, state, nextState ) => {
 
 
     /**
@@ -33,5 +29,5 @@ export default ( props, state, nextProps, nextState ) => {
 
     let without = ['onChange']
 
-    return !shallowCompareWithout( props, nextProps, without ) || !shallowCompareWithout( state, nextState, without )
+    return !shallowEqualsWithout( props, nextProps, without );// || !shallowCompareWithout( state, nextState, [] )
 }

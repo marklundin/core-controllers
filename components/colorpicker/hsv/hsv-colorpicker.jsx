@@ -77,7 +77,7 @@ class HSVColorPicker extends React.Component {
         return <div>
             <div style={style}>
                 <svg width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
-                    ref={ref => this.domRef = ref } style={defaultStyle}
+                    ref={ref => this.domRef = ref} style={defaultStyle}
                     onMouseDown={this.onMouseDown} onMouseMove={this.state.drag ? this.onMouseMove : null } onMouseUp={this.onMouseUp} >
                     <defs>
                         <linearGradient id="horizontal-gradient">

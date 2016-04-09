@@ -1,22 +1,30 @@
 import React, { Component, PropTypes } from 'react'
 import radium from 'radium'
 import NumericStepper from '../numericstepper'
+import shallowCompare from '../utils/shallowCompare'
 import { base, highlight, secondary} from '../styles'
 import { normalize, map, clamp } from 'math'
 
 class Dial extends Component {
 
 
+    // shouldComponentUpdate( nextProps, nextState ){
+    //     console.log( 'checking ')
+    //     return shallowCompare( this.props, nextProps, this.state, nextState )
+    // }
+
+
     constructor(){
+
         super()
 
         this.state = {drag:false}
 
-        let computeValueFromEvent = e => {
+        let computeValueFromEvent = ( e, domRef ) => {
 
             let { min, max } = this.props,
                 bounds = this.domRef.getBoundingClientRect(),
-                value = map( e.clientY, bounds.top, bounds.bottom, min, max )
+                value = map( e.clientY, bounds.top, bounds.bottom, max, min )
 
             return clamp( value, min, max )
         }
@@ -25,19 +33,16 @@ class Dial extends Component {
 
             this.props.onChange( computeValueFromEvent( e ))
             this.setState({drag:true})
-
         }
 
         this.onMouseUp = e => {
 
             this.setState({drag:false})
-
         }
 
         this.onMouseMove = e => {
-
+            // console.log( this.domRef )
             this.props.onChange( computeValueFromEvent( e ))
-
         }
     }
 
@@ -62,10 +67,13 @@ class Dial extends Component {
         value = normalize( value, min, max )
 
         let radius = 50,
+            range = 0.8,
             circumference = 2.0 * Math.PI * radius,
-            a = [ circumference * value, circumference ].join(' '),
-            b = [ circumference , circumference ].join(' ')
+            a = [ circumference * value * range, circumference ].join(' '),
+            b = [ circumference , circumference ].join(' '),
+            transform = String(( 1.0 - range ) * 360 - 90) + 'deg'
 
+            console.log( transform )
 
         /*
             Using a styling trick with the stroke-dasharray property to create
@@ -75,13 +83,13 @@ class Dial extends Component {
             for future reference
         */
 
-        return <div style={[base, style]}>
+        return <div  style={[base, style]}>
             <NumericStepper { ...stepperProps } />
-            <svg style={svgStyle} width='100px' height='100px' xmlns="http://www.w3.org/2000/svg"
+            <svg style={[svgStyle, {transform}]} width='100px' height='100px' xmlns="http://www.w3.org/2000/svg"
                 ref={ref => this.domRef = ref}
-                onMouseDown={this.onMouseDown}>
-            <circle r={radius} cx="50" cy="50" class="pie" strokeDasharray={b} fill='transparent' stroke={secondary.color} strokeWidth={radius}></circle>
-            <circle r={radius} cx="50" cy="50" class="pie" strokeDasharray={a} fill='transparent' stroke={highlight.color} strokeWidth={radius}/>
+                onMouseDown={this.onMouseDown.bind( this )}>
+            <circle r={radius} cx="50" cy="50" strokeDasharray={b} fill='transparent' stroke={secondary.color} strokeWidth={radius}></circle>
+            <circle r={radius} cx="50" cy="50" strokeDasharray={a} fill='transparent' stroke={highlight.color} strokeWidth={radius}/>
             </svg>
         </div>
     }
@@ -148,7 +156,7 @@ Dial.defaultProps = {
 
 
 var svgStyle = {
-    transform: 'rotate(90deg)',
+    cursor: 'default',
     borderRadius: "50%"
 }
 

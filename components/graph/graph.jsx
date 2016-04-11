@@ -3,6 +3,7 @@ import radium from 'radium'
 import { base, secondary, highlight } from '../styles'
 import { map } from 'math'
 import warning from '../utils/warning'
+import shallowCompare from 'react-addons-shallow-compare'
 
  const defaultStyle = {
     nonScalingStroke: {

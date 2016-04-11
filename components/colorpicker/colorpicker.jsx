@@ -6,7 +6,7 @@ import Palette from './palette/palette'
 import FaAdd from 'react-icons/lib/md/add';
 import Button from '../button'
 import { base, secondary, highlight } from '../styles'
-import shallowCompare from '../utils/shallowCompare'
+import shallowCompare from 'react-addons-shallow-compare'
 import getConverterForColorType from './color-converter'
 import saveState from '../utils/local-storage-hoc'
 import { rgb, hsv, hsl } from './prop-types'
@@ -36,6 +36,12 @@ class ColorPicker extends Component {
     constructor(){
         super()
         this.state = {colors:[]}
+
+        this.onColorChange = hsv => {
+
+            let color = getConverterForColorType( this.props.value ).invert( hsv )
+            this.props.onChange( color )
+        }
     }
 
 
@@ -53,15 +59,16 @@ class ColorPicker extends Component {
     }
 
 
+
+
+
     render(){
 
-        let { value, label, onChange, style, palette, useSystemPalette } = this.props,
+        let { value, label, onChange, style, palette } = this.props,
             { colors, open } = this.state,
             toHsv = getConverterForColorType( value ),
-            fromHsv = toHsv.invert,
             hsvColor = toHsv( value )
 
-        let onColorChange = outHsv => onChange( fromHsv( outHsv ))
 
         return <div style={[base, style, {height:'auto'}]}>
             <div onClick={ v => this.setState({open:!open})}>
@@ -70,9 +77,9 @@ class ColorPicker extends Component {
             </div>
             { open ?
                 <div>
-                    <HSVColorPicker {...this.props} value={ hsvColor } onChange={onColorChange} />
-                    <Palette key={'user-palette'} values={ palette.map( getConverterForColorType( palette[0] )) } onSelect={ onColorChange } />
-                    <Palette key={'system-palette'} values={ colors } onSelect={onColorChange} onDeselect={ this.onRemoveColorClick.bind( this ) } />
+                    <HSVColorPicker style={ style } value={ hsvColor } onChange={ this.onColorChange } />
+                    <Palette key={'user-palette'} values={ palette.map( getConverterForColorType( palette[0] )) } onSelect={ this.onColorChange } />
+                    <Palette key={'system-palette'} values={ colors } onSelect={ this.onColorChange } onDeselect={ this.onRemoveColorClick.bind( this ) } />
                     <span style={[ base, { ':hover': secondary }]}><FaAdd onClick={ e => this.onAddColorClick( toHsv( value )) }/></span>
                 </div>
             : null }

@@ -1,18 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import radium from 'radium'
 import NumericStepper from '../numericstepper'
-import shallowCompare from '../utils/shallowCompare'
+import shallowCompare from 'react-addons-shallow-compare'
 import { base, highlight, secondary} from '../styles'
 import { normalize, map, clamp } from 'math'
 
 class Dial extends Component {
-
-
-    // shouldComponentUpdate( nextProps, nextState ){
-    //     console.log( 'checking ')
-    //     return shallowCompare( this.props, nextProps, this.state, nextState )
-    // }
-
 
     constructor(){
 
@@ -22,18 +15,21 @@ class Dial extends Component {
 
 
         this.onMouseDown = e => {
-
             this.setState({drag:true, value: this.props.value, dragValue: e.clientY })
         }
 
         this.onMouseUp = e => {
-
             this.setState({drag:false})
         }
 
-        this.onMouseMove = e => {
+        this.onMouseMove = function( e ) {
             this.props.onChange( this.state.value + (( e.clientY - this.state.dragValue ) * -0.05 ))
         }
+    }
+
+
+    shouldComponentUpdate( nextProps, nextState ){
+        return shallowCompare( this, nextProps, nextState )
     }
 
 
@@ -80,7 +76,7 @@ class Dial extends Component {
             <svg style={[svgStyle, {transform}]} width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
                 viewBox=' 0 0 100 100'
                 ref={ref => this.domRef = ref}
-                onMouseDown={this.onMouseDown.bind( this )}>
+                onMouseDown={this.onMouseDown}>
             <circle r={radius} cx="50" cy="50" strokeDasharray={b} fill='transparent' stroke={secondary.color} strokeWidth={radius}></circle>
             { value > 0 ? <circle r={radius} cx="50" cy="50" strokeDasharray={a} fill='transparent' stroke={highlight.color} strokeWidth={radius}/> : null }
             </svg>

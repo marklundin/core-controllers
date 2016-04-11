@@ -3,7 +3,7 @@ import throttle from 'lodash.throttle'
 import radium from 'radium'
 import { clamp } from 'math'
 import { base, secondary, highlight } from '../styles'
-import shallowCompare from '../utils/shallowCompare'
+import shallowCompare from 'react-addons-shallow-compare'
 
 
 /*
@@ -14,7 +14,11 @@ import shallowCompare from '../utils/shallowCompare'
 
 class NumericStepper extends React.Component{
 
-    // shouldComponentUpdate: shallowCompare,
+
+    shouldComponentUpdate( nextProps, nextState ){
+        return shallowCompare( this, nextProps, nextState )
+    }
+
 
     render(){
 

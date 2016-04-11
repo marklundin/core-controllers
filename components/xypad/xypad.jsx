@@ -26,8 +26,6 @@ const componentLabels = {display:'inline'}
 
 class XYPad extends React.Component {
 
-    // shouldComponentUpdate: shallowCompare
-
     constructor(){
         super()
 
@@ -48,7 +46,7 @@ class XYPad extends React.Component {
         }, 1000/60 )
 
         this.onMouseMove = e => {
-            this.props.onChange( this.computeXYfromMouseEvent( e ))
+            if( this.state.drag ) this.props.onChange( this.computeXYfromMouseEvent( e ))
         }
 
         this.onMouseUp = e => {
@@ -56,11 +54,23 @@ class XYPad extends React.Component {
         }
     }
 
+
+    shouldComponentUpdate( nextProps, nextState ){
+
+        let { x, y } = this.props.value,
+            value = nextProps.value
+
+        return ( x !== value.x
+            || y !== value.y )
+            && shallowCompare( this, nextProps, this.state )
+
+    }
+
+
     render(){
 
         let { value, xmin, xmax, ymin, ymax, label, onChange, style } = this.props,
-            { x, y } = value,
-            { drag } = this.state
+            { x, y } = value
 
         let xVis = map( x, xmin, xmax, 0, 100 ) + '%',
             yVis = map( y, ymin, ymax, 0, 100 ) + '%'
@@ -73,7 +83,7 @@ class XYPad extends React.Component {
                     style={defaultStyle}
                     ref={ref => this.domRef = ref}
                     onMouseDown={ this.onMouseDown}
-                    onMouseMove={ drag ? this.onMouseMove : null }
+                    onMouseMove={ this.state.drag ? this.onMouseMove : null }
                     onMouseUp={ this.onMouseUp }>
 
                     <rect fill='none' stroke={base.color} strokeWidth='1' width='100%' height='100%' />

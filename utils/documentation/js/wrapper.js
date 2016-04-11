@@ -1,4 +1,5 @@
-var React = require( 'react' )
+var React = require( 'react' ),
+    shallowCompare = require( 'react-addons-shallow-compare' )
 
 module.exports = React.createClass({
 
@@ -12,7 +13,7 @@ module.exports = React.createClass({
 
     render: function(){
 
-        var setState = this.setState.bind( this )
+        // var setState = this.setState.bind( this )
         return React.cloneElement( this.props.children, {
             value: this.state.value,
             onChange: this.onComponentChange

@@ -5,29 +5,9 @@ import NumericStepper from '../../numericstepper'
 import { map } from 'math'
 import throttle from 'lodash.throttle'
 import { base, secondary } from '../../styles'
-import shallowCompare from '../../utils/shallowCompare'
+import shallowCompare from 'react-addons-shallow-compare'
 
-let defaultStyle = { cursor: 'default' }
 
-const slider = {
-    backgroundBar:{ fill:'url(#hsv-gradient)'},
-    bar: { fill : 'none' },
-    thumb: { fill : 'white' }
-}
-
-const componentLabels = {display:'inline'}
-
-const colorDrop = {
-    borderRadius:"50%",
-    width: '1em',
-    height: '1em',
-    float:'right'
-}
-
-const rect ={
-    rx: base.borderRadius,
-    ry: base.borderRadius,
-}
 
 // Calucalte HSV color stops
 let l = 0, i = 100/360, stops = []
@@ -36,8 +16,6 @@ while( l++ < 360 ){
 }
 
 class HSVColorPicker extends React.Component {
-
-    // shouldComponentUpdate: shallowCompare,
 
     constructor(){
         super()
@@ -60,13 +38,27 @@ class HSVColorPicker extends React.Component {
         }
 
         this.onMouseMove = e => {
-            this.props.onChange( computeHsvFromMouseEvent( e ))
+            if( this.state.drag ) this.props.onChange( computeHsvFromMouseEvent( e ))
         }
 
         this.onMouseUp = e => {
             this.setState({drag:false})
         }
     }
+
+
+    shouldComponentUpdate( nextProps, nextState ){
+
+        let { h, s, v } = this.props.value,
+            color = nextProps.value
+
+        return ( h !== color.h
+            || s !== color.s
+            || v !== color.v )
+            && shallowCompare( this, nextProps, this.state )
+
+    }
+    
 
     render(){
 
@@ -136,6 +128,28 @@ HSVColorPicker.propTypes = {
      */
     style: React.PropTypes.object
 
+}
+
+let defaultStyle = { cursor: 'default' }
+
+var slider = {
+    backgroundBar:{ fill:'url(#hsv-gradient)'},
+    bar: { fill : 'none' },
+    thumb: { fill : 'white' }
+}
+
+var componentLabels = {display:'inline'}
+
+var colorDrop = {
+    borderRadius:"50%",
+    width: '1em',
+    height: '1em',
+    float:'right'
+}
+
+var rect ={
+    rx: base.borderRadius,
+    ry: base.borderRadius,
 }
 
 export default HSVColorPicker

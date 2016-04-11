@@ -1,6 +1,6 @@
 import React from 'react'
 import NumericStepper from '../numericstepper'
-import shallowCompare from '../utils/shallowCompare'
+import shallowCompare from 'react-addons-shallow-compare'
 import { map, clamp } from 'math'
 import radium from 'radium'
 import throttle from 'lodash.throttle'
@@ -19,9 +19,7 @@ class Slider extends React.Component{
 
         super()
 
-        shouldComponentUpdate: shallowCompare,
-
-
+        this.state = {drag:false}
         /*
             Compute the numerical value from a touch/mouse event
         */
@@ -68,6 +66,12 @@ class Slider extends React.Component{
         }
     }
 
+
+    shouldComponentUpdate( nextProps, nextState ){
+        return shallowCompare( this, nextProps, nextState )
+    }
+
+
     componentDidUpdate (props, state) {
         if (this.state.drag && !state.drag) {
           document.addEventListener('mousemove', this.onMouseMove)
@@ -78,25 +82,42 @@ class Slider extends React.Component{
         }
     }
 
+
+    validate( value ){
+
+        let { onChange, min, max, step } = this.props
+
+        value = clamp( value, min, max )
+        value = Math.round( value * ( 1 / step )) / ( 1 / step )
+
+        return value
+    }
+
+
+    onNumericStepperChange( value){
+        this.props.onChange( this.validate( value ))
+    }
+
+
     render(){
 
         let { value, label, min, max, step, onChange, includeStepper, style } = this.props,
-            stepperProps = { value, label, min, max, step, onChange },
-            validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
+            stepperProps = { value, label, min, max, step, onChange }
+
 
 
         let offsetPercentage = map( clamp( value, min, max ), min, max, 0, 100 ) + '%'
-        value = validate( value )
+        value = this.validate( value )
 
         return <div style={ base }>
-            { includeStepper ? <NumericStepper {...stepperProps} onChange={ v => onChange(validate( v ))}/> : null }
-            <svg width='100%' height="0.8em" xmlns="http://www.w3.org/2000/svg"
+            { includeStepper ? <NumericStepper {...stepperProps} onChange={ this.onNumericStepperChange }/> : null }
+            <svg width='100%' height="0.9em" xmlns="http://www.w3.org/2000/svg"
                 style={ defaultStyle }
                 onMouseDown={this.onMouseDown}
                 ref={ref => this.domRef = ref}>
                 <rect width='100%' height="100%" style={[ defaultStyle, backgroundBar, style.backgroundBar ]}/>
                 <rect width='100%' height="100%" style={[ defaultStyle, bar, style.bar ]} width={ offsetPercentage }/>
-                <circle cy={'50%'} cx={offsetPercentage} r='0.4em' style={[defaultStyle, thumb, style.thumb ]}/>
+                <circle cy={'50%'} cx={offsetPercentage} r='0.45em' style={[defaultStyle, thumb, style.thumb ]}/>
             </svg>
         </div>
     }

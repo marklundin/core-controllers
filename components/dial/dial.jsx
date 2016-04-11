@@ -5,6 +5,15 @@ import shallowCompare from 'react-addons-shallow-compare'
 import { base, highlight, secondary} from '../styles'
 import { normalize, map, clamp } from 'math'
 
+
+/**
+
+    Another numerical control, that provides similar functionality to the
+    [Slider](#Slider) but with different layout and more suited for touch
+    enabled devices.
+
+*/
+
 class Dial extends Component {
 
     constructor(){
@@ -12,7 +21,6 @@ class Dial extends Component {
         super()
 
         this.state = {drag:false}
-
 
         this.onMouseDown = e => {
             this.setState({drag:true, value: this.props.value, dragValue: e.clientY })
@@ -22,7 +30,7 @@ class Dial extends Component {
             this.setState({drag:false})
         }
 
-        this.onMouseMove = function( e ) {
+        this.onMouseMove = e => {
             this.props.onChange( this.state.value + (( e.clientY - this.state.dragValue ) * -0.05 ))
         }
     }
@@ -47,8 +55,8 @@ class Dial extends Component {
 
     render(){
 
-        let { label, value, min, max, step, style } = this.props,
-            stepperProps = { label, value, min, max }
+        let { label, value, min, max, step, style, onChange } = this.props,
+            stepperProps = { label, value, min, max, onChange }
 
 
         value = clamp( value, min, max )
@@ -72,7 +80,7 @@ class Dial extends Component {
         */
 
         return <div  style={[base, style]}>
-            <NumericStepper { ...stepperProps } />
+            <NumericStepper { ...stepperProps }/>
             <svg style={[svgStyle, {transform}]} width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
                 viewBox=' 0 0 100 100'
                 ref={ref => this.domRef = ref}

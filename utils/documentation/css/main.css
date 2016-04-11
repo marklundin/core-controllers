@@ -15,6 +15,10 @@ a,
     padding: 0.2em;
 }
 
+.ReactStyleguidist-Layout__components{
+    overflow: hidden;
+}
+
 .ReactStyleguidist-colors__link:hover {
     color:#04E2F1;
 }

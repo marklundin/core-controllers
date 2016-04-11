@@ -7,17 +7,18 @@ var pkg = require('../../package.json')
 
 module.exports = {
     title: 'Core Controllers',
+    //components: path.join( __dirname, '../../components/**/*.jsx' ),
     skipComponentsWithoutExample: true,
+    homepage: pkg.homepage,
+    version: pkg.version,
     styleguideDir: '../../documentation',
     template: path.join(__dirname, './template/index.html' ),
     sections: [
         {name: 'Core Controllers', content: './README.md' },
-        {name: 'Components', content: './components/README.md', components: path.join( __dirname, '../../components/**/*.jsx' ) }
+        {name: 'Components', content: './components/README.md', components: '../../components/**/*.jsx' }
     ],
     updateWebpackConfig: function( webpackConfig, env) {
-
-        console.log( "Building documentation..." )
-
+//, components: path.join( __dirname, '../../components/**/*.jsx' )
         webpackConfig.resolve.alias['rsg-components/Wrapper'] = path.join(__dirname, './js/wrapper')
         webpackConfig.entry.push(path.join(__dirname, 'css/main.css'));
         var dir = path.join(__dirname, '../../components');

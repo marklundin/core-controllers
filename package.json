@@ -4,6 +4,7 @@
   "description": "A component library set",
   "main": "lib/",
   "scripts": {
+    "build": "npm run docs",
     "docs-server": "styleguidist server --config utils/documentation/config.js",
     "docs": "styleguidist build --config utils/documentation/config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,7 +21,7 @@
     "css-loader": "^0.23.1",
     "install": "^0.6.1",
     "npm": "^3.8.2",
-    "react-styleguidist": "marklundin/react-styleguidist"
+    "react-styleguidist": "github:marklundin/react-styleguidist"
   },
   "dependencies": {
     "colr": "^1.2.2",
@@ -48,5 +49,5 @@
   "bugs": {
     "url": "https://github.com/marklundin/core-controllers/issues"
   },
-  "homepage": "https://github.com/marklundin/core-controllers#readme"
+  "homepage": "https://github.com/marklundin/core-controllers"
 }

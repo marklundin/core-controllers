@@ -14,6 +14,20 @@ let Checkbox = ({ value, label, onChange }) => {
 	</div>
 }
 
+// class Checkbox extends React.Component {
+//
+//
+// 	render(){
+//
+// 		let { value, label, onChange } = this.props
+//
+// 		return <div style={[base]}>
+// 			<label style={[base]} onClick={evt => onChange( !value )}>{ label }</label>
+// 			<input checked={ value } style={defaultStyle} type="checkbox" onChange={evt => onChange( evt.target.checked )} />
+// 		</div>
+// 	}
+// }
+
 Checkbox = radium( Checkbox )
 
 Checkbox.propTypes = {

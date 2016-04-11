@@ -20,19 +20,10 @@ class Dial extends Component {
 
         this.state = {drag:false}
 
-        let computeValueFromEvent = ( e, domRef ) => {
-
-            let { min, max } = this.props,
-                bounds = this.domRef.getBoundingClientRect(),
-                value = map( e.clientY, bounds.top, bounds.bottom, max, min )
-
-            return clamp( value, min, max )
-        }
 
         this.onMouseDown = e => {
 
-            this.props.onChange( computeValueFromEvent( e ))
-            this.setState({drag:true})
+            this.setState({drag:true, value: this.props.value, dragValue: e.clientY })
         }
 
         this.onMouseUp = e => {
@@ -41,8 +32,7 @@ class Dial extends Component {
         }
 
         this.onMouseMove = e => {
-            // console.log( this.domRef )
-            this.props.onChange( computeValueFromEvent( e ))
+            this.props.onChange( this.state.value + (( e.clientY - this.state.dragValue ) * -0.05 ))
         }
     }
 
@@ -61,9 +51,12 @@ class Dial extends Component {
 
     render(){
 
-        let { label, value, min, max, style } = this.props,
+        let { label, value, min, max, step, style } = this.props,
             stepperProps = { label, value, min, max }
 
+
+        value = clamp( value, min, max )
+        value = Math.round( value * ( 1 / step )) / ( 1 / step )
         value = normalize( value, min, max )
 
         let radius = 50,
@@ -71,9 +64,8 @@ class Dial extends Component {
             circumference = 2.0 * Math.PI * radius,
             a = [ circumference * value * range, circumference ].join(' '),
             b = [ circumference , circumference ].join(' '),
-            transform = String(( 1.0 - range ) * 360 - 90) + 'deg'
+            transform = 'rotate(' + String((( 1.0 - range ) * 0.5 ) * 360 + 90 ) + 'deg )'
 
-            console.log( transform )
 
         /*
             Using a styling trick with the stroke-dasharray property to create
@@ -85,11 +77,12 @@ class Dial extends Component {
 
         return <div  style={[base, style]}>
             <NumericStepper { ...stepperProps } />
-            <svg style={[svgStyle, {transform}]} width='100px' height='100px' xmlns="http://www.w3.org/2000/svg"
+            <svg style={[svgStyle, {transform}]} width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
+                viewBox=' 0 0 100 100'
                 ref={ref => this.domRef = ref}
                 onMouseDown={this.onMouseDown.bind( this )}>
             <circle r={radius} cx="50" cy="50" strokeDasharray={b} fill='transparent' stroke={secondary.color} strokeWidth={radius}></circle>
-            <circle r={radius} cx="50" cy="50" strokeDasharray={a} fill='transparent' stroke={highlight.color} strokeWidth={radius}/>
+            { value > 0 ? <circle r={radius} cx="50" cy="50" strokeDasharray={a} fill='transparent' stroke={highlight.color} strokeWidth={radius}/> : null }
             </svg>
         </div>
     }
@@ -150,7 +143,7 @@ Dial.defaultProps = {
     max: 10,
     step: 0.1,
     onChange: a=>a,
-    style:{width:'100%'}
+    style:{width:'100px', height:'auto'}
 
 }
 

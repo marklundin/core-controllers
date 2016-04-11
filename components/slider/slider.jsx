@@ -19,7 +19,26 @@ class Slider extends React.Component{
 
         super()
 
+
         this.state = {drag:false}
+
+
+        this.validate = value => {
+
+            let { onChange, min, max, step } = this.props
+
+            value = clamp( value, min, max )
+            value = Math.round( value * ( 1 / step )) / ( 1 / step )
+
+            return value
+        }
+
+
+        this.onNumericStepperChange = value => {
+            this.props.onChange( this.validate( value ))
+        }
+
+
         /*
             Compute the numerical value from a touch/mouse event
         */
@@ -83,20 +102,7 @@ class Slider extends React.Component{
     }
 
 
-    validate( value ){
 
-        let { onChange, min, max, step } = this.props
-
-        value = clamp( value, min, max )
-        value = Math.round( value * ( 1 / step )) / ( 1 / step )
-
-        return value
-    }
-
-
-    onNumericStepperChange( value){
-        this.props.onChange( this.validate( value ))
-    }
 
 
     render(){

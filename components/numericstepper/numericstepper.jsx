@@ -6,7 +6,7 @@ import { base, secondary, highlight } from '../styles'
 import shallowCompare from 'react-addons-shallow-compare'
 
 
-/*
+/**
     This component is an alternative way to control a number. It's generally used
     for unbounded numerical ranges, when a minimum or maximum isn't unneccesary,
     although you can optionally supply either.

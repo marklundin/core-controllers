@@ -3,6 +3,7 @@
 */
 
 var path = require('path');
+var pkg = require('../../package.json')
 
 module.exports = {
     title: 'Core Controllers',
@@ -36,7 +37,6 @@ module.exports = {
 
     getComponentPathLine: function(componentPath) {
         var name = path.basename(componentPath, '.jsx');
-        var dir = path.dirname(componentPath);
-        return 'import ' + name + ' from \'core-controllers/' + dir + '\''
+        return 'import ' + name + ' from \'' + pkg.name + '/components/' + name + '\''
     }
 }

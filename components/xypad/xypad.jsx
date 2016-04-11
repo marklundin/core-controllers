@@ -7,22 +7,14 @@ import { base, secondary } from '../styles'
 import shallowCompare from '../utils/shallowCompare'
 
 
-const defaultStyle = {
-    cursor: 'default',
-    stroke: base.color,
-    strokeWidth: 1
-}
+/**
 
-const crisp = {
-    shapeRendering:'crispEdges',
-}
+    This component provides a generic way of controlling 2d numerical quantities such as
+    vectors. It's a staple of traditional A/V style applications as a way to
+    play with multiple inputs via one interaction. Useful for positional values.
+    In this case the values signature is `{x:Number, y:Number}`.
 
-const circle = {
-    fill: base.color,
-    stroke:'none'
-}
-
-const componentLabels = {display:'inline'}
+*/
 
 class XYPad extends React.Component {
 
@@ -35,8 +27,8 @@ class XYPad extends React.Component {
             let bounds = this.domRef.getBoundingClientRect()
 
             return {
-                x: map( e.clientX, bounds.left, bounds.right, this.props.xmin, this.props.xmax ),
-                y: map( e.clientY, bounds.top, bounds.bottom, this.props.ymin, this.props.ymax )
+                x: map( e.clientX, bounds.left, bounds.right, this.props.min.x, this.props.max.x ),
+                y: map( e.clientY, bounds.top, bounds.bottom, this.props.min.y, this.props.max.y )
             }
         }
 
@@ -69,11 +61,15 @@ class XYPad extends React.Component {
 
     render(){
 
-        let { value, xmin, xmax, ymin, ymax, label, onChange, style } = this.props,
+        let { value, label, onChange, style } = this.props,
             { x, y } = value
 
-        let xVis = map( x, xmin, xmax, 0, 100 ) + '%',
-            yVis = map( y, ymin, ymax, 0, 100 ) + '%'
+        let min = { ...this.props.min, ...XYPad.min },
+            max = { ...this.props.max, ...XYPad.max }
+
+
+        let xVis = map( x, min.x, max.x, 0, 100 ) + '%',
+            yVis = map( y, min.y, max.y, 0, 100 ) + '%'
 
 
         return <div style={base}>
@@ -91,8 +87,8 @@ class XYPad extends React.Component {
                     <line x1={0} x2='100%' y1={yVis} y2={yVis} style={[defaultStyle, style, crisp]}/>
                     <circle r={3} cx={xVis} cy={yVis} style={circle} />
                 </svg>
-                <NumericStepper style={{ ...componentLabels, width:style.width }} min={xmin} max={xmax} value={x} onChange={ value => onChange({ x:value, y })} label={'X'}/>
-                <NumericStepper style={{ ...componentLabels, width:style.width }} min={ymin} max={ymax} value={y} onChange={ value => onChange({ y:value, x })} label={'Y'}/>
+                <NumericStepper style={{ ...componentLabels, width:style.width }} min={min.x} max={max.x} value={x} onChange={ value => onChange({ x:value, y })} label={'X'}/>
+                <NumericStepper style={{ ...componentLabels, width:style.width }} min={min.y} max={max.y} value={y} onChange={ value => onChange({ y:value, x })} label={'Y'}/>
             </div>
             <div style={{clear: 'both'}}></div>
         </div>
@@ -116,27 +112,16 @@ XYPad.propTypes = {
 
 
     /**
-     *  The minimum x constraint
+     *  The minimum bounding range
      */
-    xmin: PropTypes.number.isRequired,
+    min: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
 
 
     /**
-     *  The maximum x constraint
+     *  The maximum bounding range
      */
-    xmax: PropTypes.number.isRequired,
+    max: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
 
-
-    /**
-     *  The minimum y constraint
-     */
-    ymin: PropTypes.number.isRequired,
-
-
-    /**
-     *  The maximum y constraint
-     */
-    ymax: PropTypes.number.isRequired,
 
 
     /**
@@ -157,13 +142,30 @@ XYPad.defaultProps = {
 
 
     label: 'XYPad',
-
-
     style:{width:'100%', height:'auto'},
-
-
+    min: {x:0,y:0},
+    max: {x:100,y:100},
     onChange: a=>a
 
 }
+
+
+var defaultStyle = {
+    cursor: 'default',
+    stroke: base.color,
+    strokeWidth: 1
+}
+
+var crisp = {
+    shapeRendering:'crispEdges',
+}
+
+var circle = {
+    fill: base.color,
+    stroke:'none'
+}
+
+var componentLabels = {display:'inline'}
+
 
 export default XYPad

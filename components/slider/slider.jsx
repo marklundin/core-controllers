@@ -7,7 +7,7 @@ import throttle from 'lodash.throttle'
 import { base, secondary, highlight } from '../styles'
 
 
-/*
+/**
     A classic numerical slider, useful for representing numbers within a bounded
     range. It also contains a `NumericalStepper` for displaying the text value
     and entering values directly.

@@ -2,7 +2,12 @@ import React from 'react'
 import radium from 'radium'
 import { base, highlight, secondary } from '../styles'
 
+/**
 
+	A simple wrapper around a editable text field. It pretty much does what you'd
+	expect it to.
+
+*/
 
 let TextInput = ({ value, label, onChange, style }) => {
 

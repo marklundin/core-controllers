@@ -6,16 +6,16 @@ module.exports = React.createClass({
         return{ value: this.props.children.props.value }
     },
 
+    onComponentChange: function( n ){
+        this.setState({ value: n })
+    },
+
     render: function(){
 
         var setState = this.setState.bind( this )
-        var child = React.cloneElement( this.props.children, {
+        return React.cloneElement( this.props.children, {
             value: this.state.value,
-            onChange: function( n ){
-                setState({ value: n })
-            }})
-
-        return child
-
+            onChange: this.onComponentChange
+        })
     }
 })

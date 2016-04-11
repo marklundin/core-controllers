@@ -169,8 +169,8 @@ var defaultStyle = {
     cursor: 'default',
     stroke: 'none',
 
-    rx:'2',
-    ry:'2'
+    rx:2,
+    ry:2
 }
 
 var thumb = {

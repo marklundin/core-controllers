@@ -32,7 +32,7 @@ const rect ={
 // Calucalte HSV color stops
 let l = 0, i = 100/360, stops = []
 while( l++ < 360 ){
-    stops.push(<stop offset={String(i*l)+"%"} stopColor={"hsl( "+l+", 100%, 50% )"} />)
+    stops.push(<stop offset={String(i*l)+"%"} key={l} stopColor={"hsl( "+l+", 100%, 50% )"} />)
 }
 
 class HSVColorPicker extends React.Component {
@@ -60,7 +60,6 @@ class HSVColorPicker extends React.Component {
         }
 
         this.onMouseMove = e => {
-            // console.log( 'sdfs' )
             this.props.onChange( computeHsvFromMouseEvent( e ))
         }
 

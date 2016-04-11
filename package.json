@@ -23,7 +23,6 @@
     "css-loader": "^0.23.1",
     "install": "^0.6.1",
     "npm": "^3.8.2",
-    "react-dom": "^0.14.7",
     "react-styleguidist": "marklundin/react-styleguidist"
   },
   "dependencies": {
@@ -31,7 +30,8 @@
     "lodash.throttle": "^4.0.1",
     "math": "github:marklundin/math",
     "radium": "^0.16.6",
-    "react": "^0.14.7",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
     "react-icons": "^1.0.3"
   },
   "directories": {

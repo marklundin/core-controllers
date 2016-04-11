@@ -4,10 +4,8 @@
   "description": "A component library set",
   "main": "lib/",
   "scripts": {
-    "build": "babel components --source-maps --out-dir components",
     "docs-server": "styleguidist server --config utils/documentation/config.js",
     "docs": "styleguidist build --config utils/documentation/config.js",
-    "start": "budo index.js --live -- -t babelify ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mark Lundin",
@@ -19,7 +17,6 @@
     "babel-preset-stage-2": "^6.5.0",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
-    "budo": "^8.1.0",
     "css-loader": "^0.23.1",
     "install": "^0.6.1",
     "npm": "^3.8.2",

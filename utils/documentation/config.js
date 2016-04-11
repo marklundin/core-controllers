@@ -7,9 +7,8 @@ var pkg = require('../../package.json')
 
 module.exports = {
     title: 'Core Controllers',
-    //components: path.join( __dirname, '../../components/**/*.jsx' ),
     skipComponentsWithoutExample: true,
-    styleguideDir: 'documentation',
+    styleguideDir: '../../documentation',
     template: path.join(__dirname, './template/index.html' ),
     sections: [
         {name: 'Core Controllers', content: './README.md' },

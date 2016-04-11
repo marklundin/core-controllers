@@ -42,7 +42,7 @@ draw({
 })
 ```
 
-Both of these draw a slider:
+Both of these draw the following slider
 
 ```
 <Slider label={'aNumber'} value={10} />

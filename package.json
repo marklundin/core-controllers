@@ -33,6 +33,9 @@
     "react-dom": "^15.0.1",
     "react-icons": "^1.0.3"
   },
+  "browserify": {
+    "transform": ["babelify"]
+  },
   "directories": {
     "doc": "docs"
   },

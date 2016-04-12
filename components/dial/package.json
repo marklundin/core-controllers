@@ -1,4 +1,7 @@
 {
     "name": "dial",
-    "module": "./dial.jsx"
+    "module": "./dial.jsx",
+    "browserify": {
+        "transform": [ "babelify" ]
+    }
 }

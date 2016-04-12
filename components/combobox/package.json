@@ -1,4 +1,7 @@
 {
     "name": "combobox",
-    "main": "./combobox.jsx"
+    "main": "./combobox.jsx",
+    "browserify": {
+        "transform": [ "babelify" ]
+    }
 }

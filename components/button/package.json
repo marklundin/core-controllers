@@ -1,4 +1,7 @@
 {
     "name": "button",
-    "main": "./button.jsx"
+    "main": "./button.jsx",
+    "browserify": {
+        "transform": [ "babelify" ]
+    }
 }

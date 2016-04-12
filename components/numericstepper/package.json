@@ -1,4 +1,7 @@
 {
     "name": "numericstepper",
-    "main": "./numericstepper.jsx"
+    "main": "./numericstepper.jsx",
+    "browserify": {
+        "transform": [ "babelify" ]
+    }
 }

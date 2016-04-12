@@ -1,4 +1,7 @@
 {
     "name": "colorpicker",
-    "main": "./colorpicker.jsx"
+    "main": "./colorpicker.jsx",
+    "browserify": {
+        "transform": [ "babelify" ]
+    }
 }

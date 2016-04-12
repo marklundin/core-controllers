@@ -1,4 +1,7 @@
 {
   "name": "graph",
-  "main": "./graph.jsx"
+  "main": "./graph.jsx",
+  "browserify": {
+      "transform": [ "babelify" ]
+  }
 }

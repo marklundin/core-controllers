@@ -1,6 +1,6 @@
 {
   "name": "core-controllers",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A component library set",
   "main": "lib/",
   "scripts": {
@@ -32,9 +32,6 @@
     "react-addons-shallow-compare": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-icons": "^1.0.3"
-  },
-  "browserify": {
-    "transform": ["babelify"]
   },
   "directories": {
     "doc": "docs"

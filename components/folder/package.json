@@ -1,4 +1,7 @@
 {
     "name": "folder",
-    "module": "./folder.jsx"
+    "module": "./folder.jsx",
+    "browserify": {
+        "transform": [ "babelify" ]
+    }
 }

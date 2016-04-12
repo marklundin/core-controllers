@@ -1,4 +1,7 @@
 {
     "name": "xypad",
-    "main": "./xypad.jsx"
+    "main": "./xypad.jsx",
+    "browserify": {
+        "transform": [ "babelify" ]
+    }
 }

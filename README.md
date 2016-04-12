@@ -1,6 +1,6 @@
 # Components for creative coding
 
-[View on Github](https://github.com/marklundin/core-controllers), [Documentation](mark-lundin.com/core-controllers/documentation)
+[View on Github](https://github.com/marklundin/core-controllers), [Documentation](http://mark-lundin.com/core-controllers/documentation)
 
 This library contains of a selection of javascript controllers specifically
 designed for creative coding. It aims to create a common set of practical

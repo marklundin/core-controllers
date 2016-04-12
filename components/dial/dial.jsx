@@ -145,6 +145,7 @@ Dial.defaultProps = {
     label: 'Dial',
     min: 0,
     max: 10,
+    value: 5,
     step: 0.1,
     onChange: a=>a,
     style:{width:'100px', height:'auto'}

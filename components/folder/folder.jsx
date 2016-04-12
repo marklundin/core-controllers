@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import radium from 'radium'
 import { base } from '../styles'
-import { MdExpandMore, MdExpandLess } from 'react-icons/lib/md';
+import { MdChevronLeft, MdExpandMore } from 'react-icons/lib/md';
 
 /*
     The Folder is a container component that can be toggled opened and closed.
@@ -28,8 +28,8 @@ class Folder extends Component {
             { open } = this.state
 
         return <div style={base}>
-            <div onClick={this.toggleOpen}>{ label }{ open ? <MdExpandLess style={floatRight}/> : <MdExpandMore style={floatRight}/> }</div>
-            { open ? value() : null }
+            <div onClick={this.toggleOpen}>{ label }{ open ? <MdExpandMore style={floatRight}/> : <MdChevronLeft style={floatRight}/> }</div>
+            { open ? <div>{ value() }</div> : null }
         </div>
 
     }

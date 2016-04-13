@@ -1,6 +1,6 @@
 {
   "name": "core-controllers",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Components for creative coding",
   "scripts": {
     "build": "npm run docs",

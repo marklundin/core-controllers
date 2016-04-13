@@ -27,8 +27,10 @@ class XYPad extends React.Component {
 
 
         let computeXYfromMouseEvent = ( e, bounds ) => ({
-            x: map( e.clientX, bounds.left, bounds.right, this.props.min.x, this.props.max.x ),
-            y: map( e.clientY, bounds.top, bounds.bottom, this.props.min.y, this.props.max.y )
+            x: map( e.clientX === undefined ? e.touches[0].clientX : e.clientX,
+                bounds.left, bounds.right, this.props.min.x, this.props.max.x ),
+            y: map( e.clientY === undefined ? e.touches[0].clientY : e.clientY,
+                 bounds.top, bounds.bottom, this.props.min.y, this.props.max.y )
         })
 
 
@@ -55,6 +57,12 @@ class XYPad extends React.Component {
         this.onMouseMove = throttle( e => {
             if( this.state.drag ) this.props.onChange( computeXYfromMouseEvent( e, this.state.rect ))
         })
+
+
+        this.onTouchMove = e => {
+            e.preventDefault()
+            if( this.state.drag ) this.props.onChange( computeXYfromMouseEvent( e, this.state.rect ))
+        }
 
 
         this.onMouseUp = e => {
@@ -97,7 +105,11 @@ class XYPad extends React.Component {
                     ref={ref => this.domRef = ref}
                     onMouseDown={ this.onMouseDown}
                     onMouseMove={ this.state.drag ? this.onMouseMove : null }
-                    onMouseUp={ this.onMouseUp }>
+                    onMouseUp={ this.onMouseUp }
+
+                    onTouchStart={ this.onMouseDown }
+                    onTouchMove={ this.onTouchMove }
+                    onTouchEnd={ this.onMouseUp }>
 
                     <rect fill='none' stroke={secondary.color} strokeWidth='1' width='100%' height='100%' />
                     <line x1={xVis} x2={xVis} y1={0} y2='100%' style={[defaultStyle, style, crisp]}/>

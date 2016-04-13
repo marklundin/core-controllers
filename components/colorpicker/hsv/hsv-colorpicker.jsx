@@ -20,14 +20,22 @@ class HSVColorPicker extends React.Component {
         this.state = {drag:false, boundingRect: null };
 
 
-        let computeHsvFromMouseEvent = ( e, bounds ) => ({
-            h: this.props.value.h,
-            s: ( e.pageX - bounds.left ) / bounds.width * 100,
-            v: ( bounds.height - ( e.clientY - bounds.top )) / bounds.height * 100
-        })
+        let computeHsvFromMouseEvent = ( e, bounds ) => {
+
+            let x = e.clientX === undefined ? e.touches[0].clientX : e.clientX,
+                y = e.clientY === undefined ? e.touches[0].clientY : e.clientY
+
+            return {
+                h: this.props.value.h,
+                s: ( x - bounds.left ) / bounds.width * 100,
+                v: ( bounds.height - ( y - bounds.top )) / bounds.height * 100
+            }
+        }
 
 
         this.onMouseDown = e => {
+
+            e.preventDefault()
 
             /*
                 For performance reasons we pre calculate the bounding rect on
@@ -48,6 +56,7 @@ class HSVColorPicker extends React.Component {
 
 
         this.onMouseMove = throttle( e => {
+            e.preventDefault()
             if( this.state.drag ) this.props.onChange( computeHsvFromMouseEvent( e, this.state.boundingRect ))
         })
 
@@ -92,15 +101,21 @@ class HSVColorPicker extends React.Component {
 
     render(){
 
+
         let { label, onChange, value, style } = this.props,
             { h, s, v } = value
 
 
         return <div>
-            <div style={style}>
+            <div style={[base, style]}>
                 <svg width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
                     ref={ref => this.domRef = ref} style={defaultStyle}
-                    onMouseDown={this.onMouseDown} onMouseMove={this.state.drag ? this.onMouseMove : null} onMouseUp={this.onMouseUp} >
+                    onMouseDown={this.onMouseDown}
+                    onMouseMove={this.state.drag ? this.onMouseMove : null}
+                    onMouseUp={this.onMouseUp}
+                    onTouchStart={this.onMouseDown}
+                    onTouchMove={this.state.drag ? this.onMouseMove : null}
+                    onTouchEnd={this.onMouseUp}>
                     <defs>
                         <linearGradient id="horizontal-gradient">
                             <stop offset="0%" stopColor="white"/>
@@ -118,7 +133,7 @@ class HSVColorPicker extends React.Component {
                 </svg>
             </div>
             <Slider includeStepper={false} label={''} step={1} min={1} max={360} value={h} style={slider} onChange={this.onHueChange}/>
-            <div style={[ base, {marginLeft: '0.7em', marginRight: '0.7em'}]}>
+            <div style={[ base, stepperStyle ]}>
                 <NumericStepper key="h" style={componentLabels} step={1} min={1} max={360} value={Math.round(h)} onChange={this.onHueChange} label={'H'}/>
                 <NumericStepper key="s" style={componentLabels} step={1} min={1} max={100} value={Math.round(s)} onChange={this.onSaturationChange} label={'S'}/>
                 <NumericStepper key="v" style={componentLabels} step={1} min={1} max={100} value={Math.round(v)} onChange={this.onValueChange} label={'V'}/>
@@ -168,7 +183,13 @@ let defaultStyle = { cursor: 'default' }
 var slider = {
     backgroundBar:{ fill:'url(#hsv-gradient)'},
     bar: { fill : 'none' },
-    thumb: { fill : 'white' }
+    thumb: { fill : 'white' },
+    padding: '1em'
+}
+
+var stepperStyle = {
+    marginLeft: '0.3em',
+    marginRight: '0.3em'
 }
 
 var componentLabels = {display:'inline'}

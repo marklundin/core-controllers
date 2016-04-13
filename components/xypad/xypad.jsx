@@ -4,7 +4,6 @@ import { map } from 'math'
 import throttle from '../utils/throttle'
 import radium from 'radium'
 import { base, secondary } from '../styles'
-import shallowCompare from 'react-addons-shallow-compare'
 
 
 /**
@@ -62,19 +61,19 @@ class XYPad extends React.Component {
             this.setState({drag:false})
         }
 
-    }
 
+        this.onXChange = x => this.props.onChange({ ...this.props.value, x })
 
-    shouldComponentUpdate( nextProps, nextState ){
-
-        let { x, y } = this.props.value,
-            value = nextProps.value
-
-        return ( x !== value.x
-            || y !== value.y )
-            && shallowCompare( this, nextProps, this.state )
+        this.onYChange = y => this.props.onChange({ ...this.props.value, y })
 
     }
+
+    /*
+        We're deliberatley not performing any comparison here. This is because
+        the props passed in would have to be a copy of the original value, which
+        currently isn't the case
+    */
+    // shouldComponentUpdate( nextProps, nextState ){}
 
 
     render(){
@@ -100,13 +99,13 @@ class XYPad extends React.Component {
                     onMouseMove={ this.state.drag ? this.onMouseMove : null }
                     onMouseUp={ this.onMouseUp }>
 
-                    <rect fill='none' stroke={base.color} strokeWidth='1' width='100%' height='100%' />
+                    <rect fill='none' stroke={secondary.color} strokeWidth='1' width='100%' height='100%' />
                     <line x1={xVis} x2={xVis} y1={0} y2='100%' style={[defaultStyle, style, crisp]}/>
                     <line x1={0} x2='100%' y1={yVis} y2={yVis} style={[defaultStyle, style, crisp]}/>
                     <circle r={3} cx={xVis} cy={yVis} style={circle} />
                 </svg>
-                <NumericStepper style={{ ...componentLabels, width:style.width }} min={min.x} max={max.x} value={x} onChange={ value => onChange({ x:value, y })} label={'X'}/>
-                <NumericStepper style={{ ...componentLabels, width:style.width }} min={min.y} max={max.y} value={y} onChange={ value => onChange({ y:value, x })} label={'Y'}/>
+                <NumericStepper style={{ ...componentLabels, width:style.width }} min={min.x} max={max.x} value={x} onChange={ this.onXChange } label={'X'}/>
+                <NumericStepper style={{ ...componentLabels, width:style.width }} min={min.y} max={max.y} value={y} onChange={ this.onYChange } label={'Y'}/>
             </div>
             <div style={{clear: 'both'}}></div>
         </div>
@@ -160,7 +159,7 @@ XYPad.defaultProps = {
 
 
     label: 'XYPad',
-    style:{width:'100%', height:'auto'},
+    style:{width:'100%', height:150},
     min: {x:0,y:0},
     max: {x:100,y:100},
     onChange: a=>a
@@ -170,7 +169,7 @@ XYPad.defaultProps = {
 
 var defaultStyle = {
     cursor: 'default',
-    stroke: base.color,
+    stroke: secondary.color,
     strokeWidth: 1
 }
 
@@ -179,7 +178,7 @@ var crisp = {
 }
 
 var circle = {
-    fill: base.color,
+    fill: secondary.color,
     stroke:'none'
 }
 

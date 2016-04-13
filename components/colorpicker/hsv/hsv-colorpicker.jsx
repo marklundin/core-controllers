@@ -118,9 +118,11 @@ class HSVColorPicker extends React.Component {
                 </svg>
             </div>
             <Slider includeStepper={false} label={''} step={1} min={1} max={360} value={h} style={slider} onChange={this.onHueChange}/>
-            <NumericStepper key="h" style={componentLabels} step={1} min={1} max={360} value={Math.round(h)} onChange={this.onHueChange} label={'H'}/>
-            <NumericStepper key="s" style={componentLabels} step={1} min={1} max={100} value={Math.round(s)} onChange={this.onSaturationChange} label={'S'}/>
-            <NumericStepper key="v" style={componentLabels} step={1} min={1} max={100} value={Math.round(v)} onChange={this.onValueChange} label={'V'}/>
+            <div style={[ base, {marginLeft: '0.7em', marginRight: '0.7em'}]}>
+                <NumericStepper key="h" style={componentLabels} step={1} min={1} max={360} value={Math.round(h)} onChange={this.onHueChange} label={'H'}/>
+                <NumericStepper key="s" style={componentLabels} step={1} min={1} max={100} value={Math.round(s)} onChange={this.onSaturationChange} label={'S'}/>
+                <NumericStepper key="v" style={componentLabels} step={1} min={1} max={100} value={Math.round(v)} onChange={this.onValueChange} label={'V'}/>
+            </div>
         </div>
 
     }

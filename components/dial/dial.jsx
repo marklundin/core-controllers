@@ -24,7 +24,8 @@ class Dial extends Component {
         this.state = {drag:false}
 
         this.onMouseDown = e => {
-            this.setState({drag:true, value: this.props.value, dragValue: e.clientY })
+            e.preventDefault()
+            this.setState({drag:true, value: this.props.value, dragValue: e.clientY == undefined ? e.touches[0].clientY : e.clientY })
         }
 
         this.onMouseUp = e => {
@@ -32,7 +33,9 @@ class Dial extends Component {
         }
 
         this.onMouseMove = throttle( e => {
-            this.props.onChange( this.state.value + (( e.clientY - this.state.dragValue ) * -0.1 ))
+            e.preventDefault()
+            let y = e.clientY == undefined ? e.touches[0].clientY : e.clientY
+            this.props.onChange( this.state.value + (( y- this.state.dragValue ) * -0.1 ))
         })
     }
 
@@ -46,9 +49,13 @@ class Dial extends Component {
         if (this.state.drag && !state.drag) {
           document.addEventListener('mousemove', this.onMouseMove)
           document.addEventListener('mouseup', this.onMouseUp)
+          document.addEventListener('touchmove', this.onMouseMove)
+          document.addEventListener('touchend', this.onMouseUp)
         } else if (!this.state.drag && state.drag) {
           document.removeEventListener('mousemove', this.onMouseMove)
           document.removeEventListener('mouseup', this.onMouseUp)
+          document.removeEventListener('touchmove', this.onMouseMove)
+          document.removeEventListener('touchend', this.onMouseUp)
         }
     }
 
@@ -83,9 +90,9 @@ class Dial extends Component {
         return <div  style={[base, style, { height:'auto'}]}>
             <NumericStepper { ...stepperProps }/>
             <svg style={[svgStyle, {transform}]} width={style.width} height={style.width} xmlns="http://www.w3.org/2000/svg"
-
                 ref={ref => this.domRef = ref}
-                onMouseDown={this.onMouseDown}>
+                onMouseDown={this.onMouseDown}
+                onTouchStart={this.onMouseDown}>
             <circle r={radius} cx={radius} cy={radius} strokeDasharray={b} fill='transparent' stroke={secondary.color} strokeWidth={radius}></circle>
             { value > 0 ? <circle r={radius} cx={radius} cy={radius} strokeDasharray={a} fill='transparent' stroke={highlight.color} strokeWidth={radius}/> : null }
             </svg>

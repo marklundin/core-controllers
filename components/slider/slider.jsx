@@ -44,7 +44,7 @@ class Slider extends React.Component{
         */
 
         let computeValuefromMouseEvent = ( e, bounds ) =>
-            map( e.clientX, bounds.left, bounds.right, this.props.min, this.props.max )
+            map( e.clientX === undefined ? e.touches[0].clientX : e.clientX, bounds.left, bounds.right, this.props.min, this.props.max )
 
 
 
@@ -54,9 +54,11 @@ class Slider extends React.Component{
 
         this.onMouseDown = e => {
 
+            e.preventDefault()
+
             let { value, min, max, step, onChange } = this.props,
                 validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
-                
+
 
             /*
                 For performance reasons we pre calculate the bounding rect on
@@ -89,6 +91,17 @@ class Slider extends React.Component{
         })
 
 
+        this.onTouchMove = throttle( e => {
+
+            e.preventDefault()
+
+            let { value, min, max, step, onChange } = this.props,
+                validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
+
+            onChange( validate( computeValuefromMouseEvent( e, this.state.rect )))
+        })
+
+
         /*
             changes the dragging state
         */
@@ -108,9 +121,13 @@ class Slider extends React.Component{
         if (this.state.drag && !state.drag) {
           document.addEventListener('mousemove', this.onMouseMove)
           document.addEventListener('mouseup', this.onMouseUp)
+          document.addEventListener('touchmove', this.onTouchMove)
+          document.addEventListener('touchend', this.onMouseUp)
         } else if (!this.state.drag && state.drag) {
           document.removeEventListener('mousemove', this.onMouseMove)
           document.removeEventListener('mouseup', this.onMouseUp)
+          document.removeEventListener('touchmove', this.onTouchMove)
+          document.removeEventListener('touchend', this.onMouseUp)
         }
     }
 
@@ -129,6 +146,7 @@ class Slider extends React.Component{
             <svg width='100%' height="0.9em" xmlns="http://www.w3.org/2000/svg"
                 style={ defaultStyle }
                 onMouseDown={this.onMouseDown}
+                onTouchStart={this.onMouseDown}
                 ref={ref => this.domRef = ref}>
                 <rect width='100%' height="100%" style={[ defaultStyle, backgroundBar, style.backgroundBar ]}/>
                 <rect width='100%' height="100%" style={[ defaultStyle, bar, style.bar ]} width={ offsetPercentage }/>

@@ -80,7 +80,7 @@ class ColorPicker extends Component {
                     <HSVColorPicker style={ style } value={ hsvColor } onChange={ this.onColorChange } />
                     <Palette key={'user-palette'} values={ palette.map( getConverterForColorType( palette[0] )) } onSelect={ this.onColorChange } />
                     <Palette key={'system-palette'} values={ colors } onSelect={ this.onColorChange } onDeselect={ this.onRemoveColorClick.bind( this ) } />
-                    <span style={[ base, { ':hover': secondary }]}><FaAdd onClick={ e => this.onAddColorClick( toHsv( value )) }/></span>
+                    <span style={[ base, { ':hover': secondary, marginLeft: '0.7em', marginRight: '0.7em', }]}><FaAdd onClick={ e => this.onAddColorClick( toHsv( value )) }/></span>
                 </div>
             : null }
         </div>

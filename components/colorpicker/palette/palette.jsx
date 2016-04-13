@@ -3,6 +3,7 @@ import radium from 'radium'
 import Colr from 'colr'
 import { PropTypes } from 'react'
 import Button from '../../button'
+import { base } from '../../styles'
 
 /**
  * The ColorButton is simply a coloured button used as
@@ -17,6 +18,8 @@ let ColorButton = props => {
     let style = {
         backgroundColor: color,
         width: '1em', height: '1em',
+        marginLeft: '0.7em',
+        marginRight: '0.7em',
         padding: '0.7em',
         display: 'inline-block',
         ':hover':{
@@ -24,11 +27,10 @@ let ColorButton = props => {
         }
     }
 
-    return <Button style={style} {...props} />
+    return <Button {...props} style={style} />
 
 }
 
-ColorButton = radium( ColorButton )
 
 class Palette extends React.Component {
 
@@ -89,6 +91,10 @@ Palette.propTypes = {
      * Optional component styling
      */
     style: React.PropTypes.object
+}
+
+var style = {
+    margin: '1em'
 }
 
 export default Palette

@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react'
 import NumericStepper from '../numericstepper'
 import { map } from 'math'
-import throttle from 'lodash.throttle'
+import throttle from '../utils/throttle'
 import radium from 'radium'
 import { base, secondary } from '../styles'
-import shallowCompare from '../utils/shallowCompare'
+import shallowCompare from 'react-addons-shallow-compare'
 
 
 /**
@@ -19,31 +19,49 @@ import shallowCompare from '../utils/shallowCompare'
 class XYPad extends React.Component {
 
     constructor(){
+
+
         super()
+
 
         this.state = {drag:false}
 
-        this.computeXYfromMouseEvent = e => {
-            let bounds = this.domRef.getBoundingClientRect()
 
-            return {
-                x: map( e.clientX, bounds.left, bounds.right, this.props.min.x, this.props.max.x ),
-                y: map( e.clientY, bounds.top, bounds.bottom, this.props.min.y, this.props.max.y )
-            }
+        let computeXYfromMouseEvent = ( e, bounds ) => ({
+            x: map( e.clientX, bounds.left, bounds.right, this.props.min.x, this.props.max.x ),
+            y: map( e.clientY, bounds.top, bounds.bottom, this.props.min.y, this.props.max.y )
+        })
+
+
+        this.onMouseDown = e => {
+
+            /*
+                For performance reasons we pre calculate the bounding rect on
+                mouse down, this means we don't need to do this on every mouse move
+                event and therefore we avoid any layout thrashing.
+
+                The caveat is that any sizing changes that occur between mousedown
+                will cause mean the cached boundingRect is invalid and causes incorrect
+                results. However because of performance gains, this is acceptable
+                behaviour as changes to size are expected to be rare enough
+            */
+            var rect = this.domRef.getBoundingClientRect()
+
+            this.setState({drag:true, rect })
+            this.props.onChange( computeXYfromMouseEvent( e, rect ))
+
         }
 
-        this.onMouseDown = throttle( e => {
-            this.setState({drag:true})
-            this.props.onChange( this.computeXYfromMouseEvent( e ))
-        }, 1000/60 )
 
-        this.onMouseMove = e => {
-            if( this.state.drag ) this.props.onChange( this.computeXYfromMouseEvent( e ))
-        }
+        this.onMouseMove = throttle( e => {
+            if( this.state.drag ) this.props.onChange( computeXYfromMouseEvent( e, this.state.rect ))
+        })
+
 
         this.onMouseUp = e => {
             this.setState({drag:false})
         }
+
     }
 
 

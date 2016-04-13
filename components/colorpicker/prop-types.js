@@ -1,19 +1,19 @@
 import { PropTypes } from 'react'
 
-export const rgb = React.PropTypes.shape({
-    r: React.PropTypes.number.isRequired,
-    g: React.PropTypes.number.isRequired,
-    b: React.PropTypes.number.isRequired
+export const rgb = PropTypes.shape({
+    r: PropTypes.number.isRequired,
+    g: PropTypes.number.isRequired,
+    b: PropTypes.number.isRequired
 }).isRequired
 
-export const hsl = React.PropTypes.shape({
-    h: React.PropTypes.number.isRequired,
-    s: React.PropTypes.number.isRequired,
-    l: React.PropTypes.number.isRequired
+export const hsl = PropTypes.shape({
+    h: PropTypes.number.isRequired,
+    s: PropTypes.number.isRequired,
+    l: PropTypes.number.isRequired
 }).isRequired
 
-export const hsv = React.PropTypes.shape({
-    h: React.PropTypes.number.isRequired,
-    s: React.PropTypes.number.isRequired,
-    v: React.PropTypes.number.isRequired
+export const hsv = PropTypes.shape({
+    h: PropTypes.number.isRequired,
+    s: PropTypes.number.isRequired,
+    v: PropTypes.number.isRequired
 }).isRequired

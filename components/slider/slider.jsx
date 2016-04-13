@@ -3,7 +3,7 @@ import NumericStepper from '../numericstepper'
 import shallowCompare from 'react-addons-shallow-compare'
 import { map, clamp } from 'math'
 import radium from 'radium'
-import throttle from 'lodash.throttle'
+import throttle from '../utils/throttle'
 import { base, secondary, highlight } from '../styles'
 
 
@@ -20,7 +20,7 @@ class Slider extends React.Component{
         super()
 
 
-        this.state = {drag:false}
+        this.state = {drag:false, rect:null}
 
 
         this.validate = value => {
@@ -43,10 +43,9 @@ class Slider extends React.Component{
             Compute the numerical value from a touch/mouse event
         */
 
-        this.computeValuefromMouseEvent = e => {
-            let bounds = this.domRef.getBoundingClientRect()
-            return map( e.clientX, bounds.left, bounds.right, this.props.min, this.props.max )
-        }
+        let computeValuefromMouseEvent = ( e, bounds ) =>
+            map( e.clientX, bounds.left, bounds.right, this.props.min, this.props.max )
+
 
 
         /*
@@ -57,23 +56,37 @@ class Slider extends React.Component{
 
             let { value, min, max, step, onChange } = this.props,
                 validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
+                
 
-            this.setState({drag:true})
-            onChange( validate( this.computeValuefromMouseEvent( e )))
+            /*
+                For performance reasons we pre calculate the bounding rect on
+                mouse down, this means we don't need to do this on every mouse move
+                event and therefore we avoid any layout thrashing.
+
+                The caveat is that any sizing changes that occur between mousedown
+                will cause mean the cached boundingRect is invalid and causes incorrect
+                results. However because of performance gains, this is acceptable
+                behaviour as changes to size are expected to be rare enough
+            */
+            var rect = this.domRef.getBoundingClientRect()
+
+
+            this.setState({drag:true, rect })
+            onChange( validate( computeValuefromMouseEvent( e, rect )))
         }
+
 
 
         /*
             On mouse/touch move, trigger an onChange event
-            TODO This needs to be debounced
         */
 
-        this.onMouseMove = e => {
+        this.onMouseMove = throttle( e => {
             let { value, min, max, step, onChange } = this.props,
                 validate = v => Math.round( clamp( v, min, max ) * ( 1 / step )) / ( 1 / step )
 
-            onChange( validate( this.computeValuefromMouseEvent( e )))
-        }
+            onChange( validate( computeValuefromMouseEvent( e, this.state.rect )))
+        })
 
 
         /*
@@ -103,14 +116,10 @@ class Slider extends React.Component{
 
 
 
-
-
     render(){
 
         let { value, label, min, max, step, onChange, includeStepper, style } = this.props,
             stepperProps = { value, label, min, max, step, onChange }
-
-
 
         let offsetPercentage = map( clamp( value, min, max ), min, max, 0, 100 ) + '%'
         value = this.validate( value )

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import radium from 'radium'
 import NumericStepper from '../numericstepper'
+import throttle from '../utils/throttle'
 import shallowCompare from 'react-addons-shallow-compare'
 import { base, highlight, secondary} from '../styles'
 import { normalize, map, clamp } from 'math'
@@ -30,9 +31,9 @@ class Dial extends Component {
             this.setState({drag:false})
         }
 
-        this.onMouseMove = e => {
-            this.props.onChange( this.state.value + (( e.clientY - this.state.dragValue ) * -0.05 ))
-        }
+        this.onMouseMove = throttle( e => {
+            this.props.onChange( this.state.value + (( e.clientY - this.state.dragValue ) * -0.1 ))
+        })
     }
 
 
@@ -63,7 +64,7 @@ class Dial extends Component {
         value = Math.round( value * ( 1 / step )) / ( 1 / step )
         value = normalize( value, min, max )
 
-        let radius = 50,
+        let radius = style.width * 0.5,
             range = 0.8,
             circumference = 2.0 * Math.PI * radius,
             a = [ circumference * value * range, circumference ].join(' '),
@@ -79,14 +80,14 @@ class Dial extends Component {
             for future reference
         */
 
-        return <div  style={[base, style]}>
+        return <div  style={[base, style, { height:'auto'}]}>
             <NumericStepper { ...stepperProps }/>
-            <svg style={[svgStyle, {transform}]} width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
-                viewBox=' 0 0 100 100'
+            <svg style={[svgStyle, {transform}]} width={style.width} height={style.width} xmlns="http://www.w3.org/2000/svg"
+
                 ref={ref => this.domRef = ref}
                 onMouseDown={this.onMouseDown}>
-            <circle r={radius} cx="50" cy="50" strokeDasharray={b} fill='transparent' stroke={secondary.color} strokeWidth={radius}></circle>
-            { value > 0 ? <circle r={radius} cx="50" cy="50" strokeDasharray={a} fill='transparent' stroke={highlight.color} strokeWidth={radius}/> : null }
+            <circle r={radius} cx={radius} cy={radius} strokeDasharray={b} fill='transparent' stroke={secondary.color} strokeWidth={radius}></circle>
+            { value > 0 ? <circle r={radius} cx={radius} cy={radius} strokeDasharray={a} fill='transparent' stroke={highlight.color} strokeWidth={radius}/> : null }
             </svg>
         </div>
     }
@@ -148,7 +149,7 @@ Dial.defaultProps = {
     value: 5,
     step: 0.1,
     onChange: a=>a,
-    style:{width:'100px', height:'auto'}
+    style:{width:100, display:'inline-block'}
 
 }
 

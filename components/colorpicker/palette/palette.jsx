@@ -18,8 +18,9 @@ let ColorButton = props => {
     let style = {
         backgroundColor: color,
         width: '1em', height: '1em',
-        marginLeft: '0.7em',
-        marginRight: '0.7em',
+        marginLeft: '0.3em',
+        marginBottom: '0.5em',
+        marginRight: '0.3em',
         padding: '0.7em',
         display: 'inline-block',
         ':hover':{
@@ -94,7 +95,7 @@ Palette.propTypes = {
 }
 
 var style = {
-    margin: '1em'
+    margin: '0.5em'
 }
 
 export default Palette

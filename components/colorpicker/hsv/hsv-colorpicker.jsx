@@ -107,7 +107,7 @@ class HSVColorPicker extends React.Component {
 
 
         return <div>
-            <div style={style}>
+            <div style={[base, style]}>
                 <svg width='100%' height='100%' xmlns="http://www.w3.org/2000/svg"
                     ref={ref => this.domRef = ref} style={defaultStyle}
                     onMouseDown={this.onMouseDown}
@@ -115,7 +115,7 @@ class HSVColorPicker extends React.Component {
                     onMouseUp={this.onMouseUp}
                     onTouchStart={this.onMouseDown}
                     onTouchMove={this.state.drag ? this.onMouseMove : null}
-                    onTouchEnd={this.onMouseUp} >
+                    onTouchEnd={this.onMouseUp}>
                     <defs>
                         <linearGradient id="horizontal-gradient">
                             <stop offset="0%" stopColor="white"/>
@@ -133,7 +133,7 @@ class HSVColorPicker extends React.Component {
                 </svg>
             </div>
             <Slider includeStepper={false} label={''} step={1} min={1} max={360} value={h} style={slider} onChange={this.onHueChange}/>
-            <div style={[ base, {marginLeft: '0.7em', marginRight: '0.7em'}]}>
+            <div style={[ base, stepperStyle ]}>
                 <NumericStepper key="h" style={componentLabels} step={1} min={1} max={360} value={Math.round(h)} onChange={this.onHueChange} label={'H'}/>
                 <NumericStepper key="s" style={componentLabels} step={1} min={1} max={100} value={Math.round(s)} onChange={this.onSaturationChange} label={'S'}/>
                 <NumericStepper key="v" style={componentLabels} step={1} min={1} max={100} value={Math.round(v)} onChange={this.onValueChange} label={'V'}/>
@@ -183,7 +183,13 @@ let defaultStyle = { cursor: 'default' }
 var slider = {
     backgroundBar:{ fill:'url(#hsv-gradient)'},
     bar: { fill : 'none' },
-    thumb: { fill : 'white' }
+    thumb: { fill : 'white' },
+    padding: '1em'
+}
+
+var stepperStyle = {
+    marginLeft: '0.3em',
+    marginRight: '0.3em'
 }
 
 var componentLabels = {display:'inline'}

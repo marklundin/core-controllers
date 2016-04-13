@@ -1,4 +1,4 @@
-# Components for creative coding
+# A set of components for creative coding
 
 [View on Github](https://github.com/marklundin/core-controllers), [Documentation](http://mark-lundin.com/core-controllers/documentation)
 

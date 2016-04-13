@@ -1,8 +1,7 @@
 {
   "name": "core-controllers",
   "version": "0.0.3",
-  "description": "A component library set",
-  "main": "lib/",
+  "description": "Components for creative coding",
   "scripts": {
     "build": "npm run docs",
     "docs-server": "styleguidist server --config utils/documentation/config.js",
@@ -19,29 +18,28 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "css-loader": "^0.23.1",
-    "install": "^0.6.1",
-    "npm": "^3.8.2",
     "react-styleguidist": "github:marklundin/react-styleguidist"
   },
   "dependencies": {
     "colr": "^1.2.2",
     "lodash.throttle": "^4.0.1",
     "math": "github:marklundin/math",
-    "radium": "^0.16.6",
+    "radium": "^0.17.1",
     "react": "^15.0.1",
     "react-addons-shallow-compare": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-icons": "^1.0.3"
   },
-  "directories": {
-    "doc": "docs"
-  },
+  "files": [
+    "./components"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marklundin/core-controllers.git"
   },
   "keywords": [
     "ui",
+    "gui",
     "controller",
     "components",
     "react"

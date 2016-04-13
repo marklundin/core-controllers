@@ -53,13 +53,9 @@ class ColorPicker extends Component {
 
 
     onRemoveColorClick( color, index ){
-        console.log( this )
         this.state.colors.splice( index, 1 )
         this.setState({ colors: this.state.colors })
     }
-
-
-
 
 
     render(){

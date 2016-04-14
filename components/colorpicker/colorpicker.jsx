@@ -8,7 +8,6 @@ import Button from '../button'
 import { base, secondary, highlight } from '../styles'
 import shallowCompare from 'react-addons-shallow-compare'
 import getConverterForColorType from './color-converter'
-import saveState from '../utils/local-storage-hoc'
 import { rgb, hsv, hsl } from './prop-types'
 
 
@@ -37,6 +36,10 @@ class ColorPicker extends Component {
         super()
         this.state = {colors:[]}
 
+
+        this.getSystemColors = _ => JSON.parse( localStorage.getItem( 'dui.colorpicker' )) || []
+        this.setSystemColors = colors => localStorage.setItem( 'dui.colorpicker', JSON.stringify( colors ))
+
         this.onColorChange = hsv => {
 
             let color = getConverterForColorType( this.props.value ).invert( hsv )
@@ -46,10 +49,8 @@ class ColorPicker extends Component {
 
 
     onAddColorClick( color ){
-        // this.setState({
-        //     colors: this.state.colors.slice().concat([ color ])
-        // })
-        let colors = JSON.parse( localStorage.getItem( 'dui.colorpicker' )) || []
+
+        let colors = this.getSystemColors()
         colors.push( color )
         localStorage.setItem( 'dui.colorpicker', JSON.stringify( colors ))
     }
@@ -58,11 +59,10 @@ class ColorPicker extends Component {
     onRemoveColorClick( color, index ){
 
 
-        let colors = JSON.parse( localStorage.getItem( 'dui.colorpicker' ))
+        let colors = this.getSystemColors()
         colors.splice( index, 1 )
-        localStorage.setItem( 'dui.colorpicker', JSON.stringify( colors ))
+        this.setSystemColors( colors )
 
-        // this.setState({ colors: this.state.colors })
     }
 
 

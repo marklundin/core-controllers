@@ -49,6 +49,9 @@ class ColorPicker extends Component {
         // this.setState({
         //     colors: this.state.colors.slice().concat([ color ])
         // })
+        let colors = JSON.parse( localStorage.getItem( 'dui.colorpicker' ))
+        colors.push( color )
+        localStorage.setItem( 'dui.colorpicker', JSON.stringify( colors ))
     }
 
 

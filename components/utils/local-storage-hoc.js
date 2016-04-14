@@ -40,7 +40,7 @@ let WrapWithLocalStorate = Component => {
     let name = Component.displayName || Component.constructor.displayName || Component.constructor.name
 
     let getSavedState  = _ => JSON.parse( localStorage.getItem( name ))
-    let componentState = _ => JgetSavedState() || {}
+    let componentState = _ => getSavedState() || {}
 
     class LocalStorageComponent extends Component {
 

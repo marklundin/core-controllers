@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import radium from 'radium'
 import { base } from '../styles'
-import { MdChevronLeft, MdExpandMore } from 'react-icons/lib/md';
+import MdChevronLeft from 'react-icons/lib/md/chevron-left'
+import MdExpandMore from 'react-icons/lib/md/expand-more'
 
 /*
     The Folder is a container component that can be toggled opened and closed.

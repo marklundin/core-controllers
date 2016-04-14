@@ -46,15 +46,20 @@ class ColorPicker extends Component {
 
 
     onAddColorClick( color ){
-        this.setState({
-            colors: this.state.colors.slice().concat([ color ])
-        })
+        // this.setState({
+        //     colors: this.state.colors.slice().concat([ color ])
+        // })
     }
 
 
     onRemoveColorClick( color, index ){
-        this.state.colors.splice( index, 1 )
-        this.setState({ colors: this.state.colors })
+
+
+        let colors = JSON.parse( localStorage.getItem( 'dui.colorpicker' ))
+        colors.splice( index, 1 )
+        localStorage.setItem( 'dui.colorpicker', JSON.stringify( colors ))
+
+        // this.setState({ colors: this.state.colors })
     }
 
 
@@ -75,7 +80,7 @@ class ColorPicker extends Component {
                 <div>
                     <HSVColorPicker style={ style } value={ hsvColor } onChange={ this.onColorChange } />
                     <Palette key={'user-palette'} values={ palette.map( getConverterForColorType( palette[0] )) } onSelect={ this.onColorChange } />
-                    <Palette key={'system-palette'} values={ colors } onSelect={ this.onColorChange } onDeselect={ this.onRemoveColorClick.bind( this ) } />
+                    <Palette key={'system-palette'} values={ JSON.parse( localStorage.getItem( 'dui.colorpicker' )) } onSelect={ this.onColorChange } onDeselect={ this.onRemoveColorClick.bind( this ) } />
                     <span style={[ base, addButton ]}><FaAdd onClick={ e => this.onAddColorClick( toHsv( value )) }/></span>
                 </div>
             : null }
@@ -85,7 +90,7 @@ class ColorPicker extends Component {
 
 ColorPicker.displayName = 'ColorPicker'
 
-ColorPicker = saveState( ColorPicker )
+// ColorPicker = saveState( ColorPicker )
 ColorPicker = radium( ColorPicker )
 
 

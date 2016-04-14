@@ -101,7 +101,7 @@ ColorPicker.propTypes = {
     /**
      *  An color object
      */
-    //value: PropTypes.oneOf([rgb, hsv, hsl]),
+    value: PropTypes.oneOfType([rgb, hsv, hsl]),
 
 
     /**

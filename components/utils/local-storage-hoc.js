@@ -1,4 +1,4 @@
-
+import merge from 'lodash.merge'
 
 /*
     A higher order function that wraps a component with functionality
@@ -40,15 +40,16 @@ let WrapWithLocalStorate = Component => {
     let name = Component.displayName || Component.constructor.displayName || Component.constructor.name
 
     let getSavedState  = _ => JSON.parse( localStorage.getItem( name ))
+    let componentState = _ => JgetSavedState() || {}
 
     class LocalStorageComponent extends Component {
 
         componentWillMount(){
-            this.setState( getSavedState() )
+            this.setState( componentState )
         }
 
         componentWillUpdate( nextProps, nextState ){
-            localStorage.setItem( name, JSON.stringify( nextState ))
+            localStorage.setItem( name, JSON.stringify( merge( getSavedState(), nextState )))
         }
 
     }

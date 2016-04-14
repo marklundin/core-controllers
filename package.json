@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "colr": "^1.2.2",
+    "deepmerge": "^0.2.10",
     "lodash.throttle": "^4.0.1",
     "math": "github:marklundin/math",
     "radium": "^0.17.1",
@@ -30,7 +31,9 @@
     "react-dom": "^15.0.1",
     "react-icons": "^1.0.3"
   },
-  "files": ["components" ],
+  "files": [
+    "components"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marklundin/core-controllers.git"

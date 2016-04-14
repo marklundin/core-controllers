@@ -1,4 +1,4 @@
-import merge from 'lodash.merge'
+import merge from 'deepmerge'
 
 /*
     A higher order function that wraps a component with functionality

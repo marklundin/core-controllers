@@ -49,7 +49,7 @@ let WrapWithLocalStorate = Component => {
         }
 
         componentWillUpdate( nextProps, nextState ){
-            localStorage.setItem( name, JSON.stringify({ ...getSavedState(), nextState }))
+            localStorage.setItem( name, JSON.stringify({ ...getSavedState(), ...nextState }))
         }
 
     }

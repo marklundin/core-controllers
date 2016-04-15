@@ -11,12 +11,12 @@ of these are designed to help you visualize and control aspects of your
 programs in a more intelligible way.
 
 The components are built in [react](https://github.com/facebook/react), built
-specifically for the [DUI](TBC) project, a library for quickly instrumenting
+specifically for the [Oui](https://github.com/marklundin/oui) project, a library for quickly instrumenting
 A/V applications.
 
 ## Getting started
 
-`npm install core-controllers`
+`npm install core-controllers @marklundin/oui`
 
 ### Using React
 
@@ -30,13 +30,13 @@ import React from 'react-dom'
 React.render( <Slider label={'aNumber'} value={7} />, myElement )
 ```
 
-### Using DUI
+### Using Oui
 
-Alternatively, you can use [DUI](TBC), a rapid prototyping library which allows
-you to declaratively define user interfaces using plain old javascript objects.
+Alternatively, you can use [Oui](https://github.com/marklundin/oui), a rapid prototyping
+library which allows you to declare your interface using plain old js objects.
 
 ```javascript
-import { draw } from dui
+import { draw } from oui
 
 draw({
     aNumber: 7

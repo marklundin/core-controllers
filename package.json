@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "description": "Components for creative coding",
   "scripts": {
-    "build": "npm run docs",
-    "docs-server": "styleguidist server --config utils/documentation/config.js",
-    "docs": "styleguidist build --config utils/documentation/config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "NODE_ENV=production npm run docs",
+    "start": "styleguidist server --config utils/documentation/config.js",
+    "docs": "styleguidist build --config utils/documentation/config.js"
   },
   "author": "Mark Lundin",
   "license": "MIT",

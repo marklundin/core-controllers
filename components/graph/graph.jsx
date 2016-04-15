@@ -72,13 +72,16 @@ let Graph = ({ value, label, style, min, max, fill }) => {
     }
 
 
+    /*
+        If our domain is degenerate, then don't bother rendering the polyline
+    */
 
     return <div style={[base]}>
         { label }
         <div style={[style]}>
             <svg style={[base]} width='100%' height='100%' xmlns="http://www.w3.org/2000/svg" viewBox='0 0 100 100' preserveAspectRatio='none'>
                 <rect style={[defaultStyle.rect, defaultStyle.nonScalingStroke]} width='100%' height='100%' />
-                <polyline style={[defaultStyle.nonScalingStroke]} fill={ fill ? highlight.color : 'none' } stroke={highlight.color} points={value2D} />
+                { min < max ? <polyline style={[defaultStyle.nonScalingStroke]} fill={ fill ? highlight.color : 'none' } stroke={highlight.color} points={value2D} /> : }
             </svg>
         </div>
     </div>

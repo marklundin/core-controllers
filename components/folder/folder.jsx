@@ -25,7 +25,7 @@ class Folder extends Component {
 
     render(){
 
-        let { label, value } = this.props,
+        let { label, value, style } = this.props,
             { open } = this.state
 
         return <div style={[base, style]}>

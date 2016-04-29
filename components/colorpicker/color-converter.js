@@ -17,6 +17,7 @@ export default value => {
 
     if ( rgb( {value}, 'value' ) === null ) converter = rgb2Hsv
     else if ( hsl( {value}, 'value' ) === null ) converter = hsl2Hsv
+    else if( value instanceof Array ) converter = rgbArr2Hsv
 
     return converter
 

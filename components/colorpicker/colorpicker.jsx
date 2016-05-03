@@ -8,7 +8,7 @@ import Button from '../button'
 import { base, secondary, highlight } from '../styles'
 import shallowCompare from 'react-addons-shallow-compare'
 import getConverterForColorType from './color-converter'
-import { rgb, hsv, hsl } from './prop-types'
+import { rgbObject, rgbArray, hsvObject, hslObject } from './validators'
 
 
 /**
@@ -96,6 +96,33 @@ ColorPicker.displayName = 'ColorPicker'
 // ColorPicker = saveState( ColorPicker )
 ColorPicker = radium( ColorPicker )
 
+let ValuePropTypeError = ( propName, componentName ) => new Error( 'Invalid prop `' + propName + '` supplied to' +
+  ' `' + componentName + '`. Validation failed.' )
+
+
+let rgbObjectPropType = ( props, propName, componentName ) => {
+    if( !rgbObject( props[propName] )){
+        return ValuePropTypeError( propName, componentName )
+    }
+}
+
+let rgbArrayPropType = ( props, propName, componentName ) => {
+    if( !rgbArray( props[propName] )){
+        return ValuePropTypeError( propName, componentName )
+      }
+}
+
+let hslObjectPropType = ( props, propName, componentName ) => {
+    if( !hslObject( props[propName] )){
+        return ValuePropTypeError( propName, componentName )
+    }
+}
+
+let hsvObjectPropType = ( props, propName, componentName ) => {
+    if( !hsvObject( props[propName] )){
+        return ValuePropTypeError( propName, componentName )
+    }
+}
 
 ColorPicker.propTypes = {
 
@@ -109,16 +136,22 @@ ColorPicker.propTypes = {
     /**
      *  An color object
      */
-    value: PropTypes.oneOfType([rgb, hsv, hsl]),
+    value: PropTypes.oneOfType([
+        rgbObjectPropType,
+        rgbArrayPropType,
+        hslObjectPropType,
+        hsvObjectPropType
+    ]),
 
 
     /**
      * An array of colors used as a palette
      */
     palette: PropTypes.oneOfType([
-        PropTypes.arrayOf( rgb ),
-        PropTypes.arrayOf( hsv ),
-        PropTypes.arrayOf( hsl )
+        PropTypes.arrayOf( rgbObjectPropType ),
+        PropTypes.arrayOf( rgbArrayPropType ),
+        PropTypes.arrayOf( rgbArrayPropType ),
+        PropTypes.arrayOf( hslObjectPropType )
     ]),
 
 

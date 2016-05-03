@@ -1,4 +1,4 @@
-import { rgb, hsl } from './prop-types'
+import { rgbObject, hslObject, rgbArray } from './validators'
 import Colr from 'colr'
 
 export let rgb2Hsv = c => Colr.fromRgbObject(c).toRawHsvObject()
@@ -15,9 +15,9 @@ export default value => {
 
     let converter = hsv2Hsv
 
-    if ( rgb( {value}, 'value' ) === null ) converter = rgb2Hsv
-    else if ( hsl( {value}, 'value' ) === null ) converter = hsl2Hsv
-    else if( value instanceof Array ) converter = rgbArr2Hsv
+    if ( rgbObject( value )) converter = rgb2Hsv
+    else if( rgbArray( value ) ) converter = rgbArr2Hsv
+    else if ( hslObject( value )) converter = hsl2Hsv
 
     return converter
 

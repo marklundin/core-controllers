@@ -4,6 +4,7 @@
   "description": "Components for creative coding",
   "scripts": {
     "build": "NODE_ENV=production npm run docs",
+    "install": "babel components --out-dir lib",
     "start": "styleguidist server --config utils/documentation/config.js",
     "docs": "styleguidist build --config utils/documentation/config.js"
   },

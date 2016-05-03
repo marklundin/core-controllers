@@ -1,5 +1,4 @@
 import React from 'react'
-import throttle from 'lodash.throttle'
 import radium from 'radium'
 import { clamp } from 'math'
 import { base, secondary, highlight } from '../styles'

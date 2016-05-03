@@ -23,13 +23,13 @@
   "dependencies": {
     "colr": "^1.2.2",
     "deepmerge": "^0.2.10",
-    "lodash.throttle": "^4.0.1",
     "math": "github:marklundin/math",
     "radium": "^0.17.1",
-    "react": "^15.0.1",
-    "react-addons-shallow-compare": "^15.0.1",
+    "react": "^15.0.2",
+    "react-addons-shallow-compare": "^15.0.2",
     "react-dom": "^15.0.1",
-    "react-icons": "^1.0.3"
+    "react-icons": "^1.0.3",
+    "react-styleguidist": "^2.2.1"
   },
   "files": [
     "components"

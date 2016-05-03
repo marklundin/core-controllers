@@ -65,6 +65,9 @@ class ColorPicker extends Component {
 
     }
 
+    componentWillMount(){
+        this.setState({ open: this.props.isOpen })
+    }
 
     render(){
 
@@ -131,6 +134,12 @@ ColorPicker.propTypes = {
      * The text label to display
      */
     label: PropTypes.string,
+
+
+    /**
+     *  If true, the color picker will be initially open
+     */
+    isOpen : false,
 
 
     /**

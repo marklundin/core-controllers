@@ -1,6 +1,6 @@
 {
   "name": "core-controllers",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Components for creative coding",
   "scripts": {
     "build": "NODE_ENV=production npm run docs",

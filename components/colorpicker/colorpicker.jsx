@@ -115,12 +115,6 @@ let rgbArrayPropType = ( props, propName, componentName ) => {
       }
 }
 
-let hslObjectPropType = ( props, propName, componentName ) => {
-    if( !hslObject( props[propName] )){
-        return ValuePropTypeError( propName, componentName )
-    }
-}
-
 let hsvObjectPropType = ( props, propName, componentName ) => {
     if( !hsvObject( props[propName] )){
         return ValuePropTypeError( propName, componentName )
@@ -148,7 +142,6 @@ ColorPicker.propTypes = {
     value: PropTypes.oneOfType([
         rgbObjectPropType,
         rgbArrayPropType,
-        hslObjectPropType,
         hsvObjectPropType
     ]),
 
@@ -159,8 +152,7 @@ ColorPicker.propTypes = {
     palette: PropTypes.oneOfType([
         PropTypes.arrayOf( rgbObjectPropType ),
         PropTypes.arrayOf( rgbArrayPropType ),
-        PropTypes.arrayOf( rgbArrayPropType ),
-        PropTypes.arrayOf( hslObjectPropType )
+        PropTypes.arrayOf( hsvObjectPropType )
     ]),
 
 

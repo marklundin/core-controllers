@@ -10,12 +10,10 @@ let withAlpha = ( color, a ) => a !== undefined ? { a, ...color } : color
 
 export let rgb2Hsv = c => withAlpha( Colr.fromRgbObject(c).toRawHsvObject(), c.a )
 export let rgbArr2Hsv = c => withAlpha( Colr.fromRgbArray(c.map( channel => channel * 255 )).toRawHsvObject(), c[3] )
-export let hsl2Hsv = c => withAlpha( Colr.fromHslObject(c).toRawHsvObject(), c.a )
 export let hsv2Hsv = c => c
 
 rgb2Hsv.invert = c => withAlpha( Colr.fromHsvObject(c).toRawRgbObject(), c.a )
 rgbArr2Hsv.invert = c => Colr.fromHsvObject(c).toRawRgbArray().map( channel => channel / 255 ).concat( [c.a] )
-hsl2Hsv.invert = c => withAlpha( Colr.fromHsvObject(c).toRawHslObject(), c.a )
 hsv2Hsv.invert = c => c
 
 export default value => {
@@ -24,7 +22,6 @@ export default value => {
 
     if ( rgbObject( value )) converter = rgb2Hsv
     else if( rgbArray( value ) ) converter = rgbArr2Hsv
-    else if ( hslObject( value )) converter = hsl2Hsv
 
     return converter
 

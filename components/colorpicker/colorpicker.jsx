@@ -139,7 +139,7 @@ ColorPicker.propTypes = {
     /**
      *  If true, the color picker will be initially open
      */
-    isOpen : false,
+    isOpen : PropTypes.bool,
 
 
     /**

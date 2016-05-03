@@ -6,7 +6,7 @@ This library contains of a selection of javascript controllers specifically
 designed for creative coding. It aims to create a common set of practical
 interfaces useful for prototyping 2D, 3D graphical or audio applications. Along
 with some the regular core components such as buttons, sliders and checkboxes are
-more complex ones such as the [ColorPicker](#ColorPicker), Graph and XYPad. All
+more complex ones such as the ColorPicker, Graph and XYPad. All
 of these are designed to help you visualize and control aspects of your
 programs in a more intelligible way.
 

@@ -1,14 +1,21 @@
+/*
+    A set of validators for common color formats such as;
+    {r, g, b}, {h, s, v}, {h, s, l} and [ r, g, b ]
+*/
+
 import { rgbObject, hslObject, rgbArray } from './validators'
 import Colr from 'colr'
 
-export let rgb2Hsv = c => Colr.fromRgbObject(c).toRawHsvObject()
-export let rgbArr2Hsv = c => Colr.fromRgbArray(c.map( channel => channel * 255 )).toRawHsvObject()
-export let hsl2Hsv = c => Colr.fromHslObject(c).toRawHsvObject()
+let withAlpha = ( color, a ) => a !== undefined ? { a, ...color } : color
+
+export let rgb2Hsv = c => withAlpha( Colr.fromRgbObject(c).toRawHsvObject(), c.a )
+export let rgbArr2Hsv = c => withAlpha( Colr.fromRgbArray(c.map( channel => channel * 255 )).toRawHsvObject(), c[3] )
+export let hsl2Hsv = c => withAlpha( Colr.fromHslObject(c).toRawHsvObject(), c.a )
 export let hsv2Hsv = c => c
 
-rgb2Hsv.invert = c => Colr.fromHsvObject(c).toRawRgbObject()
-rgbArr2Hsv.invert = c => Colr.fromHsvObject(c).toRawRgbArray().map( channel => channel / 255 )
-hsl2Hsv.invert = c => Colr.fromHsvObject(c).toRawHslObject()
+rgb2Hsv.invert = c => withAlpha( Colr.fromHsvObject(c).toRawRgbObject(), c.a )
+rgbArr2Hsv.invert = c => Colr.fromHsvObject(c).toRawRgbArray().map( channel => channel / 255 ).concat( [c.a] )
+hsl2Hsv.invert = c => withAlpha( Colr.fromHsvObject(c).toRawHslObject(), c.a )
 hsv2Hsv.invert = c => c
 
 export default value => {

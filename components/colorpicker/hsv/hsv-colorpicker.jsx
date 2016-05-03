@@ -20,16 +20,18 @@ class HSVColorPicker extends React.Component {
         this.state = {drag:false, boundingRect: null };
 
 
-        let computeHsvFromMouseEvent = ( e, bounds ) => {
+        let computeHsvaFromMouseEvent = ( e, bounds ) => {
 
             let x = e.clientX === undefined ? e.touches[0].clientX : e.clientX,
                 y = e.clientY === undefined ? e.touches[0].clientY : e.clientY
 
-            return {
-                h: this.props.value.h,
-                s: ( x - bounds.left ) / bounds.width * 100,
-                v: ( bounds.height - ( y - bounds.top )) / bounds.height * 100
-            }
+
+            let h = this.props.value.h,
+                s = ( x - bounds.left ) / bounds.width * 100,
+                v = ( bounds.height - ( y - bounds.top )) / bounds.height * 100,
+                a = this.props.value.a
+
+            return a !== undefined ? { a, h } : { h, s, v }
         }
 
 
@@ -51,13 +53,13 @@ class HSVColorPicker extends React.Component {
             var rect = this.domRef.getBoundingClientRect()
 
             this.setState({drag:true, boundingRect: rect })
-            this.props.onChange( computeHsvFromMouseEvent( e, rect ))
+            this.props.onChange( computeHsvaFromMouseEvent( e, rect ))
         }
 
 
         this.onMouseMove = throttle( e => {
             e.preventDefault()
-            if( this.state.drag ) this.props.onChange( computeHsvFromMouseEvent( e, this.state.boundingRect ))
+            if( this.state.drag ) this.props.onChange( computeHsvaFromMouseEvent( e, this.state.boundingRect ))
         })
 
 
@@ -67,30 +69,36 @@ class HSVColorPicker extends React.Component {
 
 
         this.onHueChange = h => {
-            let { s, v } = this.props.value
-            this.props.onChange({ h, s, v })
+            let { s, v, a } = this.props.value
+            this.props.onChange({ h, s, v, a })
         }
 
         this.onSaturationChange = s => {
-            let { h, v } = this.props.value
-            this.props.onChange({ h, s, v })
+            let { h, v, a } = this.props.value
+            this.props.onChange({ h, s, v, a })
         }
 
         this.onValueChange = v => {
-            let { h, s } = this.props.value
-            this.props.onChange({ h, s, v })
+            let { h, s, a } = this.props.value
+            this.props.onChange({ h, s, v, a })
+        }
+
+        this.onAlphaChange = a => {
+            let { h, s, v } = this.props.value
+            this.props.onChange({ h, s, v, a })
         }
     }
 
 
     shouldComponentUpdate( nextProps, nextState ){
 
-        let { h, s, v } = this.props.value,
+        let { h, s, v, a } = this.props.value,
             color = nextProps.value
 
         return ( h !== color.h
             || s !== color.s
-            || v !== color.v )
+            || v !== color.v
+            || a !== color.a )
             && shallowCompare( this, nextProps, nextState )
 
     }
@@ -103,8 +111,7 @@ class HSVColorPicker extends React.Component {
 
 
         let { label, onChange, value, style } = this.props,
-            { h, s, v } = value
-
+            { h, s, v, a } = value
 
         return <div>
             <div style={[base, style]}>
@@ -125,6 +132,10 @@ class HSVColorPicker extends React.Component {
                             <stop offset="0%" stopColor="black" stopOpacity="0"/>
                             <stop offset="100%" stopColor="black"/>
                         </linearGradient>
+                        <linearGradient id="alpha-gradient" x1="0" x2="1" y1="0" y2="0">
+                            <stop offset="0%" stopColor={"hsl("+h+",100%,50%)"} stopOpacity="0"/>
+                            <stop offset="100%" stopColor={"hsl("+h+",100%,50%)"} stopOpacity="100"/>
+                        </linearGradient>
                         <linearGradient id='hsv-gradient'>{ stops }</linearGradient>
                     </defs>
                     <rect width='100%' height='100%' style={[rect]} fill='url(#horizontal-gradient)'/>
@@ -132,7 +143,8 @@ class HSVColorPicker extends React.Component {
                     <circle fill='none' stroke='white' strokeWidth="1.5" r='0.3em' cx={s+'%'} cy={(100 - v)+'%'}/>
                 </svg>
             </div>
-            <Slider includeStepper={false} label={''} step={1} min={1} max={360} value={h} style={slider} onChange={this.onHueChange}/>
+            <Slider includeStepper={false} label={''} step={1} min={1} max={360} value={h} style={hueSlider} onChange={this.onHueChange}/>
+            { a !== undefined ? <Slider includeStepper={false} label={'alpha'} step={0.001} min={0} max={1} value={a} style={alphaSlider} onChange={this.onAlphaChange}/> : null }
             <div style={[ base, stepperStyle ]}>
                 <NumericStepper key="h" style={componentLabels} step={1} min={1} max={360} value={Math.round(h)} onChange={this.onHueChange} label={'H'}/>
                 <NumericStepper key="s" style={componentLabels} step={1} min={1} max={100} value={Math.round(s)} onChange={this.onSaturationChange} label={'S'}/>
@@ -180,8 +192,15 @@ HSVColorPicker.propTypes = {
 
 let defaultStyle = { cursor: 'default' }
 
-var slider = {
+var hueSlider = {
     backgroundBar:{ fill:'url(#hsv-gradient)'},
+    bar: { fill : 'none' },
+    thumb: { fill : 'white' },
+    padding: '1em'
+}
+
+var alphaSlider = {
+    backgroundBar:{ fill:'url(#alpha-gradient)'},
     bar: { fill : 'none' },
     thumb: { fill : 'white' },
     padding: '1em'

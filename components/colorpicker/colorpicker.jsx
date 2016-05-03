@@ -82,7 +82,7 @@ class ColorPicker extends Component {
             { open ?
                 <div>
                     <HSVColorPicker style={ style } value={ hsvColor } onChange={ this.onColorChange } />
-                    <Palette key={'user-palette'} values={ palette.map( getConverterForColorType( palette[0] )) } onSelect={ this.onColorChange } />
+                    <Palette key={'user-palette'} values={ palette.map( toHsv ) } onSelect={ this.onColorChange } />
                     <Palette key={'system-palette'} values={ JSON.parse( localStorage.getItem( 'dui.colorpicker' )) } onSelect={ this.onColorChange } onDeselect={ this.onRemoveColorClick.bind( this ) } />
                     <span style={[ base, addButton ]}><FaAdd onClick={ e => this.onAddColorClick( toHsv( value )) }/></span>
                 </div>

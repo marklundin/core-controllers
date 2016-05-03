@@ -2,4 +2,4 @@ Here's a simple implementation of the color picker. Click the + icon to add colo
 to the user palette.
 
     let complementary = [{h:0,s:80,l:40}, {h:50,s:90,l:30}];
-    <ColorPicker palette={complementary} open={true} style={{width:400, height:300}}/>
+    <ColorPicker value={[1, 0, 0, 1]} open={true} style={{width:400, height:300}}/>

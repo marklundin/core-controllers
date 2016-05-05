@@ -2,7 +2,7 @@
   "name": "core-controllers",
   "version": "0.1.1",
   "description": "Components for creative coding",
-  "main": "lib",
+  "browser": "lib",
   "scripts": {
     "build": "NODE_ENV=production npm run docs",
     "install": "babel components --out-dir lib",

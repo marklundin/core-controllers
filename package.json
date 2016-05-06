@@ -1,15 +1,29 @@
 {
   "name": "core-controllers",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Components for creative coding",
+  "browser": "lib",
   "scripts": {
     "build": "NODE_ENV=production npm run docs",
     "install": "babel components --out-dir lib",
-    "start": "styleguidist server --config utils/documentation/config.js",
-    "docs": "styleguidist build --config utils/documentation/config.js"
+    "start": "styleguidist server --config utils/docs/config.js",
+    "docs": "styleguidist build --config utils/docs/config.js",
+    "test": "ava components/**/test.js -v"
   },
   "author": "Mark Lundin",
   "license": "MIT",
+  "ava": {
+    "require": [
+      "babel-register",
+      "./utils/tests/browser-env.js"
+    ],
+    "babel": {
+      "presets": [
+        "es2015",
+        "react"
+      ]
+    }
+  },
   "devDependencies": {
     "ava": "^0.14.0",
     "babel-cli": "^6.6.5",
@@ -18,7 +32,11 @@
     "babel-preset-stage-2": "^6.5.0",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
-    "css-loader": "^0.23.1"
+    "css-loader": "^0.23.1",
+    "enzyme": "^2.2.0",
+    "jsdom": "^8.5.0",
+    "react-addons-test-utils": "^15.0.2",
+    "sinon": "^1.17.4"
   },
   "dependencies": {
     "colr": "^1.2.2",

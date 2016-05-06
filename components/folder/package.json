@@ -1,7 +1,0 @@
-{
-    "name": "folder",
-    "main": "./folder.jsx",
-    "browserify": {
-        "transform": [ "babelify" ]
-    }
-}

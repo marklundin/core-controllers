@@ -1,7 +1,0 @@
-{
-    "name": "combobox",
-    "main": "./combobox.jsx",
-    "browserify": {
-        "transform": [ "babelify" ]
-    }
-}

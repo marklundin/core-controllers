@@ -15,13 +15,13 @@ module.exports = {
     template: path.join(__dirname, './template/index.html' ),
     sections: [
         {name: 'Core Controllers', content: './README.md' },
-        {name: 'Components', content: './components/README.md', components: '../../components/**/*.jsx' }
+        {name: 'Components', content: './es2015/README.md', components: '../../es2015/**/*.jsx' }
     ],
     updateWebpackConfig: function( webpackConfig, env) {
 //, components: path.join( __dirname, '../../components/**/*.jsx' )
         webpackConfig.resolve.alias['rsg-components/Wrapper'] = path.join(__dirname, './js/wrapper')
         webpackConfig.entry.push(path.join(__dirname, 'css/main.css'));
-        var dir = path.join(__dirname, '../../components');
+        var dir = path.join(__dirname, '../../es2015');
         webpackConfig.module.loaders.push({
             test: /\.jsx?/,
             include: dir,
@@ -37,6 +37,6 @@ module.exports = {
 
     getComponentPathLine: function(componentPath) {
         var name = path.basename(componentPath, '.jsx');
-        return 'import ' + name + ' from \'' + pkg.name + '/components/' + name + '\''
+        return 'import ' + name + ' from \'' + pkg.name + '/es2015/' + name + '\''
     }
 }

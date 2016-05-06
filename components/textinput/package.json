@@ -1,7 +1,0 @@
-{
-  "name": "textinput",
-  "main": "./textinput.jsx",
-  "browserify": {
-      "transform": [ "babelify" ]
-  }
-}

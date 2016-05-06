@@ -1,7 +1,0 @@
-{
-    "name": "button",
-    "main": "./button.jsx",
-    "browserify": {
-        "transform": [ "babelify" ]
-    }
-}

@@ -1,7 +1,0 @@
-{
-  "name": "checkbox",
-  "main": "./checkbox.jsx",
-  "browserify": {
-      "transform": [ "babelify" ]
-  }
-}

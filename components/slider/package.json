@@ -1,7 +1,0 @@
-{
-  "name": "slider",
-  "main": "./slider.jsx",
-  "browserify": {
-      "transform": [ "babelify" ]
-  }
-}

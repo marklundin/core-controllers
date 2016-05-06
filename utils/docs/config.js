@@ -11,7 +11,7 @@ module.exports = {
     skipComponentsWithoutExample: true,
     homepage: pkg.homepage,
     version: pkg.version,
-    styleguideDir: '../../documentation',
+    styleguideDir: '../../docs',
     template: path.join(__dirname, './template/index.html' ),
     sections: [
         {name: 'Core Controllers', content: './README.md' },

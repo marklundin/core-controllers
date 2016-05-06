@@ -6,8 +6,8 @@
   "scripts": {
     "build": "NODE_ENV=production npm run docs",
     "install": "babel components --out-dir lib",
-    "start": "styleguidist server --config utils/documentation/config.js",
-    "docs": "styleguidist build --config utils/documentation/config.js",
+    "start": "styleguidist server --config utils/docs/config.js",
+    "docs": "styleguidist build --config utils/docs/config.js",
     "test": "ava components/**/test.js -v"
   },
   "author": "Mark Lundin",

@@ -1,2 +1,2 @@
-import Slider from "./slider.jsx"
+import Slider from "./slider"
 export default Slider

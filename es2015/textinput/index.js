@@ -1,2 +1,2 @@
-import TextInput from './textinput.jsx'
+import TextInput from './textinput'
 export default TextInput

@@ -1,2 +1,2 @@
-import Combobox from './combobox.jsx'
+import Combobox from './combobox'
 export default Combobox

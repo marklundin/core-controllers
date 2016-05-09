@@ -1,2 +1,2 @@
-import Dial from './dial.jsx'
+import Dial from './dial'
 export default Dial

@@ -1,1 +1,1 @@
-import Graph from './graph.jsx'
+import Graph from './graph'

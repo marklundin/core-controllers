@@ -1,2 +1,2 @@
-import XYPad from './xypad.jsx'
+import XYPad from './xypad'
 export default XYPad

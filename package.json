@@ -5,6 +5,7 @@
   "browser": "lib",
   "scripts": {
     "build": "NODE_ENV=production npm run docs && npm run compile",
+    "install": "npm run compile",
     "compile": "babel es2015 --out-dir es5",
     "start": "styleguidist server --config utils/docs/config.js",
     "docs": "styleguidist build --config utils/docs/config.js",

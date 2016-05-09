@@ -4,11 +4,11 @@
   "description": "Components for creative coding",
   "browser": "lib",
   "scripts": {
-    "build": "NODE_ENV=production npm run docs",
-    "install": "babel components --out-dir lib",
+    "build": "NODE_ENV=production npm run docs && npm run compile",
+    "compile": "babel es2015 --out-dir es5",
     "start": "styleguidist server --config utils/docs/config.js",
     "docs": "styleguidist build --config utils/docs/config.js",
-    "test": "ava components/**/test.js -v"
+    "test": "ava es2015/**/test.js -v"
   },
   "author": "Mark Lundin",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "react-styleguidist": "^2.2.1"
   },
   "files": [
-    "components"
+    "es2015"
   ],
   "repository": {
     "type": "git",

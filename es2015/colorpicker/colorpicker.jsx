@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import radium from 'radium'
-import HSVColorPicker from './hsv/hsv-colorpicker.jsx'
+import HSVColorPicker from './hsv/hsv-colorpicker'
 import Colr from 'colr'
-import Palette from './palette/palette.jsx'
+import Palette from './palette/palette'
 import FaAdd from 'react-icons/lib/md/add';
 import Button from '../button'
 import { base, secondary, highlight } from '../styles'
